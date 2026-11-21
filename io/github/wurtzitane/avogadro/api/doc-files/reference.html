@@ -65,16 +65,7 @@ loadScripts(document, 'script');</script>
         accepted values, defaults, and limits; their linked guides show complete examples. A JSON
         file’s namespace and path supply its molecule ID.
       </p>
-      <section class="av-call-guide">
-        <h2 id="reference-call-sequence">Calls used in the examples</h2>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -717,7 +708,18 @@ loadScripts(document, 'script');</script>
         registrations. Ordinary molecule previews remain available. Isotope samples are a separate
         option.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="reference-call-sequence">Calls used in the examples</h2>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="lifecycle.html">Previous: Update molecules, read their data, and prepare previews</a><a href="troubleshooting.html">Next: Fix a missing or incorrect preview</a>
       </nav>
     </div></main>

@@ -66,57 +66,7 @@ loadScripts(document, 'script');</script>
         <code>AvogadroClientApi.render</code> from the screen’s drawing callback. The examples start
         with water and then add camera controls and separate styles.
       </p>
-      <section class="av-call-guide">
-        <h2 id="rendering-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../client/AvogadroClientApi.html#render(io.github.wurtzitane.avogadro.molecule.MoleculeStructure,int,int,int,int,io.github.wurtzitane.avogadro.api.client.MoleculeRenderOptions,double)">render</a>(structure, x, y, width, height, options, time)</code>
-              </td>
-              <td>Loaded structure; GUI rectangle; display options; animation time</td>
-              <td>Draw inside the requested screen region on the client render thread.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../client/MoleculeRenderOptions.Builder.html#orientation(float,float,float)">orientation</a>(x, y, z)</code>
-              </td>
-              <td>Rotation angles</td>
-              <td>Choose the initial camera orientation.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../client/MoleculeRenderOptions.Builder.html#rotationSpeed(double)">rotationSpeed</a>(value)</code>
-              </td>
-              <td>Rotation speed</td>
-              <td>Use zero for a stationary model, as in the still-image example.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../client/MoleculeRenderOptions.Builder.html#build()">build</a>()</code>
-              </td>
-              <td>No arguments</td>
-              <td>Finish the render options before drawing.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A drawing call does not register or modify the model.
-          The render-options value needs no close call. If you create a separate viewer or detached
-          window, retain its handle and close it when the tool finishes; keep any caller-owned
-          graphics resources within their own lifecycle.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -144,7 +94,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static void drawStill(MoleculeStructure structure, int x, int y) {
-    var options = MoleculeRenderOptions.builder().orientation(25, 20, 0).rotationSpeed(0).build();
+    var options = MoleculeRenderOptions.builder()
+        .orientation(25,
+            20,
+            0)
+        .rotationSpeed(0)
+        .build();
     AvogadroClientApi.render(structure, x, y, 240, 180, options, 0);
 }</code>
 </pre>
@@ -154,7 +109,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static void drawStill(MoleculeStructure structure, int x, int y) {
-    def options = MoleculeRenderOptions.builder().orientation(25, 20, 0).rotationSpeed(0).build();
+    def options = MoleculeRenderOptions.builder()
+        .orientation(25,
+            20,
+            0)
+        .rotationSpeed(0)
+        .build();
     AvogadroClientApi.render(structure, x, y, 240, 180, options, 0);
 }</code>
 </pre>
@@ -179,9 +139,16 @@ import net.minecraftforge.fluids.FluidStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeRenderOptions style() {
-    return MoleculeRenderOptions.builder().orientation(25, 20, 0).pan(0, 0).zoom(1)
-            .background(0xfff8f7f2).atomScale(1.15f).bondScale(.7f)
-            .palette(Map.of(&quot;O&quot;, 0xe45b55)).rotationSpeed(30).build();
+    return MoleculeRenderOptions.builder()
+        .orientation(25, 20, 0)
+        .pan(0, 0)
+        .zoom(1)
+        .background(0xfff8f7f2)
+        .atomScale(1.15f)
+        .bondScale(.7f)
+        .palette(Map.of("O", 0xe45b55))
+        .rotationSpeed(30)
+        .build();
 }</code>
 </pre>
         </div>
@@ -190,9 +157,16 @@ import net.minecraftforge.fluids.FluidStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static MoleculeRenderOptions style() {
-    return MoleculeRenderOptions.builder().orientation(25, 20, 0).pan(0, 0).zoom(1)
-            .background(0xfff8f7f2).atomScale(1.15f).bondScale(.7f)
-            .palette(Map.of(&quot;O&quot;, 0xe45b55)).rotationSpeed(30).build();
+    return MoleculeRenderOptions.builder()
+        .orientation(25, 20, 0)
+        .pan(0, 0)
+        .zoom(1)
+        .background(0xfff8f7f2)
+        .atomScale(1.15f)
+        .bondScale(.7f)
+        .palette(Map.of("O", 0xe45b55))
+        .rotationSpeed(30)
+        .build();
 }</code>
 </pre>
         </div>
@@ -324,8 +298,14 @@ import net.minecraftforge.fluids.FluidStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static void compareStyles(MoleculeStructure structure) {
-    var large = MoleculeRenderOptions.builder().atomScale(1.6f).bondScale(.6f).build();
-    var fine = MoleculeRenderOptions.builder().atomScale(.8f).bondScale(1.2f).build();
+    var large = MoleculeRenderOptions.builder()
+        .atomScale(1.6f)
+        .bondScale(.6f)
+        .build();
+    var fine = MoleculeRenderOptions.builder()
+        .atomScale(.8f)
+        .bondScale(1.2f)
+        .build();
     AvogadroClientApi.render(structure, 10, 30, 220, 180, large, 0);
     AvogadroClientApi.render(structure, 240, 30, 220, 180, fine, 0);
 }</code>
@@ -336,8 +316,14 @@ import net.minecraftforge.fluids.FluidStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static void compareStyles(MoleculeStructure structure) {
-    def large = MoleculeRenderOptions.builder().atomScale(1.6f).bondScale(.6f).build();
-    def fine = MoleculeRenderOptions.builder().atomScale(.8f).bondScale(1.2f).build();
+    def large = MoleculeRenderOptions.builder()
+        .atomScale(1.6f)
+        .bondScale(.6f)
+        .build();
+    def fine = MoleculeRenderOptions.builder()
+        .atomScale(.8f)
+        .bondScale(1.2f)
+        .build();
     AvogadroClientApi.render(structure, 10, 30, 220, 180, large, 0);
     AvogadroClientApi.render(structure, 240, 30, 220, 180, fine, 0);
 }</code>
@@ -729,9 +715,16 @@ import net.minecraftforge.fluids.FluidStack;</code>
 
 public class WaterPresentation {
     public static void drawWater() {
-        var definition = AvogadroClientApi.view().get(&quot;my_mod:water&quot;);
-        if (definition != null) AvogadroClientApi.render(definition.structure(), 12, 40, 240, 180,
-            MoleculeRenderOptions.builder().zoom(1.2f).build(), 0.0);
+        var definition = AvogadroClientApi.view()
+            .get("my_mod:water");
+        if (definition != null) AvogadroClientApi.render(definition.structure(),
+            12,
+            40,
+            240,
+            180,
+            MoleculeRenderOptions.builder()
+            .zoom(1.2f)
+            .build(), 0.0);
     }
 }</code>
 </pre>
@@ -739,30 +732,51 @@ public class WaterPresentation {
 import io.github.wurtzitane.avogadro.kotlin.AvogadroClient
 
 fun drawWater() {
-    val definition = AvogadroClientApi.view().get(&quot;my_mod:water&quot;)
-    if (definition != null) AvogadroClient.render(definition.structure(), 12, 40, 240, 180,
-        MoleculeRenderOptions.builder().zoom(1.2f).build(), 0.0)
+    val definition = AvogadroClientApi.view()
+        .get("my_mod:water")
+    if (definition != null) AvogadroClient.render(definition.structure(),
+        12,
+        40,
+        240,
+        180,
+        MoleculeRenderOptions.builder()
+        .zoom(1.2f)
+        .build(), 0.0)
 }</code>
 </pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
-def definition = AvogadroClientApi.view().get(&#x27;my_pack:water&#x27;)
-if (definition != null) AvogadroClientApi.render(definition.structure(), 12, 40, 240, 180,
-    MoleculeRenderOptions.builder().zoom(1.2f).build(), 0d)</code>
+def definition = AvogadroClientApi.view()
+    .get('my_pack:water')
+if (definition != null) AvogadroClientApi.render(definition.structure(),
+    12,
+    40,
+    240,
+    180,
+    MoleculeRenderOptions.builder()
+    .zoom(1.2f)
+    .build(), 0d)</code>
 </pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.scala.AvogadroClient
 
 object WaterPresentation {
   def drawWater(): Unit = {
-    val definition = AvogadroClientApi.view().get(&quot;my_mod:water&quot;)
-    if definition != null then AvogadroClient.render(definition.structure(), 12, 40, 240, 180,
-      MoleculeRenderOptions.builder().zoom(1.2f).build(), 0.0)
+    val definition = AvogadroClientApi.view()
+        .get("my_mod:water")
+    if definition != null then AvogadroClient.render(definition.structure(),
+        12,
+        40,
+        240,
+        180,
+      MoleculeRenderOptions.builder()
+          .zoom(1.2f)
+          .build(), 0.0)
   }
 }</code>
 </pre>
         <pre data-language="zenscript" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — zenscript"><code class="language-zenscript">// Inside an actual client render event; molecule must exist in the client view:
 import mods.avogadro.Client;
-Client.renderZoomed(&quot;my_pack:water&quot;, 12, 40, 240, 180, 1.2, 0.0);</code>
+Client.renderZoomed("my_pack:water", 12, 40, 240, 180, 1.2, 0.0);</code>
 </pre>
         <p>
           Render options also expose camera orientation, pan, atom/bond scales, palettes,
@@ -771,7 +785,59 @@ Client.renderZoomed(&quot;my_pack:water&quot;, 12, 40, 240, 180, 1.2, 0.0);</cod
           existing renderer.
         </p>
       </div>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="rendering-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../client/AvogadroClientApi.html#render(io.github.wurtzitane.avogadro.molecule.MoleculeStructure,int,int,int,int,io.github.wurtzitane.avogadro.api.client.MoleculeRenderOptions,double)">render</a>(structure, x, y, width, height, options, time)</code>
+              </td>
+              <td>Loaded structure; GUI rectangle; display options; animation time</td>
+              <td>Draw inside the requested screen region on the client render thread.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../client/MoleculeRenderOptions.Builder.html#orientation(float,float,float)">orientation</a>(x, y, z)</code>
+              </td>
+              <td>Rotation angles</td>
+              <td>Choose the initial camera orientation.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../client/MoleculeRenderOptions.Builder.html#rotationSpeed(double)">rotationSpeed</a>(value)</code>
+              </td>
+              <td>Rotation speed</td>
+              <td>Use zero for a stationary model, as in the still-image example.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../client/MoleculeRenderOptions.Builder.html#build()">build</a>()</code>
+              </td>
+              <td>No arguments</td>
+              <td>Finish the render options before drawing.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A drawing call does not register or modify the model.
+          The render-options value needs no close call. If you create a separate viewer or detached
+          window, retain its handle and close it when the tool finishes; keep any caller-owned
+          graphics resources within their own lifecycle.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="polymers.html">Previous: Chains, networks, and crystals</a><a href="colors.html">Next: Change atom colors and reload them</a>
       </nav>
     </div></main>

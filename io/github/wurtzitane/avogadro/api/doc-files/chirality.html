@@ -64,48 +64,7 @@ loadScripts(document, 'script');</script>
         examples use <code>&#64;</code> and <code>&#64;&#64;</code> in SMILES, then read the
         calculated R/S labels to check the result.
       </p>
-      <section class="av-call-guide">
-        <h2 id="chirality-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#smiles(java.lang.String)">smiles</a>(text)</code>
-              </td>
-              <td>SMILES with tetrahedral markers</td>
-              <td>
-                Describe the local ordering used to construct the three-dimensional arrangement.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
-              </td>
-              <td>Owner name; authored definition</td>
-              <td>Publish each arrangement under its own molecule ID.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code. Directional double-bond
-          markers are not supported as stereochemical instructions; follow the supported cases and
-          validation rules below.
-        </p>
-      </section>
+      
       <p>
         Java examples run in your host mod’s common initialization with
         <code>import io.<wbr/>github.<wbr/>wurtzitane.<wbr/>avogadro.<wbr/>api.*;</code>. Groovy
@@ -126,9 +85,9 @@ loadScripts(document, 'script');</script>
         configuration. Neither token means R or S on its own. Avogadro delegates this ordering to
         OpenChemLib; it never treats the tokens as fixed R/S shortcuts.
       </p>
-      <pre><code class="language-text">N[C&#64;&#64;H](C)C(=O)O
-N[C&#64;H](C(=O)O)C
-[C&#64;&#64;H](N)(C(=O)O)C</code></pre>
+      <pre><code class="language-text">N[C@@H](C)C(=O)O
+N[C@H](C(=O)O)C
+[C@@H](N)(C(=O)O)C</code></pre>
       <p>
         These three strings describe the same arrangement of groups around alanine’s central atom,
         so they produce the same checked geometry and label. This central atom is a stereocenter:
@@ -147,37 +106,47 @@ N[C&#64;H](C(=O)O)C
       </figure>
       <div class="av-example" data-example="lactic_a" data-register-example="chemistry:lactic_a">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:lactic_a&quot;).name(&quot;Lactic acid · S&quot;).smiles(&quot;C[C&#64;H](O)C(=O)O&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:lactic_a")
+        .name("Lactic acid · S")
+        .smiles("C[C@H](O)C(=O)O"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:lactic_a&quot;).name(&quot;Lactic acid · S&quot;).smiles(&quot;C[C&#64;H](O)C(=O)O&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:lactic_a")
+    .name("Lactic acid · S")
+    .smiles("C[C@H](O)C(=O)O"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Lactic acid · S&quot;,
-  &quot;smiles&quot;: &quot;C[C&#64;H](O)C(=O)O&quot;
+  "name": "Lactic acid · S",
+  "smiles": "C[C@H](O)C(=O)O"
 }</code></pre>
         </div>
       </div>
       <div class="av-example" data-example="lactic_b" data-register-example="chemistry:lactic_b">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:lactic_b&quot;).name(&quot;Lactic acid · R&quot;).smiles(&quot;C[C&#64;&#64;H](O)C(=O)O&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:lactic_b")
+        .name("Lactic acid · R")
+        .smiles("C[C@@H](O)C(=O)O"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:lactic_b&quot;).name(&quot;Lactic acid · R&quot;).smiles(&quot;C[C&#64;&#64;H](O)C(=O)O&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:lactic_b")
+    .name("Lactic acid · R")
+    .smiles("C[C@@H](O)C(=O)O"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Lactic acid · R&quot;,
-  &quot;smiles&quot;: &quot;C[C&#64;&#64;H](O)C(=O)O&quot;
+  "name": "Lactic acid · R",
+  "smiles": "C[C@@H](O)C(=O)O"
 }</code></pre>
         </div>
       </div>
@@ -200,37 +169,43 @@ mods.avogadro.molecules.register(
       </figure>
       <div class="av-example" data-example="diastereomer_a" data-register-example="chemistry:diastereomer_a">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:diastereomer_a&quot;).smiles(&quot;C[C&#64;H](O)[C&#64;H](F)C&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:diastereomer_a")
+        .smiles("C[C@H](O)[C@H](F)C"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:diastereomer_a&quot;).smiles(&quot;C[C&#64;H](O)[C&#64;H](F)C&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:diastereomer_a")
+    .smiles("C[C@H](O)[C@H](F)C"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;3-Fluorobutan-2-ol · A&quot;,
-  &quot;smiles&quot;: &quot;C[C&#64;H](O)[C&#64;H](F)C&quot;
+  "name": "3-Fluorobutan-2-ol · A",
+  "smiles": "C[C@H](O)[C@H](F)C"
 }</code></pre>
         </div>
       </div>
       <div class="av-example" data-example="diastereomer_b" data-register-example="chemistry:diastereomer_b">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:diastereomer_b&quot;).smiles(&quot;C[C&#64;H](O)[C&#64;&#64;H](F)C&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:diastereomer_b")
+        .smiles("C[C@H](O)[C@@H](F)C"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:diastereomer_b&quot;).smiles(&quot;C[C&#64;H](O)[C&#64;&#64;H](F)C&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:diastereomer_b")
+    .smiles("C[C@H](O)[C@@H](F)C"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;3-Fluorobutan-2-ol · B&quot;,
-  &quot;smiles&quot;: &quot;C[C&#64;H](O)[C&#64;&#64;H](F)C&quot;
+  "name": "3-Fluorobutan-2-ol · B",
+  "smiles": "C[C@H](O)[C@@H](F)C"
 }</code></pre>
         </div>
       </div>
@@ -239,12 +214,15 @@ mods.avogadro.molecules.register(
         reflection. The two examples change only one authored center, so they are not enantiomers.
       </p>
       <h2 id="read-the-r-s-label-for-an-atom-heading">Read the R/S label for an atom</h2>
-      <pre data-operation="stereo-label"><code class="language-java">MoleculeDef definition = AvogadroApi.registeredView().get(
-    new ResourceLocation(&quot;chemistry:lactic_a&quot;));
-definition.structure().stereochemistry().forEach((atomIndex, configuration) -&gt; {
-    // atomIndex is zero-based in definition.structure().atoms().
-    System.out.println(atomIndex + &quot;: &quot; + configuration);
-});</code></pre>
+      <pre data-operation="stereo-label"><code class="language-java">MoleculeDef definition = AvogadroApi.registeredView()
+    .get(
+        new ResourceLocation("chemistry:lactic_a"));
+definition.structure()
+    .stereochemistry()
+    .forEach((atomIndex, configuration) -&gt; {
+        // atomIndex is zero-based in definition.structure().atoms().
+        System.out.println(atomIndex + ": " + configuration);
+    });</code></pre>
       <p>
         Pass the registered molecule ID and the zero-based atom index. An empty result means the
         atom has no assigned R/S label. The examiner’s atom-hover label includes CIP information
@@ -268,19 +246,22 @@ definition.structure().stereochemistry().forEach((atomIndex, configuration) -&gt
       </figure>
       <div class="av-example" data-example="isotope" data-register-example="chemistry:isotope">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:isotope&quot;).smiles(&quot;CC[C&#64;](CO)([H])[14CH2]C&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:isotope")
+        .smiles("CC[C@](CO)([H])[14CH2]C"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:isotope&quot;).smiles(&quot;CC[C&#64;](CO)([H])[14CH2]C&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:isotope")
+    .smiles("CC[C@](CO)([H])[14CH2]C"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Isotope-sensitive center · CIP only&quot;,
-  &quot;smiles&quot;: &quot;CC[C&#64;](CO)([H])[14CH2]C&quot;
+  "name": "Isotope-sensitive center · CIP only",
+  "smiles": "CC[C@](CO)([H])[14CH2]C"
 }</code></pre>
         </div>
       </div>
@@ -354,7 +335,50 @@ mods.avogadro.molecules.register(
         ·
         <a href="https://www.rdkit.org/docs/source/rdkit.Chem.rdCIPLabeler.html">RDKit’s documentation of the Centres-derived CIP approach</a>
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="chirality-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#smiles(java.lang.String)">smiles</a>(text)</code>
+              </td>
+              <td>SMILES with tetrahedral markers</td>
+              <td>
+                Describe the local ordering used to construct the three-dimensional arrangement.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
+              </td>
+              <td>Owner name; authored definition</td>
+              <td>Publish each arrangement under its own molecule ID.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code. Directional double-bond
+          markers are not supported as stereochemical instructions; follow the supported cases and
+          validation rules below.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="smiles.html">Previous: Add groups, radicals, and shape constraints to a molecule</a><a href="fictional.html">Next: Two fictional atom examples</a>
       </nav>
     </div></main>

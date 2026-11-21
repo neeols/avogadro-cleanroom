@@ -65,52 +65,7 @@ loadScripts(document, 'script');</script>
         crystal cell. Start with the PEG chain below: supply its repeat unit, its length, and both
         end groups to get a finite model with a known formula.
       </p>
-      <section class="av-call-guide">
-        <h2 id="polymers-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html#attachment(java.lang.String,int)">attachment</a>(name, index)</code>
-              </td>
-              <td>Attachment name; atom index</td>
-              <td>Name the atoms used to connect repeat units or end groups.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../PolymerDefinition.html">PolymerDefinition</a>.<a href="../PolymerDefinition.html#usingAttachments(io.github.wurtzitane.avogadro.api.StructureFragment,java.lang.String,java.lang.String,io.github.wurtzitane.avogadro.api.PolymerDefinition.Vector,io.github.wurtzitane.avogadro.molecule.BondType,io.github.wurtzitane.avogadro.api.PolymerDefinition.Cap,io.github.wurtzitane.avogadro.api.PolymerDefinition.Cap,int)">usingAttachments</a>(...)</code>
-              </td>
-              <td>Unit; connection names; displacement; bond type; end groups</td>
-              <td>Describe how supplied pieces join; the complete example gives their ordering.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../PolymerDefinition.Vector.html#%3Cinit%3E(double,double,double)">Vector</a>(x, y, z)</code>
-              </td>
-              <td>Repeat displacement</td>
-              <td>Place the next copy relative to the previous copy.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code. The builder does not
-          invent missing hydrogens or end groups; supply them when your finite model needs them.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -226,19 +181,37 @@ import java.nio.file.Path;</code></pre>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static PolymerDefinition peg() {
     // HO–(CH2–CH2–O)n–H. Caps supply both terminal hydrogens and the extra oxygen.
-    var unit = new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0)
-            .atom(&quot;C&quot;, 1.5, 0, 0).atom(&quot;O&quot;, 2.9, .2, 0)
-            .atom(&quot;H&quot;, -.3, .8, .65).atom(&quot;H&quot;, -.3, -.8, -.65)
-            .atom(&quot;H&quot;, 1.7, .8, -.65).atom(&quot;H&quot;, 1.7, -.8, .65)
-            .bond(0, 1).bond(1, 2).bond(0, 3).bond(0, 4).bond(1, 5).bond(1, 6)
-            .attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 2).build();
-    var head = new StructureBuilder().atom(&quot;O&quot;, -1.4, -.2, 0)
-            .atom(&quot;H&quot;, -2.2, .2, 0).bond(0, 1).attachment(&quot;end&quot;, 0).build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 3.8, .2, 0).attachment(&quot;end&quot;, 0).build();
-    return PolymerDefinition.usingAttachments(unit, &quot;head&quot;, &quot;tail&quot;,
-            new PolymerDefinition.Vector(4.3, 0, 0), BondType.SINGLE,
-            PolymerDefinition.Cap.usingAttachment(head, &quot;end&quot;, BondType.SINGLE),
-            PolymerDefinition.Cap.usingAttachment(tail, &quot;end&quot;, BondType.SINGLE), 4);
+    var unit = new StructureBuilder()
+        .atom("C", 0, 0, 0)
+        .atom("C", 1.5, 0, 0)
+        .atom("O", 2.9, .2, 0)
+        .atom("H", -.3, .8, .65)
+        .atom("H", -.3, -.8, -.65)
+        .atom("H", 1.7, .8, -.65)
+        .atom("H", 1.7, -.8, .65)
+        .bond(0, 1)
+        .bond(1, 2)
+        .bond(0, 3)
+        .bond(0, 4)
+        .bond(1, 5)
+        .bond(1, 6)
+        .attachment("head", 0)
+        .attachment("tail", 2)
+        .build();
+    var head = new StructureBuilder()
+        .atom("O", -1.4, -.2, 0)
+        .atom("H", -2.2, .2, 0)
+        .bond(0, 1)
+        .attachment("end", 0)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H", 3.8, .2, 0)
+        .attachment("end", 0)
+        .build();
+    return PolymerDefinition.usingAttachments(unit, "head", "tail",
+        new PolymerDefinition.Vector(4.3, 0, 0), BondType.SINGLE,
+        PolymerDefinition.Cap.usingAttachment(head, "end", BondType.SINGLE),
+        PolymerDefinition.Cap.usingAttachment(tail, "end", BondType.SINGLE), 4);
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -249,37 +222,50 @@ import java.nio.file.Path;</code></pre>
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
-def molecule = molecules.builder(&quot;guide:peg&quot;)
-molecule.name(&quot;Polyethylene glycol&quot;)
+def molecule = molecules.builder("guide:peg")
+molecule.name("Polyethylene glycol")
 molecule.classification(MoleculeClassification.POLYMER)
 def fragment1 = molecules.structureBuilder()
-fragment1.atom(&quot;C&quot;, 0.0, 0.0, 0.0)
-fragment1.atom(&quot;C&quot;, 1.5, 0.0, 0.0)
-fragment1.atom(&quot;O&quot;, 2.9, 0.2, 0.0)
-fragment1.atom(&quot;H&quot;, -0.3, 0.8, 0.65)
-fragment1.atom(&quot;H&quot;, -0.3, -0.8, -0.65)
-fragment1.atom(&quot;H&quot;, 1.7, 0.8, -0.65)
-fragment1.atom(&quot;H&quot;, 1.7, -0.8, 0.65)
+fragment1.atom("C", 0.0, 0.0, 0.0)
+fragment1.atom("C", 1.5, 0.0, 0.0)
+fragment1.atom("O", 2.9, 0.2, 0.0)
+fragment1.atom("H", -0.3, 0.8, 0.65)
+fragment1.atom("H", -0.3, -0.8, -0.65)
+fragment1.atom("H", 1.7, 0.8, -0.65)
+fragment1.atom("H", 1.7, -0.8, 0.65)
 fragment1.bond(0, 1, BondType.SINGLE)
 fragment1.bond(1, 2, BondType.SINGLE)
 fragment1.bond(0, 3, BondType.SINGLE)
 fragment1.bond(0, 4, BondType.SINGLE)
 fragment1.bond(1, 5, BondType.SINGLE)
 fragment1.bond(1, 6, BondType.SINGLE)
-fragment1.attachment(&quot;head&quot;, 0)
-fragment1.attachment(&quot;tail&quot;, 2)
+fragment1.attachment("head", 0)
+fragment1.attachment("tail", 2)
 def geometry2 = fragment1.build()
 def fragment3 = molecules.structureBuilder()
-fragment3.atom(&quot;O&quot;, -1.4, -0.2, 0.0)
-fragment3.atom(&quot;H&quot;, -2.2, 0.2, 0.0)
+fragment3.atom("O", -1.4, -0.2, 0.0)
+fragment3.atom("H", -2.2, 0.2, 0.0)
 fragment3.bond(0, 1, BondType.SINGLE)
-fragment3.attachment(&quot;end&quot;, 0)
+fragment3.attachment("end", 0)
 def geometry4 = fragment3.build()
 def fragment5 = molecules.structureBuilder()
-fragment5.atom(&quot;H&quot;, 3.8, 0.2, 0.0)
-fragment5.attachment(&quot;end&quot;, 0)
+fragment5.atom("H", 3.8, 0.2, 0.0)
+fragment5.attachment("end", 0)
 def geometry6 = fragment5.build()
-molecule.polymer(new PolymerDefinition(geometry2, 0, 2, new PolymerDefinition.Vector(4.3, 0.0, 0.0), BondType.SINGLE, new PolymerDefinition.Cap(geometry4, 0, BondType.SINGLE), new PolymerDefinition.Cap(geometry6, 0, BondType.SINGLE), 4))
+molecule.polymer(new PolymerDefinition(geometry2,
+    0,
+    2,
+    new PolymerDefinition.Vector(4.3,
+        0.0,
+        0.0),
+    BondType.SINGLE,
+    new PolymerDefinition.Cap(geometry4,
+        0,
+        BondType.SINGLE),
+    new PolymerDefinition.Cap(geometry6,
+        0,
+        BondType.SINGLE),
+    4))
 molecules.register(molecule)</code></pre>
         </div>
         <div data-language="json">
@@ -287,150 +273,150 @@ molecules.register(molecule)</code></pre>
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Polyethylene glycol&quot;,
-  &quot;polymer&quot;: {
-    &quot;repeat_unit&quot;: {
-      &quot;atoms&quot;: [
+  "name": "Polyethylene glycol",
+  "polymer": {
+    "repeat_unit": {
+      "atoms": [
         {
-          &quot;e&quot;: &quot;C&quot;,
-          &quot;x&quot;: 0.0,
-          &quot;y&quot;: 0.0,
-          &quot;z&quot;: 0.0
+          "e": "C",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
         },
         {
-          &quot;e&quot;: &quot;C&quot;,
-          &quot;x&quot;: 1.5,
-          &quot;y&quot;: 0.0,
-          &quot;z&quot;: 0.0
+          "e": "C",
+          "x": 1.5,
+          "y": 0.0,
+          "z": 0.0
         },
         {
-          &quot;e&quot;: &quot;O&quot;,
-          &quot;x&quot;: 2.9,
-          &quot;y&quot;: 0.2,
-          &quot;z&quot;: 0.0
+          "e": "O",
+          "x": 2.9,
+          "y": 0.2,
+          "z": 0.0
         },
         {
-          &quot;e&quot;: &quot;H&quot;,
-          &quot;x&quot;: -0.3,
-          &quot;y&quot;: 0.8,
-          &quot;z&quot;: 0.65
+          "e": "H",
+          "x": -0.3,
+          "y": 0.8,
+          "z": 0.65
         },
         {
-          &quot;e&quot;: &quot;H&quot;,
-          &quot;x&quot;: -0.3,
-          &quot;y&quot;: -0.8,
-          &quot;z&quot;: -0.65
+          "e": "H",
+          "x": -0.3,
+          "y": -0.8,
+          "z": -0.65
         },
         {
-          &quot;e&quot;: &quot;H&quot;,
-          &quot;x&quot;: 1.7,
-          &quot;y&quot;: 0.8,
-          &quot;z&quot;: -0.65
+          "e": "H",
+          "x": 1.7,
+          "y": 0.8,
+          "z": -0.65
         },
         {
-          &quot;e&quot;: &quot;H&quot;,
-          &quot;x&quot;: 1.7,
-          &quot;y&quot;: -0.8,
-          &quot;z&quot;: 0.65
+          "e": "H",
+          "x": 1.7,
+          "y": -0.8,
+          "z": 0.65
         }
       ],
-      &quot;bonds&quot;: [
+      "bonds": [
         [
           0,
           1,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ],
         [
           1,
           2,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ],
         [
           0,
           3,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ],
         [
           0,
           4,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ],
         [
           1,
           5,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ],
         [
           1,
           6,
-          &quot;SINGLE&quot;
+          "SINGLE"
         ]
       ],
-      &quot;attachments&quot;: {
-        &quot;head&quot;: 0,
-        &quot;tail&quot;: 2
+      "attachments": {
+        "head": 0,
+        "tail": 2
       }
     },
-    &quot;head&quot;: 0,
-    &quot;tail&quot;: 2,
-    &quot;translation&quot;: [
+    "head": 0,
+    "tail": 2,
+    "translation": [
       4.3,
       0.0,
       0.0
     ],
-    &quot;link_type&quot;: &quot;SINGLE&quot;,
-    &quot;head_cap&quot;: {
-      &quot;structure&quot;: {
-        &quot;atoms&quot;: [
+    "link_type": "SINGLE",
+    "head_cap": {
+      "structure": {
+        "atoms": [
           {
-            &quot;e&quot;: &quot;O&quot;,
-            &quot;x&quot;: -1.4,
-            &quot;y&quot;: -0.2,
-            &quot;z&quot;: 0.0
+            "e": "O",
+            "x": -1.4,
+            "y": -0.2,
+            "z": 0.0
           },
           {
-            &quot;e&quot;: &quot;H&quot;,
-            &quot;x&quot;: -2.2,
-            &quot;y&quot;: 0.2,
-            &quot;z&quot;: 0.0
+            "e": "H",
+            "x": -2.2,
+            "y": 0.2,
+            "z": 0.0
           }
         ],
-        &quot;bonds&quot;: [
+        "bonds": [
           [
             0,
             1,
-            &quot;SINGLE&quot;
+            "SINGLE"
           ]
         ],
-        &quot;attachments&quot;: {
-          &quot;end&quot;: 0
+        "attachments": {
+          "end": 0
         }
       },
-      &quot;attachment&quot;: 0,
-      &quot;bond_type&quot;: &quot;SINGLE&quot;
+      "attachment": 0,
+      "bond_type": "SINGLE"
     },
-    &quot;tail_cap&quot;: {
-      &quot;structure&quot;: {
-        &quot;atoms&quot;: [
+    "tail_cap": {
+      "structure": {
+        "atoms": [
           {
-            &quot;e&quot;: &quot;H&quot;,
-            &quot;x&quot;: 3.8,
-            &quot;y&quot;: 0.2,
-            &quot;z&quot;: 0.0
+            "e": "H",
+            "x": 3.8,
+            "y": 0.2,
+            "z": 0.0
           }
         ],
-        &quot;bonds&quot;: [],
-        &quot;attachments&quot;: {
-          &quot;end&quot;: 0
+        "bonds": [],
+        "attachments": {
+          "end": 0
         }
       },
-      &quot;attachment&quot;: 0,
-      &quot;bond_type&quot;: &quot;SINGLE&quot;
+      "attachment": 0,
+      "bond_type": "SINGLE"
     },
-    &quot;preview_units&quot;: 4
+    "preview_units": 4
   },
-  &quot;inspection&quot;: {
-    &quot;classification&quot;: &quot;polymer&quot;
+  "inspection": {
+    "classification": "polymer"
   }
 }</code></pre>
         </div>
@@ -468,15 +454,33 @@ molecules.register(molecule)</code></pre>
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
     return new StructureBuilder()
-            .atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0)
-            .atom(&quot;C&quot;, 2.8, .4, 0).atom(&quot;C&quot;, 4.2, .4, 0).atom(&quot;C&quot;, 1.5, -1.5, 0)
-            .atom(&quot;H&quot;, -.4, .7, .7).atom(&quot;H&quot;, -.4, .7, -.7)
-            .atom(&quot;H&quot;, 2.9, 1.4, 0).atom(&quot;H&quot;, 4.4, .4, 1)
-            .atom(&quot;H&quot;, .5, -1.9, 0).atom(&quot;H&quot;, 2, -1.9, .8).atom(&quot;H&quot;, 2, -1.9, -.8)
-            .bond(0, 1).bond(1, 2, BondType.DOUBLE).bond(2, 3).bond(1, 4)
-            .bond(0, 5).bond(0, 6).bond(2, 7).bond(3, 8)
-            .bond(4, 9).bond(4, 10).bond(4, 11)
-            .attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 3).attachment(&quot;cross&quot;, 3).build();
+        .atom("C", 0, 0, 0)
+        .atom("C", 1.5, 0, 0)
+        .atom("C", 2.8, .4, 0)
+        .atom("C", 4.2, .4, 0)
+        .atom("C", 1.5, -1.5, 0)
+        .atom("H", -.4, .7, .7)
+        .atom("H", -.4, .7, -.7)
+        .atom("H", 2.9, 1.4, 0)
+        .atom("H", 4.4, .4, 1)
+        .atom("H", .5, -1.9, 0)
+        .atom("H", 2, -1.9, .8)
+        .atom("H", 2, -1.9, -.8)
+        .bond(0, 1)
+        .bond(1, 2, BondType.DOUBLE)
+        .bond(2, 3)
+        .bond(1, 4)
+        .bond(0, 5)
+        .bond(0, 6)
+        .bond(2, 7)
+        .bond(3, 8)
+        .bond(4, 9)
+        .bond(4, 10)
+        .bond(4, 11)
+        .attachment("head", 0)
+        .attachment("tail", 3)
+        .attachment("cross", 3)
+        .build();
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -487,15 +491,33 @@ molecules.register(molecule)</code></pre>
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
     return new StructureBuilder()
-            .atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0)
-            .atom(&quot;C&quot;, 2.8, .4, 0).atom(&quot;C&quot;, 4.2, .4, 0).atom(&quot;C&quot;, 1.5, -1.5, 0)
-            .atom(&quot;H&quot;, -.4, .7, .7).atom(&quot;H&quot;, -.4, .7, -.7)
-            .atom(&quot;H&quot;, 2.9, 1.4, 0).atom(&quot;H&quot;, 4.4, .4, 1)
-            .atom(&quot;H&quot;, .5, -1.9, 0).atom(&quot;H&quot;, 2, -1.9, .8).atom(&quot;H&quot;, 2, -1.9, -.8)
-            .bond(0, 1).bond(1, 2, BondType.DOUBLE).bond(2, 3).bond(1, 4)
-            .bond(0, 5).bond(0, 6).bond(2, 7).bond(3, 8)
-            .bond(4, 9).bond(4, 10).bond(4, 11)
-            .attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 3).attachment(&quot;cross&quot;, 3).build();
+        .atom("C", 0, 0, 0)
+        .atom("C", 1.5, 0, 0)
+        .atom("C", 2.8, .4, 0)
+        .atom("C", 4.2, .4, 0)
+        .atom("C", 1.5, -1.5, 0)
+        .atom("H", -.4, .7, .7)
+        .atom("H", -.4, .7, -.7)
+        .atom("H", 2.9, 1.4, 0)
+        .atom("H", 4.4, .4, 1)
+        .atom("H", .5, -1.9, 0)
+        .atom("H", 2, -1.9, .8)
+        .atom("H", 2, -1.9, -.8)
+        .bond(0, 1)
+        .bond(1, 2, BondType.DOUBLE)
+        .bond(2, 3)
+        .bond(1, 4)
+        .bond(0, 5)
+        .bond(0, 6)
+        .bond(2, 7)
+        .bond(3, 8)
+        .bond(4, 9)
+        .bond(4, 10)
+        .bond(4, 11)
+        .attachment("head", 0)
+        .attachment("tail", 3)
+        .attachment("cross", 3)
+        .build();
 }</code></pre>
         </div>
         <div data-language="json">
@@ -512,34 +534,64 @@ molecules.register(molecule)</code></pre>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static PolymerNetworkDefinition rubber() {
-    var sulfur = new StructureBuilder().atom(&quot;S&quot;, 4.2, 2.2, 0)
-            .attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 0).build();
-    var hydrogens = new StructureBuilder().atom(&quot;H&quot;, 4.2, 1.4, 0)
-            .atom(&quot;H&quot;, 4.2, 3.0, 0).attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 1).build();
+    var sulfur = new StructureBuilder()
+        .atom("S", 4.2, 2.2, 0)
+        .attachment("left", 0)
+        .attachment("right", 0)
+        .build();
+    var hydrogens = new StructureBuilder()
+        .atom("H", 4.2, 1.4, 0)
+        .atom("H", 4.2, 3.0, 0)
+        .attachment("left", 0)
+        .attachment("right", 1)
+        .build();
     var pair = StructureAssembly.builder()
-            .part(&quot;left&quot;, rubberUnit()).part(&quot;right&quot;, rubberUnit().translate(0, 3.6, 0))
-            .choice(&quot;bridge&quot;, &quot;sulfur_bridge&quot;, &quot;bridgeChance&quot;,
-                    StructureAssembly.builder().part(&quot;connector&quot;, sulfur).build(),
-                    StructureAssembly.builder().part(&quot;connector&quot;, hydrogens).build())
-            .link(&quot;left/cross&quot;, &quot;bridge/connector/left&quot;, BondType.SINGLE)
-            .link(&quot;right/cross&quot;, &quot;bridge/connector/right&quot;, BondType.SINGLE).build();
-    var head = new StructureBuilder().atom(&quot;H&quot;, -1, 0, 0).atom(&quot;H&quot;, -1, 3.6, 0)
-            .attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 1).build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 5.2, .4, 0).atom(&quot;H&quot;, 5.2, 4, 0)
-            .attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 1).build();
+        .part("left", rubberUnit())
+        .part("right", rubberUnit()
+            .translate(0, 3.6, 0))
+        .choice("bridge", "sulfur_bridge", "bridgeChance",
+            StructureAssembly.builder()
+            .part("connector", sulfur)
+            .build(),
+            StructureAssembly.builder()
+            .part("connector", hydrogens)
+            .build())
+        .link("left/cross", "bridge/connector/left", BondType.SINGLE)
+        .link("right/cross", "bridge/connector/right", BondType.SINGLE)
+        .build();
+    var head = new StructureBuilder()
+        .atom("H", -1, 0, 0)
+        .atom("H", -1, 3.6, 0)
+        .attachment("left", 0)
+        .attachment("right", 1)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H", 5.2, .4, 0)
+        .atom("H", 5.2, 4, 0)
+        .attachment("left", 0)
+        .attachment("right", 1)
+        .build();
     var assembly = StructureAssembly.builder()
-            .repeat(&quot;pairs&quot;, pair, &quot;length&quot;, StructureAssembly.translation(5.7, 0, 0))
-            .neighbor(&quot;left/tail&quot;, &quot;left/head&quot;, 1, BondType.SINGLE)
-            .neighbor(&quot;right/tail&quot;, &quot;right/head&quot;, 1, BondType.SINGLE)
-            .endGroups(StructureAssembly.builder().part(&quot;cap&quot;, head).build(),
-                    StructureAssembly.builder().part(&quot;cap&quot;, tail).build())
-            .link(&quot;pairs/head/cap/left&quot;, &quot;pairs[first]/left/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs/head/cap/right&quot;, &quot;pairs[first]/right/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/left/tail&quot;, &quot;pairs/tail/cap/left&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/right/tail&quot;, &quot;pairs/tail/cap/right&quot;, BondType.SINGLE).build();
+        .repeat("pairs", pair, "length", StructureAssembly.translation(5.7, 0, 0))
+        .neighbor("left/tail", "left/head", 1, BondType.SINGLE)
+        .neighbor("right/tail", "right/head", 1, BondType.SINGLE)
+        .endGroups(StructureAssembly.builder()
+            .part("cap", head)
+            .build(),
+            StructureAssembly.builder()
+            .part("cap", tail)
+            .build())
+        .link("pairs/head/cap/left", "pairs[first]/left/head", BondType.SINGLE)
+        .link("pairs/head/cap/right", "pairs[first]/right/head", BondType.SINGLE)
+        .link("pairs[last]/left/tail", "pairs/tail/cap/left", BondType.SINGLE)
+        .link("pairs[last]/right/tail", "pairs/tail/cap/right", BondType.SINGLE)
+        .build();
     return new PolymerNetworkDefinition(List.of(
-            PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 16, 4),
-            PolymerNetworkDefinition.Parameter.probability(&quot;bridgeChance&quot;, .5)), assembly, 42L);
+        PolymerNetworkDefinition.Parameter.count("length", 1, 16, 4),
+        PolymerNetworkDefinition.Parameter.probability("bridgeChance",
+            .5)),
+            assembly,
+            42L);
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -550,24 +602,24 @@ molecules.register(molecule)</code></pre>
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
-def molecule = molecules.builder(&quot;guide:rubber&quot;)
-molecule.name(&quot;Sulfur-linked polyisoprene&quot;)
+def molecule = molecules.builder("guide:rubber")
+molecule.name("Sulfur-linked polyisoprene")
 molecule.classification(MoleculeClassification.POLYMER)
 def assembly1 = molecules.assemblyBuilder()
 def assembly2 = molecules.assemblyBuilder()
 def fragment3 = molecules.structureBuilder()
-fragment3.atom(&quot;C&quot;, 0.0, 0.0, 0.0)
-fragment3.atom(&quot;C&quot;, 1.5, 0.0, 0.0)
-fragment3.atom(&quot;C&quot;, 2.8, 0.4, 0.0)
-fragment3.atom(&quot;C&quot;, 4.2, 0.4, 0.0)
-fragment3.atom(&quot;C&quot;, 1.5, -1.5, 0.0)
-fragment3.atom(&quot;H&quot;, -0.4, 0.7, 0.7)
-fragment3.atom(&quot;H&quot;, -0.4, 0.7, -0.7)
-fragment3.atom(&quot;H&quot;, 2.9, 1.4, 0.0)
-fragment3.atom(&quot;H&quot;, 4.4, 0.4, 1.0)
-fragment3.atom(&quot;H&quot;, 0.5, -1.9, 0.0)
-fragment3.atom(&quot;H&quot;, 2.0, -1.9, 0.8)
-fragment3.atom(&quot;H&quot;, 2.0, -1.9, -0.8)
+fragment3.atom("C", 0.0, 0.0, 0.0)
+fragment3.atom("C", 1.5, 0.0, 0.0)
+fragment3.atom("C", 2.8, 0.4, 0.0)
+fragment3.atom("C", 4.2, 0.4, 0.0)
+fragment3.atom("C", 1.5, -1.5, 0.0)
+fragment3.atom("H", -0.4, 0.7, 0.7)
+fragment3.atom("H", -0.4, 0.7, -0.7)
+fragment3.atom("H", 2.9, 1.4, 0.0)
+fragment3.atom("H", 4.4, 0.4, 1.0)
+fragment3.atom("H", 0.5, -1.9, 0.0)
+fragment3.atom("H", 2.0, -1.9, 0.8)
+fragment3.atom("H", 2.0, -1.9, -0.8)
 fragment3.bond(0, 1, BondType.SINGLE)
 fragment3.bond(1, 2, BondType.DOUBLE)
 fragment3.bond(2, 3, BondType.SINGLE)
@@ -579,24 +631,24 @@ fragment3.bond(3, 8, BondType.SINGLE)
 fragment3.bond(4, 9, BondType.SINGLE)
 fragment3.bond(4, 10, BondType.SINGLE)
 fragment3.bond(4, 11, BondType.SINGLE)
-fragment3.attachment(&quot;head&quot;, 0)
-fragment3.attachment(&quot;tail&quot;, 3)
-fragment3.attachment(&quot;cross&quot;, 3)
+fragment3.attachment("head", 0)
+fragment3.attachment("tail", 3)
+fragment3.attachment("cross", 3)
 def geometry4 = fragment3.build()
-assembly2.part(&quot;left&quot;, geometry4)
+assembly2.part("left", geometry4)
 def fragment5 = molecules.structureBuilder()
-fragment5.atom(&quot;C&quot;, 0.0, 3.6, 0.0)
-fragment5.atom(&quot;C&quot;, 1.5, 3.6, 0.0)
-fragment5.atom(&quot;C&quot;, 2.8, 4.0, 0.0)
-fragment5.atom(&quot;C&quot;, 4.2, 4.0, 0.0)
-fragment5.atom(&quot;C&quot;, 1.5, 2.1, 0.0)
-fragment5.atom(&quot;H&quot;, -0.4, 4.3, 0.7)
-fragment5.atom(&quot;H&quot;, -0.4, 4.3, -0.7)
-fragment5.atom(&quot;H&quot;, 2.9, 5.0, 0.0)
-fragment5.atom(&quot;H&quot;, 4.4, 4.0, 1.0)
-fragment5.atom(&quot;H&quot;, 0.5, 1.7000000000000002, 0.0)
-fragment5.atom(&quot;H&quot;, 2.0, 1.7000000000000002, 0.8)
-fragment5.atom(&quot;H&quot;, 2.0, 1.7000000000000002, -0.8)
+fragment5.atom("C", 0.0, 3.6, 0.0)
+fragment5.atom("C", 1.5, 3.6, 0.0)
+fragment5.atom("C", 2.8, 4.0, 0.0)
+fragment5.atom("C", 4.2, 4.0, 0.0)
+fragment5.atom("C", 1.5, 2.1, 0.0)
+fragment5.atom("H", -0.4, 4.3, 0.7)
+fragment5.atom("H", -0.4, 4.3, -0.7)
+fragment5.atom("H", 2.9, 5.0, 0.0)
+fragment5.atom("H", 4.4, 4.0, 1.0)
+fragment5.atom("H", 0.5, 1.7000000000000002, 0.0)
+fragment5.atom("H", 2.0, 1.7000000000000002, 0.8)
+fragment5.atom("H", 2.0, 1.7000000000000002, -0.8)
 fragment5.bond(0, 1, BondType.SINGLE)
 fragment5.bond(1, 2, BondType.DOUBLE)
 fragment5.bond(2, 3, BondType.SINGLE)
@@ -608,60 +660,91 @@ fragment5.bond(3, 8, BondType.SINGLE)
 fragment5.bond(4, 9, BondType.SINGLE)
 fragment5.bond(4, 10, BondType.SINGLE)
 fragment5.bond(4, 11, BondType.SINGLE)
-fragment5.attachment(&quot;head&quot;, 0)
-fragment5.attachment(&quot;tail&quot;, 3)
-fragment5.attachment(&quot;cross&quot;, 3)
+fragment5.attachment("head", 0)
+fragment5.attachment("tail", 3)
+fragment5.attachment("cross", 3)
 def geometry6 = fragment5.build()
-assembly2.part(&quot;right&quot;, geometry6)
+assembly2.part("right", geometry6)
 def assembly7 = molecules.assemblyBuilder()
 def fragment8 = molecules.structureBuilder()
-fragment8.atom(&quot;S&quot;, 4.2, 2.2, 0.0)
-fragment8.attachment(&quot;left&quot;, 0)
-fragment8.attachment(&quot;right&quot;, 0)
+fragment8.atom("S", 4.2, 2.2, 0.0)
+fragment8.attachment("left", 0)
+fragment8.attachment("right", 0)
 def geometry9 = fragment8.build()
-assembly7.part(&quot;connector&quot;, geometry9)
+assembly7.part("connector", geometry9)
 def geometryRecipe10 = assembly7.build()
 def assembly11 = molecules.assemblyBuilder()
 def fragment12 = molecules.structureBuilder()
-fragment12.atom(&quot;H&quot;, 4.2, 1.4, 0.0)
-fragment12.atom(&quot;H&quot;, 4.2, 3.0, 0.0)
-fragment12.attachment(&quot;left&quot;, 0)
-fragment12.attachment(&quot;right&quot;, 1)
+fragment12.atom("H", 4.2, 1.4, 0.0)
+fragment12.atom("H", 4.2, 3.0, 0.0)
+fragment12.attachment("left", 0)
+fragment12.attachment("right", 1)
 def geometry13 = fragment12.build()
-assembly11.part(&quot;connector&quot;, geometry13)
+assembly11.part("connector", geometry13)
 def geometryRecipe14 = assembly11.build()
-assembly2.choice(&quot;bridge&quot;, &quot;sulfur_bridge&quot;, &quot;bridgeChance&quot;, geometryRecipe10, geometryRecipe14)
-assembly2.link(&quot;left/cross&quot;, &quot;bridge/connector/left&quot;, BondType.SINGLE)
-assembly2.link(&quot;right/cross&quot;, &quot;bridge/connector/right&quot;, BondType.SINGLE)
+assembly2.choice("bridge",
+    "sulfur_bridge",
+    "bridgeChance",
+    geometryRecipe10,
+    geometryRecipe14)
+assembly2.link("left/cross", "bridge/connector/left", BondType.SINGLE)
+assembly2.link("right/cross", "bridge/connector/right", BondType.SINGLE)
 def geometryRecipe15 = assembly2.build()
-assembly1.repeat(&quot;pairs&quot;, geometryRecipe15, &quot;length&quot;, [[1.0, 0.0, 0.0, 5.7] as double[], [0.0, 1.0, 0.0, 0.0] as double[], [0.0, 0.0, 1.0, 0.0] as double[]] as double[][])
-assembly1.neighbor(&quot;left/tail&quot;, &quot;left/head&quot;, 1, BondType.SINGLE)
-assembly1.neighbor(&quot;right/tail&quot;, &quot;right/head&quot;, 1, BondType.SINGLE)
+assembly1.repeat("pairs",
+    geometryRecipe15,
+    "length",
+    [[1.0,
+        0.0,
+        0.0,
+        5.7] as double[],
+        [0.0,
+            1.0,
+            0.0,
+            0.0] as double[],
+        [0.0,
+            0.0,
+            1.0,
+            0.0] as double[]] as double[][])
+assembly1.neighbor("left/tail", "left/head", 1, BondType.SINGLE)
+assembly1.neighbor("right/tail", "right/head", 1, BondType.SINGLE)
 def assembly16 = molecules.assemblyBuilder()
 def fragment17 = molecules.structureBuilder()
-fragment17.atom(&quot;H&quot;, -1.0, 0.0, 0.0)
-fragment17.atom(&quot;H&quot;, -1.0, 3.6, 0.0)
-fragment17.attachment(&quot;left&quot;, 0)
-fragment17.attachment(&quot;right&quot;, 1)
+fragment17.atom("H", -1.0, 0.0, 0.0)
+fragment17.atom("H", -1.0, 3.6, 0.0)
+fragment17.attachment("left", 0)
+fragment17.attachment("right", 1)
 def geometry18 = fragment17.build()
-assembly16.part(&quot;cap&quot;, geometry18)
+assembly16.part("cap", geometry18)
 def geometryRecipe19 = assembly16.build()
 def assembly20 = molecules.assemblyBuilder()
 def fragment21 = molecules.structureBuilder()
-fragment21.atom(&quot;H&quot;, 5.2, 0.4, 0.0)
-fragment21.atom(&quot;H&quot;, 5.2, 4.0, 0.0)
-fragment21.attachment(&quot;left&quot;, 0)
-fragment21.attachment(&quot;right&quot;, 1)
+fragment21.atom("H", 5.2, 0.4, 0.0)
+fragment21.atom("H", 5.2, 4.0, 0.0)
+fragment21.attachment("left", 0)
+fragment21.attachment("right", 1)
 def geometry22 = fragment21.build()
-assembly20.part(&quot;cap&quot;, geometry22)
+assembly20.part("cap", geometry22)
 def geometryRecipe23 = assembly20.build()
 assembly1.endGroups(geometryRecipe19, geometryRecipe23)
-assembly1.link(&quot;pairs/head/cap/left&quot;, &quot;pairs[first]/left/head&quot;, BondType.SINGLE)
-assembly1.link(&quot;pairs/head/cap/right&quot;, &quot;pairs[first]/right/head&quot;, BondType.SINGLE)
-assembly1.link(&quot;pairs[last]/left/tail&quot;, &quot;pairs/tail/cap/left&quot;, BondType.SINGLE)
-assembly1.link(&quot;pairs[last]/right/tail&quot;, &quot;pairs/tail/cap/right&quot;, BondType.SINGLE)
+assembly1.link("pairs/head/cap/left", "pairs[first]/left/head", BondType.SINGLE)
+assembly1.link("pairs/head/cap/right", "pairs[first]/right/head", BondType.SINGLE)
+assembly1.link("pairs[last]/left/tail", "pairs/tail/cap/left", BondType.SINGLE)
+assembly1.link("pairs[last]/right/tail", "pairs/tail/cap/right", BondType.SINGLE)
 def geometryRecipe24 = assembly1.build()
-molecule.polymerNetwork(new PolymerNetworkDefinition(java.util.List.of(new PolymerNetworkDefinition.Parameter(&quot;length&quot;, &quot;length&quot;, &quot;count&quot;, 1.0, 16.0, 4.0), new PolymerNetworkDefinition.Parameter(&quot;bridgeChance&quot;, &quot;bridgeChance&quot;, &quot;probability&quot;, 0.0, 1.0, 0.5)), geometryRecipe24, 42L))
+molecule.polymerNetwork(new PolymerNetworkDefinition(java.util.List.of(new PolymerNetworkDefinition.Parameter("length",
+    "length",
+    "count",
+    1.0,
+    16.0,
+    4.0),
+    new PolymerNetworkDefinition.Parameter("bridgeChance",
+        "bridgeChance",
+        "probability",
+        0.0,
+        1.0,
+        0.5)),
+    geometryRecipe24,
+    42L))
 molecules.register(molecule)</code></pre>
         </div>
         <div data-language="json">
@@ -669,34 +752,34 @@ molecules.register(molecule)</code></pre>
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Sulfur-linked polyisoprene&quot;,
-  &quot;polymer_network&quot;: {
-    &quot;random_version&quot;: 1,
-    &quot;seed&quot;: &quot;42&quot;,
-    &quot;parameters&quot;: [
+  "name": "Sulfur-linked polyisoprene",
+  "polymer_network": {
+    "random_version": 1,
+    "seed": "42",
+    "parameters": [
       {
-        &quot;name&quot;: &quot;length&quot;,
-        &quot;label&quot;: &quot;length&quot;,
-        &quot;kind&quot;: &quot;count&quot;,
-        &quot;min&quot;: 1.0,
-        &quot;max&quot;: 16.0,
-        &quot;default&quot;: 4.0
+        "name": "length",
+        "label": "length",
+        "kind": "count",
+        "min": 1.0,
+        "max": 16.0,
+        "default": 4.0
       },
       {
-        &quot;name&quot;: &quot;bridgeChance&quot;,
-        &quot;label&quot;: &quot;bridgeChance&quot;,
-        &quot;kind&quot;: &quot;probability&quot;,
-        &quot;min&quot;: 0.0,
-        &quot;max&quot;: 1.0,
-        &quot;default&quot;: 0.5
+        "name": "bridgeChance",
+        "label": "bridgeChance",
+        "kind": "probability",
+        "min": 0.0,
+        "max": 1.0,
+        "default": 0.5
       }
     ],
-    &quot;assembly&quot;: {
-      &quot;nodes&quot;: [
+    "assembly": {
+      "nodes": [
         {
-          &quot;name&quot;: &quot;pairs&quot;,
-          &quot;kind&quot;: &quot;repeat&quot;,
-          &quot;transform&quot;: [
+          "name": "pairs",
+          "kind": "repeat",
+          "transform": [
             [
               1.0,
               0.0,
@@ -716,12 +799,12 @@ molecules.register(molecule)</code></pre>
               0.0
             ]
           ],
-          &quot;body&quot;: {
-            &quot;nodes&quot;: [
+          "body": {
+            "nodes": [
               {
-                &quot;name&quot;: &quot;left&quot;,
-                &quot;kind&quot;: &quot;fragment&quot;,
-                &quot;transform&quot;: [
+                "name": "left",
+                "kind": "fragment",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -741,149 +824,149 @@ molecules.register(molecule)</code></pre>
                     0.0
                   ]
                 ],
-                &quot;structure&quot;: {
-                  &quot;atoms&quot;: [
+                "structure": {
+                  "atoms": [
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 0.0,
-                      &quot;y&quot;: 0.0,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 1.5,
-                      &quot;y&quot;: 0.0,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 1.5,
+                      "y": 0.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 2.8,
-                      &quot;y&quot;: 0.4,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 2.8,
+                      "y": 0.4,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 4.2,
-                      &quot;y&quot;: 0.4,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 4.2,
+                      "y": 0.4,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 1.5,
-                      &quot;y&quot;: -1.5,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 1.5,
+                      "y": -1.5,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -0.4,
-                      &quot;y&quot;: 0.7,
-                      &quot;z&quot;: 0.7
+                      "e": "H",
+                      "x": -0.4,
+                      "y": 0.7,
+                      "z": 0.7
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -0.4,
-                      &quot;y&quot;: 0.7,
-                      &quot;z&quot;: -0.7
+                      "e": "H",
+                      "x": -0.4,
+                      "y": 0.7,
+                      "z": -0.7
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.9,
-                      &quot;y&quot;: 1.4,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 2.9,
+                      "y": 1.4,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 4.4,
-                      &quot;y&quot;: 0.4,
-                      &quot;z&quot;: 1.0
+                      "e": "H",
+                      "x": 4.4,
+                      "y": 0.4,
+                      "z": 1.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 0.5,
-                      &quot;y&quot;: -1.9,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 0.5,
+                      "y": -1.9,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.0,
-                      &quot;y&quot;: -1.9,
-                      &quot;z&quot;: 0.8
+                      "e": "H",
+                      "x": 2.0,
+                      "y": -1.9,
+                      "z": 0.8
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.0,
-                      &quot;y&quot;: -1.9,
-                      &quot;z&quot;: -0.8
+                      "e": "H",
+                      "x": 2.0,
+                      "y": -1.9,
+                      "z": -0.8
                     }
                   ],
-                  &quot;bonds&quot;: [
+                  "bonds": [
                     [
                       0,
                       1,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       2,
-                      &quot;DOUBLE&quot;
+                      "DOUBLE"
                     ],
                     [
                       2,
                       3,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       4,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       0,
                       5,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       0,
                       6,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       2,
                       7,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       3,
                       8,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       9,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       10,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       11,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ]
                   ],
-                  &quot;attachments&quot;: {
-                    &quot;head&quot;: 0,
-                    &quot;tail&quot;: 3,
-                    &quot;cross&quot;: 3
+                  "attachments": {
+                    "head": 0,
+                    "tail": 3,
+                    "cross": 3
                   }
                 }
               },
               {
-                &quot;name&quot;: &quot;right&quot;,
-                &quot;kind&quot;: &quot;fragment&quot;,
-                &quot;transform&quot;: [
+                "name": "right",
+                "kind": "fragment",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -903,149 +986,149 @@ molecules.register(molecule)</code></pre>
                     0.0
                   ]
                 ],
-                &quot;structure&quot;: {
-                  &quot;atoms&quot;: [
+                "structure": {
+                  "atoms": [
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 0.0,
-                      &quot;y&quot;: 3.6,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 0.0,
+                      "y": 3.6,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 1.5,
-                      &quot;y&quot;: 3.6,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 1.5,
+                      "y": 3.6,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 2.8,
-                      &quot;y&quot;: 4.0,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 2.8,
+                      "y": 4.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 4.2,
-                      &quot;y&quot;: 4.0,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 4.2,
+                      "y": 4.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 1.5,
-                      &quot;y&quot;: 2.1,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 1.5,
+                      "y": 2.1,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -0.4,
-                      &quot;y&quot;: 4.3,
-                      &quot;z&quot;: 0.7
+                      "e": "H",
+                      "x": -0.4,
+                      "y": 4.3,
+                      "z": 0.7
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -0.4,
-                      &quot;y&quot;: 4.3,
-                      &quot;z&quot;: -0.7
+                      "e": "H",
+                      "x": -0.4,
+                      "y": 4.3,
+                      "z": -0.7
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.9,
-                      &quot;y&quot;: 5.0,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 2.9,
+                      "y": 5.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 4.4,
-                      &quot;y&quot;: 4.0,
-                      &quot;z&quot;: 1.0
+                      "e": "H",
+                      "x": 4.4,
+                      "y": 4.0,
+                      "z": 1.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 0.5,
-                      &quot;y&quot;: 1.7000000000000002,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 0.5,
+                      "y": 1.7000000000000002,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.0,
-                      &quot;y&quot;: 1.7000000000000002,
-                      &quot;z&quot;: 0.8
+                      "e": "H",
+                      "x": 2.0,
+                      "y": 1.7000000000000002,
+                      "z": 0.8
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 2.0,
-                      &quot;y&quot;: 1.7000000000000002,
-                      &quot;z&quot;: -0.8
+                      "e": "H",
+                      "x": 2.0,
+                      "y": 1.7000000000000002,
+                      "z": -0.8
                     }
                   ],
-                  &quot;bonds&quot;: [
+                  "bonds": [
                     [
                       0,
                       1,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       2,
-                      &quot;DOUBLE&quot;
+                      "DOUBLE"
                     ],
                     [
                       2,
                       3,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       4,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       0,
                       5,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       0,
                       6,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       2,
                       7,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       3,
                       8,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       9,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       10,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       11,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ]
                   ],
-                  &quot;attachments&quot;: {
-                    &quot;head&quot;: 0,
-                    &quot;tail&quot;: 3,
-                    &quot;cross&quot;: 3
+                  "attachments": {
+                    "head": 0,
+                    "tail": 3,
+                    "cross": 3
                   }
                 }
               },
               {
-                &quot;name&quot;: &quot;bridge&quot;,
-                &quot;kind&quot;: &quot;choice&quot;,
-                &quot;transform&quot;: [
+                "name": "bridge",
+                "kind": "choice",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -1065,14 +1148,14 @@ molecules.register(molecule)</code></pre>
                     0.0
                   ]
                 ],
-                &quot;rule_id&quot;: &quot;sulfur_bridge&quot;,
-                &quot;probability&quot;: &quot;bridgeChance&quot;,
-                &quot;present&quot;: {
-                  &quot;nodes&quot;: [
+                "rule_id": "sulfur_bridge",
+                "probability": "bridgeChance",
+                "present": {
+                  "nodes": [
                     {
-                      &quot;name&quot;: &quot;connector&quot;,
-                      &quot;kind&quot;: &quot;fragment&quot;,
-                      &quot;transform&quot;: [
+                      "name": "connector",
+                      "kind": "fragment",
+                      "transform": [
                         [
                           1.0,
                           0.0,
@@ -1092,32 +1175,32 @@ molecules.register(molecule)</code></pre>
                           0.0
                         ]
                       ],
-                      &quot;structure&quot;: {
-                        &quot;atoms&quot;: [
+                      "structure": {
+                        "atoms": [
                           {
-                            &quot;e&quot;: &quot;S&quot;,
-                            &quot;x&quot;: 4.2,
-                            &quot;y&quot;: 2.2,
-                            &quot;z&quot;: 0.0
+                            "e": "S",
+                            "x": 4.2,
+                            "y": 2.2,
+                            "z": 0.0
                           }
                         ],
-                        &quot;bonds&quot;: [],
-                        &quot;attachments&quot;: {
-                          &quot;left&quot;: 0,
-                          &quot;right&quot;: 0
+                        "bonds": [],
+                        "attachments": {
+                          "left": 0,
+                          "right": 0
                         }
                       }
                     }
                   ],
-                  &quot;links&quot;: [],
-                  &quot;random_links&quot;: []
+                  "links": [],
+                  "random_links": []
                 },
-                &quot;absent&quot;: {
-                  &quot;nodes&quot;: [
+                "absent": {
+                  "nodes": [
                     {
-                      &quot;name&quot;: &quot;connector&quot;,
-                      &quot;kind&quot;: &quot;fragment&quot;,
-                      &quot;transform&quot;: [
+                      "name": "connector",
+                      "kind": "fragment",
+                      "transform": [
                         [
                           1.0,
                           0.0,
@@ -1137,50 +1220,50 @@ molecules.register(molecule)</code></pre>
                           0.0
                         ]
                       ],
-                      &quot;structure&quot;: {
-                        &quot;atoms&quot;: [
+                      "structure": {
+                        "atoms": [
                           {
-                            &quot;e&quot;: &quot;H&quot;,
-                            &quot;x&quot;: 4.2,
-                            &quot;y&quot;: 1.4,
-                            &quot;z&quot;: 0.0
+                            "e": "H",
+                            "x": 4.2,
+                            "y": 1.4,
+                            "z": 0.0
                           },
                           {
-                            &quot;e&quot;: &quot;H&quot;,
-                            &quot;x&quot;: 4.2,
-                            &quot;y&quot;: 3.0,
-                            &quot;z&quot;: 0.0
+                            "e": "H",
+                            "x": 4.2,
+                            "y": 3.0,
+                            "z": 0.0
                           }
                         ],
-                        &quot;bonds&quot;: [],
-                        &quot;attachments&quot;: {
-                          &quot;left&quot;: 0,
-                          &quot;right&quot;: 1
+                        "bonds": [],
+                        "attachments": {
+                          "left": 0,
+                          "right": 1
                         }
                       }
                     }
                   ],
-                  &quot;links&quot;: [],
-                  &quot;random_links&quot;: []
+                  "links": [],
+                  "random_links": []
                 }
               }
             ],
-            &quot;links&quot;: [
+            "links": [
               {
-                &quot;from&quot;: &quot;left/cross&quot;,
-                &quot;to&quot;: &quot;bridge/connector/left&quot;,
-                &quot;type&quot;: &quot;SINGLE&quot;
+                "from": "left/cross",
+                "to": "bridge/connector/left",
+                "type": "SINGLE"
               },
               {
-                &quot;from&quot;: &quot;right/cross&quot;,
-                &quot;to&quot;: &quot;bridge/connector/right&quot;,
-                &quot;type&quot;: &quot;SINGLE&quot;
+                "from": "right/cross",
+                "to": "bridge/connector/right",
+                "type": "SINGLE"
               }
             ],
-            &quot;random_links&quot;: []
+            "random_links": []
           },
-          &quot;count&quot;: &quot;length&quot;,
-          &quot;step&quot;: [
+          "count": "length",
+          "step": [
             [
               1.0,
               0.0,
@@ -1200,26 +1283,26 @@ molecules.register(molecule)</code></pre>
               0.0
             ]
           ],
-          &quot;neighbor_links&quot;: [
+          "neighbor_links": [
             {
-              &quot;from&quot;: &quot;left/tail&quot;,
-              &quot;to&quot;: &quot;left/head&quot;,
-              &quot;type&quot;: &quot;SINGLE&quot;,
-              &quot;offset&quot;: 1
+              "from": "left/tail",
+              "to": "left/head",
+              "type": "SINGLE",
+              "offset": 1
             },
             {
-              &quot;from&quot;: &quot;right/tail&quot;,
-              &quot;to&quot;: &quot;right/head&quot;,
-              &quot;type&quot;: &quot;SINGLE&quot;,
-              &quot;offset&quot;: 1
+              "from": "right/tail",
+              "to": "right/head",
+              "type": "SINGLE",
+              "offset": 1
             }
           ],
-          &quot;head&quot;: {
-            &quot;nodes&quot;: [
+          "head": {
+            "nodes": [
               {
-                &quot;name&quot;: &quot;cap&quot;,
-                &quot;kind&quot;: &quot;fragment&quot;,
-                &quot;transform&quot;: [
+                "name": "cap",
+                "kind": "fragment",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -1239,38 +1322,38 @@ molecules.register(molecule)</code></pre>
                     0.0
                   ]
                 ],
-                &quot;structure&quot;: {
-                  &quot;atoms&quot;: [
+                "structure": {
+                  "atoms": [
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -1.0,
-                      &quot;y&quot;: 0.0,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": -1.0,
+                      "y": 0.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: -1.0,
-                      &quot;y&quot;: 3.6,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": -1.0,
+                      "y": 3.6,
+                      "z": 0.0
                     }
                   ],
-                  &quot;bonds&quot;: [],
-                  &quot;attachments&quot;: {
-                    &quot;left&quot;: 0,
-                    &quot;right&quot;: 1
+                  "bonds": [],
+                  "attachments": {
+                    "left": 0,
+                    "right": 1
                   }
                 }
               }
             ],
-            &quot;links&quot;: [],
-            &quot;random_links&quot;: []
+            "links": [],
+            "random_links": []
           },
-          &quot;tail&quot;: {
-            &quot;nodes&quot;: [
+          "tail": {
+            "nodes": [
               {
-                &quot;name&quot;: &quot;cap&quot;,
-                &quot;kind&quot;: &quot;fragment&quot;,
-                &quot;transform&quot;: [
+                "name": "cap",
+                "kind": "fragment",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -1290,61 +1373,61 @@ molecules.register(molecule)</code></pre>
                     0.0
                   ]
                 ],
-                &quot;structure&quot;: {
-                  &quot;atoms&quot;: [
+                "structure": {
+                  "atoms": [
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 5.2,
-                      &quot;y&quot;: 0.4,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 5.2,
+                      "y": 0.4,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 5.2,
-                      &quot;y&quot;: 4.0,
-                      &quot;z&quot;: 0.0
+                      "e": "H",
+                      "x": 5.2,
+                      "y": 4.0,
+                      "z": 0.0
                     }
                   ],
-                  &quot;bonds&quot;: [],
-                  &quot;attachments&quot;: {
-                    &quot;left&quot;: 0,
-                    &quot;right&quot;: 1
+                  "bonds": [],
+                  "attachments": {
+                    "left": 0,
+                    "right": 1
                   }
                 }
               }
             ],
-            &quot;links&quot;: [],
-            &quot;random_links&quot;: []
+            "links": [],
+            "random_links": []
           }
         }
       ],
-      &quot;links&quot;: [
+      "links": [
         {
-          &quot;from&quot;: &quot;pairs/head/cap/left&quot;,
-          &quot;to&quot;: &quot;pairs[first]/left/head&quot;,
-          &quot;type&quot;: &quot;SINGLE&quot;
+          "from": "pairs/head/cap/left",
+          "to": "pairs[first]/left/head",
+          "type": "SINGLE"
         },
         {
-          &quot;from&quot;: &quot;pairs/head/cap/right&quot;,
-          &quot;to&quot;: &quot;pairs[first]/right/head&quot;,
-          &quot;type&quot;: &quot;SINGLE&quot;
+          "from": "pairs/head/cap/right",
+          "to": "pairs[first]/right/head",
+          "type": "SINGLE"
         },
         {
-          &quot;from&quot;: &quot;pairs[last]/left/tail&quot;,
-          &quot;to&quot;: &quot;pairs/tail/cap/left&quot;,
-          &quot;type&quot;: &quot;SINGLE&quot;
+          "from": "pairs[last]/left/tail",
+          "to": "pairs/tail/cap/left",
+          "type": "SINGLE"
         },
         {
-          &quot;from&quot;: &quot;pairs[last]/right/tail&quot;,
-          &quot;to&quot;: &quot;pairs/tail/cap/right&quot;,
-          &quot;type&quot;: &quot;SINGLE&quot;
+          "from": "pairs[last]/right/tail",
+          "to": "pairs/tail/cap/right",
+          "type": "SINGLE"
         }
       ],
-      &quot;random_links&quot;: []
+      "random_links": []
     }
   },
-  &quot;inspection&quot;: {
-    &quot;classification&quot;: &quot;polymer&quot;
+  "inspection": {
+    "classification": "polymer"
   }
 }</code></pre>
         </div>
@@ -1358,8 +1441,9 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static PolymerPreview realization(int length, double chance, long seed) {
     // Seed controls the choices, not the authored atom positions.
-    return rubber().preview(new NetworkPreviewRequest(
-            Map.of(&quot;length&quot;, length), Map.of(&quot;bridgeChance&quot;, chance), seed));
+    return rubber()
+        .preview(new NetworkPreviewRequest(
+            Map.of("length", length), Map.of("bridgeChance", chance), seed));
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -1368,8 +1452,9 @@ molecules.register(molecule)</code></pre>
           </p>
           <pre><code class="language-groovy">static PolymerPreview realization(int length, double chance, long seed) {
     // Seed controls the choices, not the authored atom positions.
-    return rubber().preview(new NetworkPreviewRequest(
-            Map.of(&quot;length&quot;, length), Map.of(&quot;bridgeChance&quot;, chance), seed));
+    return rubber()
+        .preview(new NetworkPreviewRequest(
+            Map.of("length", length), Map.of("bridgeChance", chance), seed));
 }</code></pre>
         </div>
         <div data-language="json">
@@ -1534,15 +1619,37 @@ molecules.register(molecule)</code></pre>
           <pre><code class="language-java">public static PolymerNetworkDefinition reactiveSites() {
     // Two authored hydroxyl radicals. At p=1 they form H–O–O–H.
     // At p=0 they remain radicals, not two water molecules.
-    var left = new StructureBuilder().atom(&quot;O&quot;, -.7, 0, 0).atom(&quot;H&quot;, -1.1, .85, 0)
-            .bond(0, 1).attachment(&quot;site&quot;, 0).attachment(&quot;alias&quot;, 0).randomLinkCapacity(0, 1).build();
-    var right = new StructureBuilder().atom(&quot;O&quot;, .7, 0, 0).atom(&quot;H&quot;, 1.1, -.85, 0)
-            .bond(0, 1).attachment(&quot;site&quot;, 0).randomLinkCapacity(0, 1).build();
-    var assembly = StructureAssembly.builder().part(&quot;left&quot;, left).part(&quot;right&quot;, right)
-            .randomLinks(&quot;peroxide_bond&quot;, &quot;left/site&quot;, &quot;right/site&quot;, &quot;paired&quot;, &quot;chance&quot;, BondType.SINGLE)
-            .build();
+    var left = new StructureBuilder()
+        .atom("O", -.7, 0, 0)
+        .atom("H", -1.1, .85, 0)
+        .bond(0,
+            1)
+        .attachment("site",
+            0)
+        .attachment("alias",
+            0)
+        .randomLinkCapacity(0,
+            1)
+        .build();
+    var right = new StructureBuilder()
+        .atom("O", .7, 0, 0)
+        .atom("H", 1.1, -.85, 0)
+        .bond(0, 1)
+        .attachment("site", 0)
+        .randomLinkCapacity(0, 1)
+        .build();
+    var assembly = StructureAssembly.builder()
+        .part("left", left)
+        .part("right", right)
+        .randomLinks("peroxide_bond",
+            "left/site",
+            "right/site",
+            "paired",
+            "chance",
+            BondType.SINGLE)
+        .build();
     return new PolymerNetworkDefinition(List.of(
-            PolymerNetworkDefinition.Parameter.probability(&quot;chance&quot;, 1)), assembly, 42L);
+        PolymerNetworkDefinition.Parameter.probability("chance", 1)), assembly, 42L);
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -1552,15 +1659,37 @@ molecules.register(molecule)</code></pre>
           <pre><code class="language-groovy">static PolymerNetworkDefinition reactiveSites() {
     // Two authored hydroxyl radicals. At p=1 they form H–O–O–H.
     // At p=0 they remain radicals, not two water molecules.
-    def left = new StructureBuilder().atom(&quot;O&quot;, -.7, 0, 0).atom(&quot;H&quot;, -1.1, .85, 0)
-            .bond(0, 1).attachment(&quot;site&quot;, 0).attachment(&quot;alias&quot;, 0).randomLinkCapacity(0, 1).build();
-    def right = new StructureBuilder().atom(&quot;O&quot;, .7, 0, 0).atom(&quot;H&quot;, 1.1, -.85, 0)
-            .bond(0, 1).attachment(&quot;site&quot;, 0).randomLinkCapacity(0, 1).build();
-    def assembly = StructureAssembly.builder().part(&quot;left&quot;, left).part(&quot;right&quot;, right)
-            .randomLinks(&quot;peroxide_bond&quot;, &quot;left/site&quot;, &quot;right/site&quot;, &quot;paired&quot;, &quot;chance&quot;, BondType.SINGLE)
-            .build();
+    def left = new StructureBuilder()
+        .atom("O", -.7, 0, 0)
+        .atom("H", -1.1, .85, 0)
+        .bond(0,
+            1)
+        .attachment("site",
+            0)
+        .attachment("alias",
+            0)
+        .randomLinkCapacity(0,
+            1)
+        .build();
+    def right = new StructureBuilder()
+        .atom("O", .7, 0, 0)
+        .atom("H", 1.1, -.85, 0)
+        .bond(0, 1)
+        .attachment("site", 0)
+        .randomLinkCapacity(0, 1)
+        .build();
+    def assembly = StructureAssembly.builder()
+        .part("left", left)
+        .part("right", right)
+        .randomLinks("peroxide_bond",
+            "left/site",
+            "right/site",
+            "paired",
+            "chance",
+            BondType.SINGLE)
+        .build();
     return new PolymerNetworkDefinition(List.of(
-            PolymerNetworkDefinition.Parameter.probability(&quot;chance&quot;, 1)), assembly, 42L);
+        PolymerNetworkDefinition.Parameter.probability("chance", 1)), assembly, 42L);
 }</code></pre>
         </div>
         <div data-language="json">
@@ -1807,15 +1936,41 @@ molecules.register(molecule)</code></pre>
     // Conventional rock-salt cell, a = 5.64 Å. No covalent Na–Cl bonds.
     var basis = new StructureBuilder();
     double a = 5.64;
-    double[][] sodium = {{0,0,0}, {0,.5,.5}, {.5,0,.5}, {.5,.5,0}};
-    double[][] chlorine = {{.5,.5,.5}, {.5,0,0}, {0,.5,0}, {0,0,.5}};
+    double[][] sodium = {
+        {
+            0,0,0
+        }, {
+            0,.5,.5
+        }, {
+                .5,0,.5
+        }, {
+                .5,.5,0
+        }
+    };
+    double[][] chlorine = {
+        {
+                .5,.5,.5
+        }, {
+                .5,0,0
+        }, {
+            0,.5,0
+        }, {
+            0,0,.5
+        }
+    };
     for (double[] p : sodium) {
-        int atom = basis.addAtom(&quot;Na&quot;, p[0]*a, p[1]*a, p[2]*a);
+        int atom = basis.addAtom("Na", p[0]*a, p[1]*a, p[2]*a);
         basis.atomConfiguration(atom, new AtomicConfiguration(11, 12, 1, List.of(2,8)));
     }
     for (double[] p : chlorine) {
-        int atom = basis.addAtom(&quot;Cl&quot;, p[0]*a, p[1]*a, p[2]*a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(17, 18, -1, List.of(2,8,8)));
+        int atom = basis.addAtom("Cl", p[0]*a, p[1]*a, p[2]*a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(17,
+            18,
+            -1,
+            List.of(2,
+            8,
+            8)));
     }
     return basis.build();
 }</code></pre>
@@ -1828,26 +1983,70 @@ molecules.register(molecule)</code></pre>
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
-def molecule = molecules.builder(&quot;guide:salt&quot;)
-molecule.name(&quot;Sodium chloride&quot;)
-molecule.formula(&quot;NaCl&quot;)
+def molecule = molecules.builder("guide:salt")
+molecule.name("Sodium chloride")
+molecule.formula("NaCl")
 def fragment1 = molecules.structureBuilder()
-fragment1.atom(&quot;Na&quot;, 0.0, 0.0, 0.0)
-fragment1.atomConfiguration(0, new AtomicConfiguration(11, 12, 1, java.util.List.of(2, 8)))
-fragment1.atom(&quot;Na&quot;, 0.0, 2.82, 2.82)
-fragment1.atomConfiguration(1, new AtomicConfiguration(11, 12, 1, java.util.List.of(2, 8)))
-fragment1.atom(&quot;Na&quot;, 2.82, 0.0, 2.82)
-fragment1.atomConfiguration(2, new AtomicConfiguration(11, 12, 1, java.util.List.of(2, 8)))
-fragment1.atom(&quot;Na&quot;, 2.82, 2.82, 0.0)
-fragment1.atomConfiguration(3, new AtomicConfiguration(11, 12, 1, java.util.List.of(2, 8)))
-fragment1.atom(&quot;Cl&quot;, 2.82, 2.82, 2.82)
-fragment1.atomConfiguration(4, new AtomicConfiguration(17, 18, -1, java.util.List.of(2, 8, 8)))
-fragment1.atom(&quot;Cl&quot;, 2.82, 0.0, 0.0)
-fragment1.atomConfiguration(5, new AtomicConfiguration(17, 18, -1, java.util.List.of(2, 8, 8)))
-fragment1.atom(&quot;Cl&quot;, 0.0, 2.82, 0.0)
-fragment1.atomConfiguration(6, new AtomicConfiguration(17, 18, -1, java.util.List.of(2, 8, 8)))
-fragment1.atom(&quot;Cl&quot;, 0.0, 0.0, 2.82)
-fragment1.atomConfiguration(7, new AtomicConfiguration(17, 18, -1, java.util.List.of(2, 8, 8)))
+fragment1.atom("Na", 0.0, 0.0, 0.0)
+fragment1.atomConfiguration(0,
+    new AtomicConfiguration(11,
+    12,
+    1,
+    java.util.List.of(2,
+    8)))
+fragment1.atom("Na", 0.0, 2.82, 2.82)
+fragment1.atomConfiguration(1,
+    new AtomicConfiguration(11,
+    12,
+    1,
+    java.util.List.of(2,
+    8)))
+fragment1.atom("Na", 2.82, 0.0, 2.82)
+fragment1.atomConfiguration(2,
+    new AtomicConfiguration(11,
+    12,
+    1,
+    java.util.List.of(2,
+    8)))
+fragment1.atom("Na", 2.82, 2.82, 0.0)
+fragment1.atomConfiguration(3,
+    new AtomicConfiguration(11,
+    12,
+    1,
+    java.util.List.of(2,
+    8)))
+fragment1.atom("Cl", 2.82, 2.82, 2.82)
+fragment1.atomConfiguration(4,
+    new AtomicConfiguration(17,
+    18,
+    -1,
+    java.util.List.of(2,
+    8,
+    8)))
+fragment1.atom("Cl", 2.82, 0.0, 0.0)
+fragment1.atomConfiguration(5,
+    new AtomicConfiguration(17,
+    18,
+    -1,
+    java.util.List.of(2,
+    8,
+    8)))
+fragment1.atom("Cl", 0.0, 2.82, 0.0)
+fragment1.atomConfiguration(6,
+    new AtomicConfiguration(17,
+    18,
+    -1,
+    java.util.List.of(2,
+    8,
+    8)))
+fragment1.atom("Cl", 0.0, 0.0, 2.82)
+fragment1.atomConfiguration(7,
+    new AtomicConfiguration(17,
+    18,
+    -1,
+    java.util.List.of(2,
+    8,
+    8)))
 def geometry2 = fragment1.build()
 molecule.structure(geometry2)
 molecule.classification(MoleculeClassification.CRYSTAL)
@@ -1859,95 +2058,79 @@ molecules.register(molecule)</code></pre>
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Sodium chloride&quot;,
-  &quot;structure&quot;: {
-    &quot;atoms&quot;: [
+  "name": "Sodium chloride",
+  "structure": {
+    "atoms": [
       {
-        &quot;e&quot;: &quot;Na&quot;,
-        &quot;x&quot;: 0.0,
-        &quot;y&quot;: 0.0,
-        &quot;z&quot;: 0.0,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 11,
-          &quot;neutrons&quot;: 12,
-          &quot;charge&quot;: 1,
-          &quot;electron_shells&quot;: [
+        "e": "Na",
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "nuclear": {
+          "atomic_number": 11,
+          "neutrons": 12,
+          "charge": 1,
+          "electron_shells": [
             2,
             8
           ]
         }
       },
       {
-        &quot;e&quot;: &quot;Na&quot;,
-        &quot;x&quot;: 0.0,
-        &quot;y&quot;: 2.82,
-        &quot;z&quot;: 2.82,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 11,
-          &quot;neutrons&quot;: 12,
-          &quot;charge&quot;: 1,
-          &quot;electron_shells&quot;: [
+        "e": "Na",
+        "x": 0.0,
+        "y": 2.82,
+        "z": 2.82,
+        "nuclear": {
+          "atomic_number": 11,
+          "neutrons": 12,
+          "charge": 1,
+          "electron_shells": [
             2,
             8
           ]
         }
       },
       {
-        &quot;e&quot;: &quot;Na&quot;,
-        &quot;x&quot;: 2.82,
-        &quot;y&quot;: 0.0,
-        &quot;z&quot;: 2.82,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 11,
-          &quot;neutrons&quot;: 12,
-          &quot;charge&quot;: 1,
-          &quot;electron_shells&quot;: [
+        "e": "Na",
+        "x": 2.82,
+        "y": 0.0,
+        "z": 2.82,
+        "nuclear": {
+          "atomic_number": 11,
+          "neutrons": 12,
+          "charge": 1,
+          "electron_shells": [
             2,
             8
           ]
         }
       },
       {
-        &quot;e&quot;: &quot;Na&quot;,
-        &quot;x&quot;: 2.82,
-        &quot;y&quot;: 2.82,
-        &quot;z&quot;: 0.0,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 11,
-          &quot;neutrons&quot;: 12,
-          &quot;charge&quot;: 1,
-          &quot;electron_shells&quot;: [
+        "e": "Na",
+        "x": 2.82,
+        "y": 2.82,
+        "z": 0.0,
+        "nuclear": {
+          "atomic_number": 11,
+          "neutrons": 12,
+          "charge": 1,
+          "electron_shells": [
             2,
             8
           ]
         }
       },
       {
-        &quot;e&quot;: &quot;Cl&quot;,
-        &quot;x&quot;: 2.82,
-        &quot;y&quot;: 2.82,
-        &quot;z&quot;: 2.82,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 17,
-          &quot;neutrons&quot;: 18,
-          &quot;charge&quot;: -1,
-          &quot;electron_shells&quot;: [
-            2,
-            8,
-            8
-          ]
-        }
-      },
-      {
-        &quot;e&quot;: &quot;Cl&quot;,
-        &quot;x&quot;: 2.82,
-        &quot;y&quot;: 0.0,
-        &quot;z&quot;: 0.0,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 17,
-          &quot;neutrons&quot;: 18,
-          &quot;charge&quot;: -1,
-          &quot;electron_shells&quot;: [
+        "e": "Cl",
+        "x": 2.82,
+        "y": 2.82,
+        "z": 2.82,
+        "nuclear": {
+          "atomic_number": 17,
+          "neutrons": 18,
+          "charge": -1,
+          "electron_shells": [
             2,
             8,
             8
@@ -1955,15 +2138,15 @@ molecules.register(molecule)</code></pre>
         }
       },
       {
-        &quot;e&quot;: &quot;Cl&quot;,
-        &quot;x&quot;: 0.0,
-        &quot;y&quot;: 2.82,
-        &quot;z&quot;: 0.0,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 17,
-          &quot;neutrons&quot;: 18,
-          &quot;charge&quot;: -1,
-          &quot;electron_shells&quot;: [
+        "e": "Cl",
+        "x": 2.82,
+        "y": 0.0,
+        "z": 0.0,
+        "nuclear": {
+          "atomic_number": 17,
+          "neutrons": 18,
+          "charge": -1,
+          "electron_shells": [
             2,
             8,
             8
@@ -1971,15 +2154,31 @@ molecules.register(molecule)</code></pre>
         }
       },
       {
-        &quot;e&quot;: &quot;Cl&quot;,
-        &quot;x&quot;: 0.0,
-        &quot;y&quot;: 0.0,
-        &quot;z&quot;: 2.82,
-        &quot;nuclear&quot;: {
-          &quot;atomic_number&quot;: 17,
-          &quot;neutrons&quot;: 18,
-          &quot;charge&quot;: -1,
-          &quot;electron_shells&quot;: [
+        "e": "Cl",
+        "x": 0.0,
+        "y": 2.82,
+        "z": 0.0,
+        "nuclear": {
+          "atomic_number": 17,
+          "neutrons": 18,
+          "charge": -1,
+          "electron_shells": [
+            2,
+            8,
+            8
+          ]
+        }
+      },
+      {
+        "e": "Cl",
+        "x": 0.0,
+        "y": 0.0,
+        "z": 2.82,
+        "nuclear": {
+          "atomic_number": 17,
+          "neutrons": 18,
+          "charge": -1,
+          "electron_shells": [
             2,
             8,
             8
@@ -1987,23 +2186,23 @@ molecules.register(molecule)</code></pre>
         }
       }
     ],
-    &quot;bonds&quot;: []
+    "bonds": []
   },
-  &quot;crystal&quot;: {
-    &quot;a&quot;: 5.64,
-    &quot;b&quot;: 5.64,
-    &quot;c&quot;: 5.64,
-    &quot;alpha&quot;: 90.0,
-    &quot;beta&quot;: 90.0,
-    &quot;gamma&quot;: 90.0,
-    &quot;origin_x&quot;: 0.0,
-    &quot;origin_y&quot;: 0.0,
-    &quot;origin_z&quot;: 0.0
+  "crystal": {
+    "a": 5.64,
+    "b": 5.64,
+    "c": 5.64,
+    "alpha": 90.0,
+    "beta": 90.0,
+    "gamma": 90.0,
+    "origin_x": 0.0,
+    "origin_y": 0.0,
+    "origin_z": 0.0
   },
-  &quot;inspection&quot;: {
-    &quot;classification&quot;: &quot;crystal&quot;
+  "inspection": {
+    "classification": "crystal"
   },
-  &quot;formula&quot;: &quot;NaCl&quot;
+  "formula": "NaCl"
 }</code></pre>
         </div>
       </div>
@@ -2018,23 +2217,55 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeStructure saltCube() {
     // 3 cells on each axis: 27 conventional cells, 216 ions.
-    return CrystalGeometry.repeat(saltBasis().toStructure(&quot;guide:salt_basis&quot;),
-            new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90), 3, false);
+    return CrystalGeometry.repeat(saltBasis()
+        .toStructure("guide:salt_basis"),
+        new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90), 3, false);
 }
 
 public static StructureFragment saltBasis() {
     // Conventional rock-salt cell, a = 5.64 Å. No covalent Na–Cl bonds.
     var basis = new StructureBuilder();
     double a = 5.64;
-    double[][] sodium = {{0, 0, 0}, {0, .5, .5}, {.5, 0, .5}, {.5, .5, 0}};
-    double[][] chlorine = {{.5, .5, .5}, {.5, 0, 0}, {0, .5, 0}, {0, 0, .5}};
+    double[][] sodium = {
+        {
+            0, 0, 0
+        }, {
+            0, .5, .5
+        }, {
+                .5, 0, .5
+        }, {
+                .5, .5, 0
+        }
+    };
+    double[][] chlorine = {
+        {
+                .5, .5, .5
+        }, {
+                .5, 0, 0
+        }, {
+            0, .5, 0
+        }, {
+            0, 0, .5
+        }
+    };
     for (double[] p : sodium) {
-        int atom = basis.addAtom(&quot;Na&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(11, 12, 1, List.of(2, 8)));
+        int atom = basis.addAtom("Na", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(11,
+            12,
+            1,
+            List.of(2,
+            8)));
     }
     for (double[] p : chlorine) {
-        int atom = basis.addAtom(&quot;Cl&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(17, 18, -1, List.of(2, 8, 8)));
+        int atom = basis.addAtom("Cl", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(17,
+            18,
+            -1,
+            List.of(2,
+            8,
+            8)));
     }
     return basis.build();
 }</code></pre>
@@ -2045,8 +2276,9 @@ public static StructureFragment saltBasis() {
           </p>
           <pre><code class="language-groovy">static MoleculeStructure saltCube() {
     // 3 cells on each axis: 27 conventional cells, 216 ions.
-    return CrystalGeometry.repeat(saltBasis().toStructure(&quot;guide:salt_basis&quot;),
-            new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90), 3, false);
+    return CrystalGeometry.repeat(saltBasis()
+        .toStructure("guide:salt_basis"),
+        new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90), 3, false);
 }
 
 public static StructureFragment saltBasis() {
@@ -2056,12 +2288,23 @@ public static StructureFragment saltBasis() {
     double[][] sodium = [[0, 0, 0], [0, .5, .5], [.5, 0, .5], [.5, .5, 0]] as double[][];
     double[][] chlorine = [[.5, .5, .5], [.5, 0, 0], [0, .5, 0], [0, 0, .5]] as double[][];
     for (double[] p : sodium) {
-        int atom = basis.addAtom(&quot;Na&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(11, 12, 1, List.of(2, 8)));
+        int atom = basis.addAtom("Na", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(11,
+            12,
+            1,
+            List.of(2,
+            8)));
     }
     for (double[] p : chlorine) {
-        int atom = basis.addAtom(&quot;Cl&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(17, 18, -1, List.of(2, 8, 8)));
+        int atom = basis.addAtom("Cl", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(17,
+            18,
+            -1,
+            List.of(2,
+            8,
+            8)));
     }
     return basis.build();
 }</code></pre>
@@ -2129,7 +2372,54 @@ public static StructureFragment saltBasis() {
         representative of each periodic atom, so its visible cluster can sit off-center inside the
         box. Rock salt is one example; the box is not recentered on the cluster.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="polymers-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html#attachment(java.lang.String,int)">attachment</a>(name, index)</code>
+              </td>
+              <td>Attachment name; atom index</td>
+              <td>Name the atoms used to connect repeat units or end groups.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../PolymerDefinition.html">PolymerDefinition</a>.<a href="../PolymerDefinition.html#usingAttachments(io.github.wurtzitane.avogadro.api.StructureFragment,java.lang.String,java.lang.String,io.github.wurtzitane.avogadro.api.PolymerDefinition.Vector,io.github.wurtzitane.avogadro.molecule.BondType,io.github.wurtzitane.avogadro.api.PolymerDefinition.Cap,io.github.wurtzitane.avogadro.api.PolymerDefinition.Cap,int)">usingAttachments</a>(...)</code>
+              </td>
+              <td>Unit; connection names; displacement; bond type; end groups</td>
+              <td>Describe how supplied pieces join; the complete example gives their ordering.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../PolymerDefinition.Vector.html#%3Cinit%3E(double,double,double)">Vector</a>(x, y, z)</code>
+              </td>
+              <td>Repeat displacement</td>
+              <td>Place the next copy relative to the previous copy.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code. The builder does not
+          invent missing hydrogens or end groups; supply them when your finite model needs them.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="atoms.html">Previous: Add atom details</a><a href="rendering.html">Next: Draw a molecule in your own screen</a>
       </nav>
     </div></main>

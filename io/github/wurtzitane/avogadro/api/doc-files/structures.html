@@ -65,65 +65,7 @@ loadScripts(document, 'script');</script>
         methanol or edit a copy to make an ammonia model. Named attachment points let you refer to
         connection atoms without keeping track of their indices yourself.
       </p>
-      <section class="av-call-guide">
-        <h2 id="structures-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html">StructureBuilder</a>.<a href="../StructureBuilder.html#atom(java.lang.String,double,double,double)">atom</a>(element, x, y, z)</code>
-              </td>
-              <td>Element symbol; position</td>
-              <td>Add each atom explicitly in a consistent coordinate unit.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html#bond(int,int)">bond</a>(first, second)</code>
-              </td>
-              <td>Zero-based atom indices</td>
-              <td>Connect two atoms already present in the builder.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html#attachment(java.lang.String,int)">attachment</a>(name, atomIndex)</code>
-              </td>
-              <td>Reusable name; existing atom index</td>
-              <td>Expose a connection point for assembly.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html#atomConfiguration(int,io.github.wurtzitane.avogadro.api.AtomicConfiguration)">atomConfiguration</a>(index, configuration)</code>
-              </td>
-              <td>Atom index; nuclear/electron data</td>
-              <td>Attach the inspection data you want displayed.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureBuilder.html#build()">build</a>()</code>
-              </td>
-              <td>No arguments</td>
-              <td>Return the completed fragment for reuse or registration.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -151,15 +93,16 @@ import java.util.Map;</code>
           <pre><code class="language-java">public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
     return new StructureBuilder()
-            .atom(&quot;O&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, .7586, .5043, 0)
-            .atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2)
-            .attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .build();
+        .atom("O", 0, 0, 0)
+        .atom("H", .7586, .5043, 0)
+        .atom("H", -.7586, .5043, 0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -170,15 +113,16 @@ import java.util.Map;</code>
           <pre><code class="language-groovy">static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
     return new StructureBuilder()
-            .atom(&quot;O&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, .7586, .5043, 0)
-            .atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2)
-            .attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .build();
+        .atom("O", 0, 0, 0)
+        .atom("H", .7586, .5043, 0)
+        .atom("H", -.7586, .5043, 0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -187,28 +131,28 @@ import java.util.Map;</code>
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Water&quot;,
-  &quot;atoms&quot;: [
+  "name": "Water",
+  "atoms": [
     {
-      &quot;e&quot;: &quot;O&quot;,
-      &quot;x&quot;: 0,
-      &quot;y&quot;: 0,
-      &quot;z&quot;: 0
+      "e": "O",
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     {
-      &quot;e&quot;: &quot;H&quot;,
-      &quot;x&quot;: 0.7586,
-      &quot;y&quot;: 0.5043,
-      &quot;z&quot;: 0
+      "e": "H",
+      "x": 0.7586,
+      "y": 0.5043,
+      "z": 0
     },
     {
-      &quot;e&quot;: &quot;H&quot;,
-      &quot;x&quot;: -0.7586,
-      &quot;y&quot;: 0.5043,
-      &quot;z&quot;: 0
+      "e": "H",
+      "x": -0.7586,
+      "y": 0.5043,
+      "z": 0
     }
   ],
-  &quot;bonds&quot;: [
+  "bonds": [
     [
       0,
       1
@@ -328,11 +272,16 @@ import java.util.Map;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892)
-            .bond(0, 1).bond(0, 2).bond(0, 3)
-            .attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C", 0, 0, 0)
+        .atom("H", -.36, 1.03, 0)
+        .atom("H", -.36, -.515, .892)
+        .atom("H", -.36, -.515, -.892)
+        .bond(0, 1)
+        .bond(0, 2)
+        .bond(0, 3)
+        .attachment("carbon", 0)
+        .build();
 }</code>
 </pre>
         </div>
@@ -341,11 +290,16 @@ import java.util.Map;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892)
-            .bond(0, 1).bond(0, 2).bond(0, 3)
-            .attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C", 0, 0, 0)
+        .atom("H", -.36, 1.03, 0)
+        .atom("H", -.36, -.515, .892)
+        .atom("H", -.36, -.515, -.892)
+        .bond(0, 1)
+        .bond(0, 2)
+        .bond(0, 3)
+        .attachment("carbon", 0)
+        .build();
 }</code>
 </pre>
         </div>
@@ -364,8 +318,12 @@ import java.util.Map;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0)
-            .bond(0, 1).attachment(&quot;oxygen&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("O", 1.43, 0, 0)
+        .atom("H", 1.8, .85, 0)
+        .bond(0, 1)
+        .attachment("oxygen", 0)
+        .build();
 }</code>
 </pre>
         </div>
@@ -375,8 +333,12 @@ import java.util.Map;</code>
           </p>
           <pre><code class="language-groovy">static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0)
-            .bond(0, 1).attachment(&quot;oxygen&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("O", 1.43, 0, 0)
+        .atom("H", 1.8, .85, 0)
+        .bond(0, 1)
+        .attachment("oxygen", 0)
+        .build();
 }</code>
 </pre>
         </div>
@@ -390,15 +352,26 @@ import java.util.Map;</code>
           </div>
         </div>
       </div>
+      <h3 id="structures-join-methanol">Assemble methanol in a separate helper</h3>
+      <p>
+        Keep the two fragment builders above. In Java, put the public classes in
+        <code>MethylFragment.java</code> and <code>HydroxylFragment.java</code>, then put this
+        helper in <code>MethanolAssembly.java</code> in the same package. Pass both fragments to
+        <code>join</code>. The helper returns the finished geometry, which you can pass to your
+        molecule builder. In scripts, call the helper after both fragment values are ready.
+      </p>
+      <div class="av-example" data-example="join-methanol"></div>
       <div class="av-example" data-example="methanol" data-register-example="guide:methanol" data-register-definition='{"name":"Methanol","structure":{"assembly":{"nodes":[{"name":"methyl","kind":"fragment","transform":[[1,0,0,0],[0,1,0,0],[0,0,1,0]],"structure":{"atoms":[{"e":"C","x":0,"y":0,"z":0},{"e":"H","x":-0.36,"y":1.03,"z":0},{"e":"H","x":-0.36,"y":-0.515,"z":0.892},{"e":"H","x":-0.36,"y":-0.515,"z":-0.892}],"bonds":[[0,1],[0,2],[0,3]],"attachments":{"carbon":0}}},{"name":"hydroxyl","kind":"fragment","transform":[[1,0,0,0],[0,1,0,0],[0,0,1,0]],"structure":{"atoms":[{"e":"O","x":1.43,"y":0,"z":0},{"e":"H","x":1.8,"y":0.85,"z":0}],"bonds":[[0,1]],"attachments":{"oxygen":0}}}],"links":[{"from":"methyl/carbon","to":"hydroxyl/oxygen","type":"SINGLE"}]}}}' data-smiles-example='{"name":"Methanol","smiles":"CO"}' data-coordinate-example='{"name":"Methanol","atoms":[{"e":"C","x":0,"y":0,"z":0},{"e":"H","x":-0.36,"y":1.03,"z":0},{"e":"H","x":-0.36,"y":-0.515,"z":0.892},{"e":"H","x":-0.36,"y":-0.515,"z":-0.892},{"e":"O","x":1.43,"y":0,"z":0},{"e":"H","x":1.8,"y":0.85,"z":0}],"bonds":[[0,1],[0,2],[0,3],[4,5],[0,4]]}'>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
     return StructureAssembly.builder()
-            .part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE)
-            .build().build(); // recipe first, then finite geometry
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon", "hydroxyl/oxygen", BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }</code>
 </pre>
         </div>
@@ -409,9 +382,11 @@ import java.util.Map;</code>
           <pre><code class="language-groovy">static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
     return StructureAssembly.builder()
-            .part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE)
-            .build().build(); // recipe first, then finite geometry
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon", "hydroxyl/oxygen", BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }</code>
 </pre>
         </div>
@@ -454,9 +429,13 @@ import java.util.Map;</code>
           <pre><code class="language-java">public static StructureEditResult ammonia() {
     // Change O to N and add the third hydrogen: H2O -&gt; NH3 as a graph edit.
     // This demonstrates authoring; it does not simulate a reaction.
-    var editor = water().edit().replaceAtom(0, &quot;N&quot;).moveAtom(0, 0, 0, .25);
-    int hydrogen = editor.addAtom(&quot;H&quot;, 0, -.85, -.35);
-    return editor.setBond(0, hydrogen, BondType.SINGLE).build();
+    var editor = water()
+        .edit()
+        .replaceAtom(0, "N")
+        .moveAtom(0, 0, 0, .25);
+    int hydrogen = editor.addAtom("H", 0, -.85, -.35);
+    return editor.setBond(0, hydrogen, BondType.SINGLE)
+        .build();
 }</code>
 </pre>
         </div>
@@ -467,9 +446,13 @@ import java.util.Map;</code>
           <pre><code class="language-groovy">static StructureEditResult ammonia() {
     // Change O to N and add the third hydrogen: H2O -&gt; NH3 as a graph edit.
     // This demonstrates authoring; it does not simulate a reaction.
-    def editor = water().edit().replaceAtom(0, &quot;N&quot;).moveAtom(0, 0, 0, .25);
-    int hydrogen = editor.addAtom(&quot;H&quot;, 0, -.85, -.35);
-    return editor.setBond(0, hydrogen, BondType.SINGLE).build();
+    def editor = water()
+        .edit()
+        .replaceAtom(0, "N")
+        .moveAtom(0, 0, 0, .25);
+    int hydrogen = editor.addAtom("H", 0, -.85, -.35);
+    return editor.setBond(0, hydrogen, BondType.SINGLE)
+        .build();
 }</code>
 </pre>
         </div>
@@ -620,17 +603,35 @@ import java.util.Map;</code>
           <pre><code class="language-java">public static StructureEditResult isolateOxygen() {
     // Both selections refer to the ORIGINAL three-atom water fragment.
     // Deletion resolves the whole selection before removing any atoms.
-    return water().edit().removeAtoms(1, 2).build();
+    return water()
+        .edit()
+        .removeAtoms(1, 2)
+        .build();
     // oldToNew() is [0, -1, -1]. The resulting O atom is not a water molecule.
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -641,17 +642,35 @@ public static StructureFragment water() {
           <pre><code class="language-groovy">static StructureEditResult isolateOxygen() {
     // Both selections refer to the ORIGINAL three-atom water fragment.
     // Deletion resolves the whole selection before removing any atoms.
-    return water().edit().removeAtoms(1, 2).build();
+    return water()
+        .edit()
+        .removeAtoms(1, 2)
+        .build();
     // oldToNew() is [0, -1, -1]. The resulting O atom is not a water molecule.
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -680,8 +699,12 @@ public static StructureFragment water() {
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static StructureEdits hydrogenPeroxideEdits() {
     // Water indices: O=0, H=1, H=2. Replace H=2 with O, then add its H.
-    return StructureEdits.builder().replaceAtom(2, &quot;O&quot;).moveAtom(2, -.9, -.95, 0)
-            .atom(&quot;H&quot;, -1.65, -.6, .4).setBond(2, 3, BondType.SINGLE).build();
+    return StructureEdits.builder()
+        .replaceAtom(2, "O")
+        .moveAtom(2, -.9, -.95, 0)
+        .atom("H", -1.65, -.6, .4)
+        .setBond(2, 3, BondType.SINGLE)
+        .build();
 }</code>
 </pre>
         </div>
@@ -691,8 +714,12 @@ public static StructureFragment water() {
           </p>
           <pre><code class="language-groovy">static StructureEdits hydrogenPeroxideEdits() {
     // Water indices: O=0, H=1, H=2. Replace H=2 with O, then add its H.
-    return StructureEdits.builder().replaceAtom(2, &quot;O&quot;).moveAtom(2, -.9, -.95, 0)
-            .atom(&quot;H&quot;, -1.65, -.6, .4).setBond(2, 3, BondType.SINGLE).build();
+    return StructureEdits.builder()
+        .replaceAtom(2, "O")
+        .moveAtom(2, -.9, -.95, 0)
+        .atom("H", -1.65, -.6, .4)
+        .setBond(2, 3, BondType.SINGLE)
+        .build();
 }</code>
 </pre>
         </div>
@@ -710,8 +737,11 @@ public static StructureFragment water() {
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeSpec peroxideCopy() {
-    return AvogadroApi.builder(&quot;guide:peroxide&quot;).copy(&quot;guide:water&quot;)
-            .name(&quot;Hydrogen peroxide&quot;).edits(hydrogenPeroxideEdits()).build();
+    return AvogadroApi.builder("guide:peroxide")
+        .copy("guide:water")
+        .name("Hydrogen peroxide")
+        .edits(hydrogenPeroxideEdits())
+        .build();
 }</code>
 </pre>
         </div>
@@ -720,8 +750,11 @@ public static StructureFragment water() {
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static MoleculeSpec peroxideCopy() {
-    return AvogadroApi.builder(&quot;guide:peroxide&quot;).copy(&quot;guide:water&quot;)
-            .name(&quot;Hydrogen peroxide&quot;).edits(hydrogenPeroxideEdits()).build();
+    return AvogadroApi.builder("guide:peroxide")
+        .copy("guide:water")
+        .name("Hydrogen peroxide")
+        .edits(hydrogenPeroxideEdits())
+        .build();
 }</code>
 </pre>
         </div>
@@ -730,33 +763,33 @@ public static StructureFragment water() {
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;copy&quot;: &quot;guide:water&quot;,
-  &quot;name&quot;: &quot;Hydrogen peroxide&quot;,
-  &quot;edits&quot;: [
+  "copy": "guide:water",
+  "name": "Hydrogen peroxide",
+  "edits": [
     {
-      &quot;op&quot;: &quot;replaceAtom&quot;,
-      &quot;index&quot;: 2,
-      &quot;e&quot;: &quot;O&quot;
+      "op": "replaceAtom",
+      "index": 2,
+      "e": "O"
     },
     {
-      &quot;op&quot;: &quot;moveAtom&quot;,
-      &quot;index&quot;: 2,
-      &quot;x&quot;: -0.9,
-      &quot;y&quot;: -0.95,
-      &quot;z&quot;: 0
+      "op": "moveAtom",
+      "index": 2,
+      "x": -0.9,
+      "y": -0.95,
+      "z": 0
     },
     {
-      &quot;op&quot;: &quot;atom&quot;,
-      &quot;e&quot;: &quot;H&quot;,
-      &quot;x&quot;: -1.65,
-      &quot;y&quot;: -0.6,
-      &quot;z&quot;: 0.4
+      "op": "atom",
+      "e": "H",
+      "x": -1.65,
+      "y": -0.6,
+      "z": 0.4
     },
     {
-      &quot;op&quot;: &quot;setBond&quot;,
-      &quot;from&quot;: 2,
-      &quot;to&quot;: 3,
-      &quot;type&quot;: &quot;SINGLE&quot;
+      "op": "setBond",
+      "from": 2,
+      "to": 3,
+      "type": "SINGLE"
     }
   ]
 }</code>
@@ -768,7 +801,7 @@ public static StructureFragment water() {
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeDef peroxide(MoleculeDef water) {
     // Carries over names and associations. Rename/rebind deliberately if needed.
-    return MoleculeEdits.apply(&quot;guide:peroxide&quot;, water, hydrogenPeroxideEdits(), false);
+    return MoleculeEdits.apply("guide:peroxide", water, hydrogenPeroxideEdits(), false);
 }</code>
 </pre>
         </div>
@@ -778,7 +811,7 @@ public static StructureFragment water() {
           </p>
           <pre><code class="language-groovy">static MoleculeDef peroxide(MoleculeDef water) {
     // Carries over names and associations. Rename/rebind deliberately if needed.
-    return MoleculeEdits.apply(&quot;guide:peroxide&quot;, water, hydrogenPeroxideEdits(), false);
+    return MoleculeEdits.apply("guide:peroxide", water, hydrogenPeroxideEdits(), false);
 }</code>
 </pre>
         </div>
@@ -806,17 +839,34 @@ public static StructureFragment water() {
           <pre><code class="language-java">public static StructureFragment waterPair() {
     var water = water();
     // A disconnected pair of water molecules, not an inferred hydrogen bond.
-    return water.qualified(&quot;first&quot;).append(&quot;second&quot;,
-            water.rotate(0, 0, 1, 180).translate(3.2, 0, 0));
+    return water.qualified("first")
+        .append("second",
+            water.rotate(0, 0, 1, 180)
+            .translate(3.2, 0, 0));
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -827,17 +877,34 @@ public static StructureFragment water() {
           <pre><code class="language-groovy">static StructureFragment waterPair() {
     def water = water();
     // A disconnected pair of water molecules, not an inferred hydrogen bond.
-    return water.qualified(&quot;first&quot;).append(&quot;second&quot;,
-            water.rotate(0, 0, 1, 180).translate(3.2, 0, 0));
+    return water.qualified("first")
+        .append("second",
+            water.rotate(0, 0, 1, 180)
+            .translate(3.2, 0, 0));
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }</code>
 </pre>
         </div>
@@ -964,22 +1031,42 @@ public static StructureFragment water() {
     for (int i = 0; i &lt; 3; i++) {
         double angle = Math.toRadians(i * 20);
         double x = 4.4 * Math.cos(angle), y = 4.4 * Math.sin(angle);
-        int atom = unit.addAtom(i == 0 ? &quot;O&quot; : &quot;C&quot;, x, y, 0);
+        int atom = unit.addAtom(i == 0 ? "O" : "C", x, y, 0);
         if (i &gt; 0) {
-            int h1 = unit.addAtom(&quot;H&quot;, x, y, .95);
-            int h2 = unit.addAtom(&quot;H&quot;, x, y, -.95);
-            unit.bond(atom, h1).bond(atom, h2);
+            int h1 = unit.addAtom("H", x, y, .95);
+            int h2 = unit.addAtom("H", x, y, -.95);
+            unit.bond(atom, h1)
+                .bond(atom, h2);
         }
     }
     // Indices after H insertion: O=0, first C=1, second C=4.
-    var fragment = unit.bond(0, 1).bond(1, 4).attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 4).build();
+    var fragment = unit.bond(0,
+        1)
+        .bond(1,
+            4)
+        .attachment("head",
+            0)
+        .attachment("tail",
+            4)
+        .build();
     double c = Math.cos(Math.PI / 3), s = Math.sin(Math.PI / 3);
-    double[][] turn = {{c,-s,0,0}, {s,c,0,0}, {0,0,1,0}};
+    double[][] turn = {
+        {
+            c,-s,0,0
+        }, {
+            s,c,0,0
+        }, {
+            0,0,1,0
+        }
+    };
     return StructureAssembly.builder()
-            .repeat(&quot;ring&quot;, StructureAssembly.builder().part(&quot;unit&quot;, fragment).build(), 6, turn)
-            .neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, BondType.SINGLE)
-            // Neighbor links leave the boundary open; this closes it explicitly.
-            .link(&quot;ring[last]/unit/tail&quot;, &quot;ring[first]/unit/head&quot;, BondType.SINGLE).build();
+        .repeat("ring", StructureAssembly.builder()
+            .part("unit", fragment)
+            .build(), 6, turn)
+        .neighbor("unit/tail", "unit/head", 1, BondType.SINGLE)
+    // Neighbor links leave the boundary open; this closes it explicitly.
+        .link("ring[last]/unit/tail", "ring[first]/unit/head", BondType.SINGLE)
+        .build();
 }</code>
 </pre>
         </div>
@@ -991,32 +1078,46 @@ public static StructureFragment water() {
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
-def molecule = molecules.builder(&quot;guide:crown&quot;)
-molecule.name(&quot;18-crown-6&quot;)
+def molecule = molecules.builder("guide:crown")
+molecule.name("18-crown-6")
 def assembly1 = molecules.assemblyBuilder()
 def assembly2 = molecules.assemblyBuilder()
 def fragment3 = molecules.structureBuilder()
-fragment3.atom(&quot;O&quot;, 4.4, 0.0, 0.0)
-fragment3.atom(&quot;C&quot;, 4.134647531457998, 1.5048886306329425, 0.0)
-fragment3.atom(&quot;H&quot;, 4.134647531457998, 1.5048886306329425, 0.95)
-fragment3.atom(&quot;H&quot;, 4.134647531457998, 1.5048886306329425, -0.95)
-fragment3.atom(&quot;C&quot;, 3.3705955497235034, 2.828265482620773, 0.0)
-fragment3.atom(&quot;H&quot;, 3.3705955497235034, 2.828265482620773, 0.95)
-fragment3.atom(&quot;H&quot;, 3.3705955497235034, 2.828265482620773, -0.95)
+fragment3.atom("O", 4.4, 0.0, 0.0)
+fragment3.atom("C", 4.134647531457998, 1.5048886306329425, 0.0)
+fragment3.atom("H", 4.134647531457998, 1.5048886306329425, 0.95)
+fragment3.atom("H", 4.134647531457998, 1.5048886306329425, -0.95)
+fragment3.atom("C", 3.3705955497235034, 2.828265482620773, 0.0)
+fragment3.atom("H", 3.3705955497235034, 2.828265482620773, 0.95)
+fragment3.atom("H", 3.3705955497235034, 2.828265482620773, -0.95)
 fragment3.bond(1, 2, BondType.SINGLE)
 fragment3.bond(1, 3, BondType.SINGLE)
 fragment3.bond(4, 5, BondType.SINGLE)
 fragment3.bond(4, 6, BondType.SINGLE)
 fragment3.bond(0, 1, BondType.SINGLE)
 fragment3.bond(1, 4, BondType.SINGLE)
-fragment3.attachment(&quot;head&quot;, 0)
-fragment3.attachment(&quot;tail&quot;, 4)
+fragment3.attachment("head", 0)
+fragment3.attachment("tail", 4)
 def geometry4 = fragment3.build()
-assembly2.part(&quot;unit&quot;, geometry4)
+assembly2.part("unit", geometry4)
 def geometryRecipe5 = assembly2.build()
-assembly1.repeat(&quot;ring&quot;, geometryRecipe5, 6, [[0.5000000000000001, -0.8660254037844386, 0.0, 0.0] as double[], [0.8660254037844386, 0.5000000000000001, 0.0, 0.0] as double[], [0.0, 0.0, 1.0, 0.0] as double[]] as double[][])
-assembly1.neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, BondType.SINGLE)
-assembly1.link(&quot;ring[last]/unit/tail&quot;, &quot;ring[first]/unit/head&quot;, BondType.SINGLE)
+assembly1.repeat("ring",
+    geometryRecipe5,
+    6,
+    [[0.5000000000000001,
+        -0.8660254037844386,
+        0.0,
+        0.0] as double[],
+        [0.8660254037844386,
+            0.5000000000000001,
+            0.0,
+            0.0] as double[],
+        [0.0,
+            0.0,
+            1.0,
+            0.0] as double[]] as double[][])
+assembly1.neighbor("unit/tail", "unit/head", 1, BondType.SINGLE)
+assembly1.link("ring[last]/unit/tail", "ring[first]/unit/head", BondType.SINGLE)
 def geometryRecipe6 = assembly1.build()
 molecule.structure(geometryRecipe6)
 molecules.register(molecule)</code>
@@ -1024,14 +1125,14 @@ molecules.register(molecule)</code>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;18-crown-6&quot;,
-  &quot;structure&quot;: {
-    &quot;assembly&quot;: {
-      &quot;nodes&quot;: [
+  "name": "18-crown-6",
+  "structure": {
+    "assembly": {
+      "nodes": [
         {
-          &quot;name&quot;: &quot;ring&quot;,
-          &quot;kind&quot;: &quot;repeat&quot;,
-          &quot;transform&quot;: [
+          "name": "ring",
+          "kind": "repeat",
+          "transform": [
             [
               1.0,
               0.0,
@@ -1051,12 +1152,12 @@ molecules.register(molecule)</code>
               0.0
             ]
           ],
-          &quot;body&quot;: {
-            &quot;nodes&quot;: [
+          "body": {
+            "nodes": [
               {
-                &quot;name&quot;: &quot;unit&quot;,
-                &quot;kind&quot;: &quot;fragment&quot;,
-                &quot;transform&quot;: [
+                "name": "unit",
+                "kind": "fragment",
+                "transform": [
                   [
                     1.0,
                     0.0,
@@ -1076,95 +1177,95 @@ molecules.register(molecule)</code>
                     0.0
                   ]
                 ],
-                &quot;structure&quot;: {
-                  &quot;atoms&quot;: [
+                "structure": {
+                  "atoms": [
                     {
-                      &quot;e&quot;: &quot;O&quot;,
-                      &quot;x&quot;: 4.4,
-                      &quot;y&quot;: 0.0,
-                      &quot;z&quot;: 0.0
+                      "e": "O",
+                      "x": 4.4,
+                      "y": 0.0,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 4.134647531457998,
-                      &quot;y&quot;: 1.5048886306329425,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 4.134647531457998,
+                      "y": 1.5048886306329425,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 4.134647531457998,
-                      &quot;y&quot;: 1.5048886306329425,
-                      &quot;z&quot;: 0.95
+                      "e": "H",
+                      "x": 4.134647531457998,
+                      "y": 1.5048886306329425,
+                      "z": 0.95
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 4.134647531457998,
-                      &quot;y&quot;: 1.5048886306329425,
-                      &quot;z&quot;: -0.95
+                      "e": "H",
+                      "x": 4.134647531457998,
+                      "y": 1.5048886306329425,
+                      "z": -0.95
                     },
                     {
-                      &quot;e&quot;: &quot;C&quot;,
-                      &quot;x&quot;: 3.3705955497235034,
-                      &quot;y&quot;: 2.828265482620773,
-                      &quot;z&quot;: 0.0
+                      "e": "C",
+                      "x": 3.3705955497235034,
+                      "y": 2.828265482620773,
+                      "z": 0.0
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 3.3705955497235034,
-                      &quot;y&quot;: 2.828265482620773,
-                      &quot;z&quot;: 0.95
+                      "e": "H",
+                      "x": 3.3705955497235034,
+                      "y": 2.828265482620773,
+                      "z": 0.95
                     },
                     {
-                      &quot;e&quot;: &quot;H&quot;,
-                      &quot;x&quot;: 3.3705955497235034,
-                      &quot;y&quot;: 2.828265482620773,
-                      &quot;z&quot;: -0.95
+                      "e": "H",
+                      "x": 3.3705955497235034,
+                      "y": 2.828265482620773,
+                      "z": -0.95
                     }
                   ],
-                  &quot;bonds&quot;: [
+                  "bonds": [
                     [
                       1,
                       2,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       3,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       5,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       4,
                       6,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       0,
                       1,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ],
                     [
                       1,
                       4,
-                      &quot;SINGLE&quot;
+                      "SINGLE"
                     ]
                   ],
-                  &quot;attachments&quot;: {
-                    &quot;head&quot;: 0,
-                    &quot;tail&quot;: 4
+                  "attachments": {
+                    "head": 0,
+                    "tail": 4
                   }
                 }
               }
             ],
-            &quot;links&quot;: [],
-            &quot;random_links&quot;: []
+            "links": [],
+            "random_links": []
           },
-          &quot;count&quot;: 6,
-          &quot;step&quot;: [
+          "count": 6,
+          "step": [
             [
               0.5000000000000001,
               -0.8660254037844386,
@@ -1184,24 +1285,24 @@ molecules.register(molecule)</code>
               0.0
             ]
           ],
-          &quot;neighbor_links&quot;: [
+          "neighbor_links": [
             {
-              &quot;from&quot;: &quot;unit/tail&quot;,
-              &quot;to&quot;: &quot;unit/head&quot;,
-              &quot;type&quot;: &quot;SINGLE&quot;,
-              &quot;offset&quot;: 1
+              "from": "unit/tail",
+              "to": "unit/head",
+              "type": "SINGLE",
+              "offset": 1
             }
           ]
         }
       ],
-      &quot;links&quot;: [
+      "links": [
         {
-          &quot;from&quot;: &quot;ring[last]/unit/tail&quot;,
-          &quot;to&quot;: &quot;ring[first]/unit/head&quot;,
-          &quot;type&quot;: &quot;SINGLE&quot;
+          "from": "ring[last]/unit/tail",
+          "to": "ring[first]/unit/head",
+          "type": "SINGLE"
         }
       ],
-      &quot;random_links&quot;: []
+      "random_links": []
     }
   }
 }</code></pre>
@@ -1223,38 +1324,63 @@ molecules.register(molecule)</code>
           sites; it is an intentionally incomplete chemistry example, with no added hydrogens or
           inferred reactions.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — java"><code class="language-java">var cell = new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0)
-    .cell(new double[][] {{1.42, 0, 0}}).link(0, 0, new int[] {1}).build();
-var chain = cell.repeat(new int[] {3}, new boolean[] {false});
-var moved = chain.translate(2, 0, 0).rotate(0, 0, 1, 90);</code>
+        <pre data-language="java" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — java"><code class="language-java">var cell = new StructureBuilder()
+    .atom("C", 0, 0, 0)
+    .cell(new double[][] {
+        {
+            1.42, 0, 0
+        }
+    })
+    .link(0, 0, new int[] {
+        1
+    })
+    .build();
+var chain = cell.repeat(new int[] {
+    3
+}, new boolean[] {
+    false
+});
+var moved = chain.translate(2, 0, 0)
+    .rotate(0, 0, 1, 90);</code>
 </pre>
         <pre data-language="kotlin" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — kotlin"><code class="language-kotlin">val cell = Avogadro.fragment {
-    atom(&quot;C&quot;, 0.0, 0.0, 0.0)
+    atom("C", 0.0, 0.0, 0.0)
     cell(arrayOf(doubleArrayOf(1.42, 0.0, 0.0)))
     link(0, 0, intArrayOf(1))
 }
 val chain = cell.repeat(intArrayOf(3), booleanArrayOf(false))
-val moved = chain.translate(2.0, 0.0, 0.0).rotate(0.0, 0.0, 1.0, 90.0)</code>
+val moved = chain.translate(2.0, 0.0, 0.0)
+    .rotate(0.0, 0.0, 1.0, 90.0)</code>
 </pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — groovy"><code class="language-groovy">def cell = molecules.structure {
-    atom(&#x27;C&#x27;, 0d, 0d, 0d)
+    atom('C', 0d, 0d, 0d)
     cell([[1.42d, 0d, 0d]] as double[][])
     link(0, 0, [1] as int[])
 }
 def chain = cell.repeat([3] as int[], [false] as boolean[])
-def moved = chain.translate(2d, 0d, 0d).rotate(0d, 0d, 1d, 90d)</code>
+def moved = chain.translate(2d, 0d, 0d)
+    .rotate(0d, 0d, 1d, 90d)</code>
 </pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — scala"><code class="language-scala">val cell = Avogadro.fragment { b =&gt;
-  b.atom(&quot;C&quot;, 0, 0, 0).cell(Array(Array(1.42, 0.0, 0.0))).link(0, 0, Array(1))
+  b.atom("C", 0, 0, 0)
+      .cell(Array(Array(1.42, 0.0, 0.0)))
+      .link(0, 0, Array(1))
 }
 val chain = cell.repeat(Array(3), Array(false))
-val moved = chain.translate(2, 0, 0).rotate(0, 0, 1, 90)</code>
+val moved = chain.translate(2, 0, 0)
+      .rotate(0, 0, 1, 90)</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — zenscript"><code class="language-zenscript">val cell = Molecules.fragment().atom(&quot;C&quot;, 0.0, 0.0, 0.0)
-    .cell([[1.42, 0.0, 0.0]]).link(0, 0, [1], &quot;SINGLE&quot;).build();
+        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — zenscript"><code class="language-zenscript">val cell = Molecules.fragment()
+    .atom("C", 0.0, 0.0, 0.0)
+    .cell([[1.42, 0.0, 0.0]])
+    .link(0, 0, [1], "SINGLE")
+    .build();
 val chain = cell.repeat([3], [false]);
-val moved = chain.translate(2.0, 0.0, 0.0).rotate(0.0, 0.0, 1.0, 90.0);
-Molecules.molecule(&quot;my_pack:chain&quot;).geometry(moved).register();</code>
+val moved = chain.translate(2.0, 0.0, 0.0)
+    .rotate(0.0, 0.0, 1.0, 90.0);
+Molecules.molecule("my_pack:chain")
+    .geometry(moved)
+    .register();</code>
 </pre>
         <p>
           Transforms return new geometry. Repeat counts and wrap flags have one entry per cell
@@ -1278,44 +1404,72 @@ Molecules.molecule(&quot;my_pack:chain&quot;).geometry(moved).register();</code>
           can change which number refers to an atom. The returned map gives the final number for
           each original atom, or <code>-1</code> if it was removed.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — java"><code class="language-java">var hydroxyl = new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, 0.96, 0, 0)
-    .bond(0, 1).attachment(&quot;oxygen&quot;, 0).build();
-var result = hydroxyl.edit().moveAtom(1, 0.97, 0, 0).removeAtom(1).build();
+        <pre data-language="java" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — java"><code class="language-java">var hydroxyl = new StructureBuilder()
+    .atom("O", 0, 0, 0)
+    .atom("H", 0.96, 0, 0)
+    .bond(0, 1)
+    .attachment("oxygen", 0)
+    .build();
+var result = hydroxyl.edit()
+    .moveAtom(1, 0.97, 0, 0)
+    .removeAtom(1)
+    .build();
 int oxygenNow = result.remap(0);
 int removedHydrogen = result.remap(1);
 var edited = result.fragment();</code>
 </pre>
         <pre data-language="kotlin" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — kotlin"><code class="language-kotlin">val hydroxyl = Avogadro.fragment {
-    atom(&quot;O&quot;, 0.0, 0.0, 0.0); atom(&quot;H&quot;, 0.96, 0.0, 0.0)
-    bond(0, 1); attachment(&quot;oxygen&quot;, 0)
+    atom("O", 0.0, 0.0, 0.0);
+    atom("H", 0.96, 0.0, 0.0)
+    bond(0, 1);
+    attachment("oxygen", 0)
 }
-val result = Avogadro.edit(hydroxyl) { moveAtom(1, 0.97, 0.0, 0.0); removeAtom(1) }
+val result = Avogadro.edit(hydroxyl) {
+    moveAtom(1, 0.97, 0.0, 0.0);
+    removeAtom(1)
+}
 val oxygenNow = result.remap(0)
 val removedHydrogen = result.remap(1)
 val edited = result.fragment()</code>
 </pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — groovy"><code class="language-groovy">def hydroxyl = molecules.structure {
-    atom(&#x27;O&#x27;, 0d, 0d, 0d); atom(&#x27;H&#x27;, 0.96d, 0d, 0d)
-    bond(0, 1); attachment(&#x27;oxygen&#x27;, 0)
+    atom('O', 0d, 0d, 0d);
+    atom('H', 0.96d, 0d, 0d)
+    bond(0, 1);
+    attachment('oxygen', 0)
 }
-def result = molecules.edit(hydroxyl) { moveAtom(1, 0.97d, 0d, 0d); removeAtom(1) }
+def result = molecules.edit(hydroxyl) {
+    moveAtom(1, 0.97d, 0d, 0d);
+    removeAtom(1)
+}
 def oxygenNow = result.remap(0)
 def removedHydrogen = result.remap(1)
 def edited = result.fragment()</code>
 </pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — scala"><code class="language-scala">val hydroxyl = Avogadro.fragment { b =&gt;
-  b.atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, 0.96, 0, 0).bond(0, 1).attachment(&quot;oxygen&quot;, 0)
+  b.atom("O", 0, 0, 0)
+      .atom("H", 0.96, 0, 0)
+      .bond(0, 1)
+      .attachment("oxygen", 0)
 }
 val result = Avogadro.edit(hydroxyl) { edit =&gt;
-  edit.moveAtom(1, 0.97, 0, 0).removeAtom(1)
+  edit.moveAtom(1, 0.97, 0, 0)
+      .removeAtom(1)
 }
 val oxygenNow = result.remap(0)
 val removedHydrogen = result.remap(1)
 val edited = result.fragment()</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — zenscript"><code class="language-zenscript">val hydroxyl = Molecules.fragment().atom(&quot;O&quot;, 0.0, 0.0, 0.0)
-    .atom(&quot;H&quot;, 0.96, 0.0, 0.0).bond(0, 1, 1).attachment(&quot;oxygen&quot;, 0).build();
-val result = hydroxyl.edit().moveAtom(1, 0.97, 0.0, 0.0).removeAtoms([1]).build();
+        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — zenscript"><code class="language-zenscript">val hydroxyl = Molecules.fragment()
+    .atom("O", 0.0, 0.0, 0.0)
+    .atom("H", 0.96, 0.0, 0.0)
+    .bond(0, 1, 1)
+    .attachment("oxygen", 0)
+    .build();
+val result = hydroxyl.edit()
+    .moveAtom(1, 0.97, 0.0, 0.0)
+    .removeAtoms([1])
+    .build();
 val oxygenNow = result.remap(0);
 val removedHydrogen = result.remap(1);
 val edited = result.geometry;</code>
@@ -1326,7 +1480,67 @@ val edited = result.geometry;</code>
           topology editing. No edit guesses missing bonds, caps or valence repair.
         </p>
       </div>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="structures-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html">StructureBuilder</a>.<a href="../StructureBuilder.html#atom(java.lang.String,double,double,double)">atom</a>(element, x, y, z)</code>
+              </td>
+              <td>Element symbol; position</td>
+              <td>Add each atom explicitly in a consistent coordinate unit.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html#bond(int,int)">bond</a>(first, second)</code>
+              </td>
+              <td>Zero-based atom indices</td>
+              <td>Connect two atoms already present in the builder.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html#attachment(java.lang.String,int)">attachment</a>(name, atomIndex)</code>
+              </td>
+              <td>Reusable name; existing atom index</td>
+              <td>Expose a connection point for assembly.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html#atomConfiguration(int,io.github.wurtzitane.avogadro.api.AtomicConfiguration)">atomConfiguration</a>(index, configuration)</code>
+              </td>
+              <td>Atom index; nuclear/electron data</td>
+              <td>Attach the inspection data you want displayed.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureBuilder.html#build()">build</a>()</code>
+              </td>
+              <td>No arguments</td>
+              <td>Return the completed fragment for reuse or registration.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="examples.html">Previous: Choose an example</a><a href="smiles.html">Next: Add groups, radicals, and shape constraints to a molecule</a>
       </nav>
     </div></main>

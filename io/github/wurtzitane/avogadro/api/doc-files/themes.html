@@ -65,56 +65,7 @@ loadScripts(document, 'script');</script>
         the palette in Theme Creator or write its JSON file. The later sections show how a mod can
         read and save the same theme format.
       </p>
-      <section class="av-call-guide">
-        <h2 id="themes-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../../theme/ThemeDefinition.html">ThemeDefinition</a>.<a href="../../theme/ThemeDefinition.html#read(java.io.Reader)">read</a>(reader)</code>
-              </td>
-              <td>UTF-8 JSON reader</td>
-              <td>Read your theme definition; keep the reader inside try-with-resources.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../../theme/ThemeStore.html">ThemeStore</a>.<a href="../../theme/ThemeStore.html#bundled(java.lang.String)">bundled</a>(filename)</code>
-              </td>
-              <td>Bundled theme filename</td>
-              <td>Choose the fallback definition used to fill missing values.</td>
-            </tr>
-            <tr>
-              <td>
-                <code>theme.<a href="../../theme/ThemeDefinition.html#compile(io.github.wurtzitane.avogadro.theme.ThemeDefinition)">compile</a>(defaults)</code>
-              </td>
-              <td>Fallback definition</td>
-              <td>Resolve the theme before looking up colors.</td>
-            </tr>
-            <tr>
-              <td>
-                <code>colors.<a href="../../theme/ThemeDefinition.Compiled.html#color(java.lang.String,java.lang.String,java.lang.String,int)">color</a>(key, menu, path, fallback)</code>
-              </td>
-              <td>Color key; menu ID; element path; fallback RGB</td>
-              <td>Read the resolved color for one element.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> Close the reader after parsing. Compiled palette values
-          need no close call. Keep the theme filename when renaming its display name so saved
-          selections continue to refer to it. Use F3+T to reload edited client resources.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -285,9 +236,9 @@ loadScripts(document, 'script');</script>
         and change only <code>name</code>. Keeping the filename preserves saved selections. For
         example, open <a href="theme_03.json">theme_03.json</a> and replace:
       </p>
-      <pre><code class="language-json">&quot;name&quot;: &quot;Theme 03&quot;</code></pre>
+      <pre><code class="language-json">"name": "Theme 03"</code></pre>
       <p>with your chosen title:</p>
-      <pre><code class="language-json">&quot;name&quot;: &quot;Your title&quot;</code></pre>
+      <pre><code class="language-json">"name": "Your title"</code></pre>
       <p>
         Save your theme in <code>config/<wbr/>avogadro/<wbr/>themes</code>, then reopen the theme
         picker to load it.
@@ -615,10 +566,10 @@ loadScripts(document, 'script');</script>
         the creator’s <strong>Info</strong> color group. To match the primary text color, Theme 11
         and its variants use:
       </p>
-      <pre><code class="language-json">&quot;info.icon&quot;: &quot;$ink&quot;,
-&quot;info.hover.icon&quot;: &quot;$ink&quot;,
-&quot;info.symbol&quot;: &quot;$primary&quot;,
-&quot;info.hover.symbol&quot;: &quot;$primary&quot;</code></pre>
+      <pre><code class="language-json">"info.icon": "$ink",
+"info.hover.icon": "$ink",
+"info.symbol": "$primary",
+"info.hover.symbol": "$primary"</code></pre>
       <p>
         These are entries inside <code>colors</code>. They work in the molecule, atom, crystal,
         polymer, network, and HEI cards through the same shared icon renderer.
@@ -626,25 +577,25 @@ loadScripts(document, 'script');</script>
       <h2 id="themes-json">Write a theme file</h2>
       &gt;
       <pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;name&quot;: &quot;Night laboratory&quot;,
-  &quot;palette&quot;: {
-    &quot;primary&quot;: &quot;#181818&quot;,
-    &quot;secondary&quot;: &quot;#212121&quot;,
-    &quot;ink&quot;: &quot;#ECECEC&quot;
+  "version": 1,
+  "name": "Night laboratory",
+  "palette": {
+    "primary": "#181818",
+    "secondary": "#212121",
+    "ink": "#ECECEC"
   },
-  &quot;colors&quot;: {
-    &quot;button.hover.background&quot;: &quot;#383838&quot;
+  "colors": {
+    "button.hover.background": "#383838"
   },
-  &quot;rules&quot;: [
+  "rules": [
     {
-      &quot;screen&quot;: &quot;polymer_network_examiner&quot;,
-      &quot;elements&quot;: [
-        &quot;*&quot;
+      "screen": "polymer_network_examiner",
+      "elements": [
+        "*"
       ],
-      &quot;colors&quot;: {
-        &quot;button.background&quot;: &quot;#303A44&quot;,
-        &quot;button.text&quot;: &quot;#F1F6FA&quot;
+      "colors": {
+        "button.background": "#303A44",
+        "button.text": "#F1F6FA"
       }
     }
   ]
@@ -2566,9 +2517,9 @@ loadScripts(document, 'script');</script>
 try (var reader = Files.newBufferedReader(themeFile, StandardCharsets.UTF_8)) {
     theme = ThemeDefinition.read(reader);
 }
-ThemeDefinition defaults = ThemeStore.bundled(&quot;default_theme.json&quot;);
+ThemeDefinition defaults = ThemeStore.bundled("default_theme.json");
 ThemeDefinition.Compiled colors = theme.compile(defaults);
-int text = colors.color(&quot;text.primary&quot;, &quot;atom_examiner&quot;, &quot;root/title&quot;, 0xFF3F3A30);</code></pre>
+int text = colors.color("text.primary", "atom_examiner", "root/title", 0xFF3F3A30);</code></pre>
       <p>
         Use the theme’s file name without <code>.json</code> as the ID. The lookup uses the compiled
         theme, including its inherited colors, and returns the fallback if the theme or role is
@@ -2582,7 +2533,58 @@ int text = colors.color(&quot;text.primary&quot;, &quot;atom_examiner&quot;, &qu
         Palette reference chains allow at most 128 levels. Theme Creator’s Everywhere edits override
         inherited base rules too; Undo restores the inherited appearance.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="themes-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../../theme/ThemeDefinition.html">ThemeDefinition</a>.<a href="../../theme/ThemeDefinition.html#read(java.io.Reader)">read</a>(reader)</code>
+              </td>
+              <td>UTF-8 JSON reader</td>
+              <td>Read your theme definition; keep the reader inside try-with-resources.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../../theme/ThemeStore.html">ThemeStore</a>.<a href="../../theme/ThemeStore.html#bundled(java.lang.String)">bundled</a>(filename)</code>
+              </td>
+              <td>Bundled theme filename</td>
+              <td>Choose the fallback definition used to fill missing values.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>theme.<a href="../../theme/ThemeDefinition.html#compile(io.github.wurtzitane.avogadro.theme.ThemeDefinition)">compile</a>(defaults)</code>
+              </td>
+              <td>Fallback definition</td>
+              <td>Resolve the theme before looking up colors.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>colors.<a href="../../theme/ThemeDefinition.Compiled.html#color(java.lang.String,java.lang.String,java.lang.String,int)">color</a>(key, menu, path, fallback)</code>
+              </td>
+              <td>Color key; menu ID; element path; fallback RGB</td>
+              <td>Read the resolved color for one element.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> Close the reader after parsing. Compiled palette values
+          need no close call. Keep the theme filename when renaming its display name so saved
+          selections continue to refer to it. Use F3+T to reload edited client resources.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="exports.html">Previous: Export images and animations</a><a href="lifecycle.html">Next: Update molecules, read their data, and prepare previews</a>
       </nav>
     </div></main>

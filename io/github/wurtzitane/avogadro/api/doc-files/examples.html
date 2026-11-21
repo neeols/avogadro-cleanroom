@@ -65,51 +65,7 @@ loadScripts(document, 'script');</script>
         complete recipe into your mod or script, then register it to make it available in Minecraft.
         Avogadro does not install these examples automatically.
       </p>
-      <section class="av-call-guide">
-        <h2 id="examples-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#builder(java.lang.String)">builder</a>(id)</code>
-              </td>
-              <td>Namespaced molecule ID</td>
-              <td>Give each copied model an ID controlled by your addon.</td>
-            </tr>
-            <tr>
-              <td>
-                <code>batch.<a href="../MoleculeBatch.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
-              </td>
-              <td>Molecule definition or builder</td>
-              <td>Add the model and its matching rules to the batch.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#replace(io.github.wurtzitane.avogadro.api.MoleculeBatch)">replace</a>(batch)</code>
-              </td>
-              <td>Owner name; complete batch</td>
-              <td>Publish the catalogue as one owned replacement set.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -306,126 +262,424 @@ import java.util.concurrent.CompletableFuture;</code></pre>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeBatch catalog() {
     var batch = new MoleculeBatch();
-    batch.register(AvogadroApi.builder(&quot;guide:water&quot;).name(&quot;Water&quot;).structure(water())
-            .items(&quot;minecraft:water_bucket&quot;).fluids(&quot;water&quot;).generateItem(true));
-    batch.register(AvogadroApi.builder(&quot;guide:methanol&quot;).name(&quot;Methanol&quot;).structure(methanol()));
-    batch.register(AvogadroApi.builder(&quot;guide:ethanol&quot;).name(&quot;Ethanol&quot;).smiles(&quot;CCO&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:aspirin&quot;).name(&quot;Aspirin&quot;)
-            .smiles(&quot;CC(=O)OC1=CC=CC=C1C(=O)O&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:caffeine&quot;).name(&quot;Caffeine&quot;)
-            .smiles(&quot;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:crown&quot;).name(&quot;18-crown-6&quot;)
-            .smiles(&quot;C1COCCOCCOCCOCCOCCO1&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:ammonia&quot;).name(&quot;Ammonia&quot;).structure(ammonia().fragment()));
-    batch.register(AvogadroApi.builder(&quot;guide:peg&quot;).name(&quot;Polyethylene glycol&quot;).polymer(peg()));
-    batch.register(AvogadroApi.builder(&quot;guide:rubber&quot;).name(&quot;Sulfur-linked polyisoprene&quot;)
-            .polymerNetwork(rubber()));
-    batch.register(AvogadroApi.builder(&quot;guide:salt&quot;).name(&quot;Sodium chloride&quot;).structure(saltBasis())
-            .crystalCell(new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90)).formula(&quot;NaCl&quot;));
+    batch.register(AvogadroApi.builder("guide:water")
+        .name("Water")
+        .structure(water())
+        .items("minecraft:water_bucket")
+        .fluids("water")
+        .generateItem(true));
+    batch.register(AvogadroApi.builder("guide:methanol")
+        .name("Methanol")
+        .structure(methanol()));
+    batch.register(AvogadroApi.builder("guide:ethanol")
+        .name("Ethanol")
+        .smiles("CCO"));
+    batch.register(AvogadroApi.builder("guide:aspirin")
+        .name("Aspirin")
+        .smiles("CC(=O)OC1=CC=CC=C1C(=O)O"));
+    batch.register(AvogadroApi.builder("guide:caffeine")
+        .name("Caffeine")
+        .smiles("CN1C=NC2=C1C(=O)N(C(=O)N2C)C"));
+    batch.register(AvogadroApi.builder("guide:crown")
+        .name("18-crown-6")
+        .smiles("C1COCCOCCOCCOCCOCCO1"));
+    batch.register(AvogadroApi.builder("guide:ammonia")
+        .name("Ammonia")
+        .structure(ammonia()
+            .fragment()));
+    batch.register(AvogadroApi.builder("guide:peg")
+        .name("Polyethylene glycol")
+        .polymer(peg()));
+    batch.register(AvogadroApi.builder("guide:rubber")
+        .name("Sulfur-linked polyisoprene")
+        .polymerNetwork(rubber()));
+    batch.register(AvogadroApi.builder("guide:salt")
+        .name("Sodium chloride")
+        .structure(saltBasis())
+        .crystalCell(new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90))
+        .formula("NaCl"));
     return batch;
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }
 
 public static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892).bond(0, 1).bond(0, 2).bond(0, 3).attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("H",
+            -.36,
+            1.03,
+            0)
+        .atom("H",
+            -.36,
+            -.515,
+            .892)
+        .atom("H",
+            -.36,
+            -.515,
+            -.892)
+        .bond(0,
+            1)
+        .bond(0,
+            2)
+        .bond(0,
+            3)
+        .attachment("carbon",
+            0)
+        .build();
 }
 
 public static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0).bond(0, 1).attachment(&quot;oxygen&quot;, 0)
-            .build();
+    return new StructureBuilder()
+        .atom("O",
+            1.43,
+            0,
+            0)
+        .atom("H",
+            1.8,
+            .85,
+            0)
+        .bond(0,
+            1)
+        .attachment("oxygen",
+            0)
+        .build();
 }
 
 public static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
-    return StructureAssembly.builder().part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE).build().build(); // recipe first, then finite geometry
+    return StructureAssembly.builder()
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon",
+            "hydroxyl/oxygen",
+            BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }
 
 public static StructureEditResult ammonia() {
     // Change O to N and add the third hydrogen: H2O -&gt; NH3 as a graph edit.
     // This demonstrates authoring; it does not simulate a reaction.
-    var editor = water().edit().replaceAtom(0, &quot;N&quot;).moveAtom(0, 0, 0, .25);
-    int hydrogen = editor.addAtom(&quot;H&quot;, 0, -.85, -.35);
-    return editor.setBond(0, hydrogen, BondType.SINGLE).build();
+    var editor = water()
+        .edit()
+        .replaceAtom(0, "N")
+        .moveAtom(0, 0, 0, .25);
+    int hydrogen = editor.addAtom("H", 0, -.85, -.35);
+    return editor.setBond(0, hydrogen, BondType.SINGLE)
+        .build();
 }
 
 public static PolymerDefinition peg() {
     // HO–(CH2–CH2–O)n–H. Caps supply both terminal hydrogens and the extra oxygen.
-    var unit = new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0).atom(&quot;O&quot;, 2.9, .2, 0)
-            .atom(&quot;H&quot;, -.3, .8, .65).atom(&quot;H&quot;, -.3, -.8, -.65).atom(&quot;H&quot;, 1.7, .8, -.65).atom(&quot;H&quot;, 1.7, -.8, .65)
-            .bond(0, 1).bond(1, 2).bond(0, 3).bond(0, 4).bond(1, 5).bond(1, 6).attachment(&quot;head&quot;, 0)
-            .attachment(&quot;tail&quot;, 2).build();
-    var head = new StructureBuilder().atom(&quot;O&quot;, -1.4, -.2, 0).atom(&quot;H&quot;, -2.2, .2, 0).bond(0, 1).attachment(&quot;end&quot;, 0)
-            .build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 3.8, .2, 0).attachment(&quot;end&quot;, 0).build();
-    return PolymerDefinition.usingAttachments(unit, &quot;head&quot;, &quot;tail&quot;, new PolymerDefinition.Vector(4.3, 0, 0),
-            BondType.SINGLE, PolymerDefinition.Cap.usingAttachment(head, &quot;end&quot;, BondType.SINGLE),
-            PolymerDefinition.Cap.usingAttachment(tail, &quot;end&quot;, BondType.SINGLE), 4);
+    var unit = new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("C",
+            1.5,
+            0,
+            0)
+        .atom("O",
+            2.9,
+            .2,
+            0)
+        .atom("H",
+            -.3,
+            .8,
+            .65)
+        .atom("H",
+            -.3,
+            -.8,
+            -.65)
+        .atom("H",
+            1.7,
+            .8,
+            -.65)
+        .atom("H",
+            1.7,
+            -.8,
+            .65)
+        .bond(0,
+            1)
+        .bond(1,
+            2)
+        .bond(0,
+            3)
+        .bond(0,
+            4)
+        .bond(1,
+            5)
+        .bond(1,
+            6)
+        .attachment("head",
+            0)
+        .attachment("tail", 2)
+        .build();
+    var head = new StructureBuilder()
+        .atom("O",
+            -1.4,
+            -.2,
+            0)
+        .atom("H",
+            -2.2,
+            .2,
+            0)
+        .bond(0,
+            1)
+        .attachment("end",
+            0)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H", 3.8, .2, 0)
+        .attachment("end", 0)
+        .build();
+    return PolymerDefinition.usingAttachments(unit,
+        "head",
+        "tail",
+        new PolymerDefinition.Vector(4.3,
+            0,
+            0),
+        BondType.SINGLE,
+        PolymerDefinition.Cap.usingAttachment(head,
+            "end",
+            BondType.SINGLE),
+        PolymerDefinition.Cap.usingAttachment(tail, "end", BondType.SINGLE), 4);
 }
 
 public static StructureFragment rubberUnit() {
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0).atom(&quot;C&quot;, 2.8, .4, 0)
-            .atom(&quot;C&quot;, 4.2, .4, 0).atom(&quot;C&quot;, 1.5, -1.5, 0).atom(&quot;H&quot;, -.4, .7, .7).atom(&quot;H&quot;, -.4, .7, -.7)
-            .atom(&quot;H&quot;, 2.9, 1.4, 0).atom(&quot;H&quot;, 4.4, .4, 1).atom(&quot;H&quot;, .5, -1.9, 0).atom(&quot;H&quot;, 2, -1.9, .8)
-            .atom(&quot;H&quot;, 2, -1.9, -.8).bond(0, 1).bond(1, 2, BondType.DOUBLE).bond(2, 3).bond(1, 4).bond(0, 5)
-            .bond(0, 6).bond(2, 7).bond(3, 8).bond(4, 9).bond(4, 10).bond(4, 11).attachment(&quot;head&quot;, 0)
-            .attachment(&quot;tail&quot;, 3).attachment(&quot;cross&quot;, 3).build();
+    return new StructureBuilder()
+        .atom("C", 0, 0, 0)
+        .atom("C", 1.5, 0, 0)
+        .atom("C", 2.8, .4, 0)
+        .atom("C",
+            4.2,
+            .4,
+            0)
+        .atom("C",
+            1.5,
+            -1.5,
+            0)
+        .atom("H",
+            -.4,
+            .7,
+            .7)
+        .atom("H",
+            -.4,
+            .7,
+            -.7)
+        .atom("H",
+            2.9,
+            1.4,
+            0)
+        .atom("H",
+            4.4,
+            .4,
+            1)
+        .atom("H",
+            .5,
+            -1.9,
+            0)
+        .atom("H",
+            2,
+            -1.9,
+            .8)
+        .atom("H",
+            2,
+            -1.9,
+            -.8)
+        .bond(0,
+            1)
+        .bond(1,
+            2,
+            BondType.DOUBLE)
+        .bond(2,
+            3)
+        .bond(1,
+            4)
+        .bond(0,
+            5)
+        .bond(0,
+            6)
+        .bond(2,
+            7)
+        .bond(3,
+            8)
+        .bond(4,
+            9)
+        .bond(4,
+            10)
+        .bond(4,
+            11)
+        .attachment("head",
+            0)
+        .attachment("tail", 3)
+        .attachment("cross", 3)
+        .build();
 }
 
 public static PolymerNetworkDefinition rubber() {
-    var sulfur = new StructureBuilder().atom(&quot;S&quot;, 4.2, 2.2, 0).attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 0).build();
-    var hydrogens = new StructureBuilder().atom(&quot;H&quot;, 4.2, 1.4, 0).atom(&quot;H&quot;, 4.2, 3.0, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
-    var pair = StructureAssembly.builder().part(&quot;left&quot;, rubberUnit())
-            .part(&quot;right&quot;, rubberUnit().translate(0, 3.6, 0))
-            .choice(&quot;bridge&quot;, &quot;sulfur_bridge&quot;, &quot;bridgeChance&quot;,
-                    StructureAssembly.builder().part(&quot;connector&quot;, sulfur).build(),
-                    StructureAssembly.builder().part(&quot;connector&quot;, hydrogens).build())
-            .link(&quot;left/cross&quot;, &quot;bridge/connector/left&quot;, BondType.SINGLE)
-            .link(&quot;right/cross&quot;, &quot;bridge/connector/right&quot;, BondType.SINGLE).build();
-    var head = new StructureBuilder().atom(&quot;H&quot;, -1, 0, 0).atom(&quot;H&quot;, -1, 3.6, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 5.2, .4, 0).atom(&quot;H&quot;, 5.2, 4, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
+    var sulfur = new StructureBuilder()
+        .atom("S",
+            4.2,
+            2.2,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right",
+            0)
+        .build();
+    var hydrogens = new StructureBuilder()
+        .atom("H",
+            4.2,
+            1.4,
+            0)
+        .atom("H",
+            4.2,
+            3.0,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
+    var pair = StructureAssembly.builder()
+        .part("left", rubberUnit())
+        .part("right", rubberUnit()
+            .translate(0, 3.6, 0))
+        .choice("bridge", "sulfur_bridge", "bridgeChance",
+            StructureAssembly.builder()
+            .part("connector", sulfur)
+            .build(),
+            StructureAssembly.builder()
+            .part("connector", hydrogens)
+            .build())
+        .link("left/cross", "bridge/connector/left", BondType.SINGLE)
+        .link("right/cross", "bridge/connector/right", BondType.SINGLE)
+        .build();
+    var head = new StructureBuilder()
+        .atom("H",
+            -1,
+            0,
+            0)
+        .atom("H",
+            -1,
+            3.6,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H",
+            5.2,
+            .4,
+            0)
+        .atom("H",
+            5.2,
+            4,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
     var assembly = StructureAssembly.builder()
-            .repeat(&quot;pairs&quot;, pair, &quot;length&quot;, StructureAssembly.translation(5.7, 0, 0))
-            .neighbor(&quot;left/tail&quot;, &quot;left/head&quot;, 1, BondType.SINGLE)
-            .neighbor(&quot;right/tail&quot;, &quot;right/head&quot;, 1, BondType.SINGLE)
-            .endGroups(StructureAssembly.builder().part(&quot;cap&quot;, head).build(),
-                    StructureAssembly.builder().part(&quot;cap&quot;, tail).build())
-            .link(&quot;pairs/head/cap/left&quot;, &quot;pairs[first]/left/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs/head/cap/right&quot;, &quot;pairs[first]/right/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/left/tail&quot;, &quot;pairs/tail/cap/left&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/right/tail&quot;, &quot;pairs/tail/cap/right&quot;, BondType.SINGLE).build();
-    return new PolymerNetworkDefinition(List.of(PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 16, 4),
-            PolymerNetworkDefinition.Parameter.probability(&quot;bridgeChance&quot;, .5)), assembly, 42L);
+        .repeat("pairs", pair, "length", StructureAssembly.translation(5.7, 0, 0))
+        .neighbor("left/tail", "left/head", 1, BondType.SINGLE)
+        .neighbor("right/tail", "right/head", 1, BondType.SINGLE)
+        .endGroups(StructureAssembly.builder()
+            .part("cap", head)
+            .build(),
+            StructureAssembly.builder()
+            .part("cap", tail)
+            .build())
+        .link("pairs/head/cap/left", "pairs[first]/left/head", BondType.SINGLE)
+        .link("pairs/head/cap/right", "pairs[first]/right/head", BondType.SINGLE)
+        .link("pairs[last]/left/tail", "pairs/tail/cap/left", BondType.SINGLE)
+        .link("pairs[last]/right/tail", "pairs/tail/cap/right", BondType.SINGLE)
+        .build();
+    return new PolymerNetworkDefinition(List.of(PolymerNetworkDefinition.Parameter.count("length",
+        1,
+        16,
+        4),
+        PolymerNetworkDefinition.Parameter.probability("bridgeChance",
+            .5)),
+            assembly,
+            42L);
 }
 
 public static StructureFragment saltBasis() {
     // Conventional rock-salt cell, a = 5.64 Å. No covalent Na–Cl bonds.
     var basis = new StructureBuilder();
     double a = 5.64;
-    double[][] sodium = {{0, 0, 0}, {0, .5, .5}, {.5, 0, .5}, {.5, .5, 0}};
-    double[][] chlorine = {{.5, .5, .5}, {.5, 0, 0}, {0, .5, 0}, {0, 0, .5}};
+    double[][] sodium = {
+        {
+            0, 0, 0
+        }, {
+            0, .5, .5
+        }, {
+                .5, 0, .5
+        }, {
+                .5, .5, 0
+        }
+    };
+    double[][] chlorine = {
+        {
+                .5, .5, .5
+        }, {
+                .5, 0, 0
+        }, {
+            0, .5, 0
+        }, {
+            0, 0, .5
+        }
+    };
     for (double[] p : sodium) {
-        int atom = basis.addAtom(&quot;Na&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(11, 12, 1, List.of(2, 8)));
+        int atom = basis.addAtom("Na", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(11,
+            12,
+            1,
+            List.of(2,
+            8)));
     }
     for (double[] p : chlorine) {
-        int atom = basis.addAtom(&quot;Cl&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(17, 18, -1, List.of(2, 8, 8)));
+        int atom = basis.addAtom("Cl", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(17,
+            18,
+            -1,
+            List.of(2,
+            8,
+            8)));
     }
     return basis.build();
 }</code></pre>
@@ -436,111 +690,378 @@ public static StructureFragment saltBasis() {
           </p>
           <pre><code class="language-groovy">static MoleculeBatch catalog() {
     def batch = new MoleculeBatch();
-    batch.register(AvogadroApi.builder(&quot;guide:water&quot;).name(&quot;Water&quot;).structure(water())
-            .items(&quot;minecraft:water_bucket&quot;).fluids(&quot;water&quot;).generateItem(true));
-    batch.register(AvogadroApi.builder(&quot;guide:methanol&quot;).name(&quot;Methanol&quot;).structure(methanol()));
-    batch.register(AvogadroApi.builder(&quot;guide:ethanol&quot;).name(&quot;Ethanol&quot;).smiles(&quot;CCO&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:aspirin&quot;).name(&quot;Aspirin&quot;)
-            .smiles(&quot;CC(=O)OC1=CC=CC=C1C(=O)O&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:caffeine&quot;).name(&quot;Caffeine&quot;)
-            .smiles(&quot;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:crown&quot;).name(&quot;18-crown-6&quot;)
-            .smiles(&quot;C1COCCOCCOCCOCCOCCO1&quot;));
-    batch.register(AvogadroApi.builder(&quot;guide:ammonia&quot;).name(&quot;Ammonia&quot;).structure(ammonia().fragment()));
-    batch.register(AvogadroApi.builder(&quot;guide:peg&quot;).name(&quot;Polyethylene glycol&quot;).polymer(peg()));
-    batch.register(AvogadroApi.builder(&quot;guide:rubber&quot;).name(&quot;Sulfur-linked polyisoprene&quot;)
-            .polymerNetwork(rubber()));
-    batch.register(AvogadroApi.builder(&quot;guide:salt&quot;).name(&quot;Sodium chloride&quot;).structure(saltBasis())
-            .crystalCell(new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90)).formula(&quot;NaCl&quot;));
+    batch.register(AvogadroApi.builder("guide:water")
+        .name("Water")
+        .structure(water())
+        .items("minecraft:water_bucket")
+        .fluids("water")
+        .generateItem(true));
+    batch.register(AvogadroApi.builder("guide:methanol")
+        .name("Methanol")
+        .structure(methanol()));
+    batch.register(AvogadroApi.builder("guide:ethanol")
+        .name("Ethanol")
+        .smiles("CCO"));
+    batch.register(AvogadroApi.builder("guide:aspirin")
+        .name("Aspirin")
+        .smiles("CC(=O)OC1=CC=CC=C1C(=O)O"));
+    batch.register(AvogadroApi.builder("guide:caffeine")
+        .name("Caffeine")
+        .smiles("CN1C=NC2=C1C(=O)N(C(=O)N2C)C"));
+    batch.register(AvogadroApi.builder("guide:crown")
+        .name("18-crown-6")
+        .smiles("C1COCCOCCOCCOCCOCCO1"));
+    batch.register(AvogadroApi.builder("guide:ammonia")
+        .name("Ammonia")
+        .structure(ammonia()
+            .fragment()));
+    batch.register(AvogadroApi.builder("guide:peg")
+        .name("Polyethylene glycol")
+        .polymer(peg()));
+    batch.register(AvogadroApi.builder("guide:rubber")
+        .name("Sulfur-linked polyisoprene")
+        .polymerNetwork(rubber()));
+    batch.register(AvogadroApi.builder("guide:salt")
+        .name("Sodium chloride")
+        .structure(saltBasis())
+        .crystalCell(new CrystalCell(5.64, 5.64, 5.64, 90, 90, 90))
+        .formula("NaCl"));
     return batch;
 }
 
 public static StructureFragment water() {
     // All atoms are explicit: StructureBuilder does not add hydrogens.
-    return new StructureBuilder().atom(&quot;O&quot;, 0, 0, 0).atom(&quot;H&quot;, .7586, .5043, 0).atom(&quot;H&quot;, -.7586, .5043, 0)
-            .bond(0, 1).bond(0, 2).attachment(&quot;oxygen&quot;, 0)
-            .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
-            .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
-            .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1))).build();
+    return new StructureBuilder()
+        .atom("O",
+            0,
+            0,
+            0)
+        .atom("H",
+            .7586,
+            .5043,
+            0)
+        .atom("H",
+            -.7586,
+            .5043,
+            0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .attachment("oxygen", 0)
+        .atomConfiguration(0, new AtomicConfiguration(8, 8, 0, List.of(2, 6)))
+        .atomConfiguration(1, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .atomConfiguration(2, new AtomicConfiguration(1, 0, 0, List.of(1)))
+        .build();
 }
 
 public static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892).bond(0, 1).bond(0, 2).bond(0, 3).attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("H",
+            -.36,
+            1.03,
+            0)
+        .atom("H",
+            -.36,
+            -.515,
+            .892)
+        .atom("H",
+            -.36,
+            -.515,
+            -.892)
+        .bond(0,
+            1)
+        .bond(0,
+            2)
+        .bond(0,
+            3)
+        .attachment("carbon",
+            0)
+        .build();
 }
 
 public static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0).bond(0, 1).attachment(&quot;oxygen&quot;, 0)
-            .build();
+    return new StructureBuilder()
+        .atom("O",
+            1.43,
+            0,
+            0)
+        .atom("H",
+            1.8,
+            .85,
+            0)
+        .bond(0,
+            1)
+        .attachment("oxygen",
+            0)
+        .build();
 }
 
 public static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
-    return StructureAssembly.builder().part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE).build().build(); // recipe first, then finite geometry
+    return StructureAssembly.builder()
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon",
+            "hydroxyl/oxygen",
+            BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }
 
 public static StructureEditResult ammonia() {
     // Change O to N and add the third hydrogen: H2O -&gt; NH3 as a graph edit.
     // This demonstrates authoring; it does not simulate a reaction.
-    var editor = water().edit().replaceAtom(0, &quot;N&quot;).moveAtom(0, 0, 0, .25);
-    int hydrogen = editor.addAtom(&quot;H&quot;, 0, -.85, -.35);
-    return editor.setBond(0, hydrogen, BondType.SINGLE).build();
+    var editor = water()
+        .edit()
+        .replaceAtom(0, "N")
+        .moveAtom(0, 0, 0, .25);
+    int hydrogen = editor.addAtom("H", 0, -.85, -.35);
+    return editor.setBond(0, hydrogen, BondType.SINGLE)
+        .build();
 }
 
 public static PolymerDefinition peg() {
     // HO–(CH2–CH2–O)n–H. Caps supply both terminal hydrogens and the extra oxygen.
-    var unit = new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0).atom(&quot;O&quot;, 2.9, .2, 0)
-            .atom(&quot;H&quot;, -.3, .8, .65).atom(&quot;H&quot;, -.3, -.8, -.65).atom(&quot;H&quot;, 1.7, .8, -.65).atom(&quot;H&quot;, 1.7, -.8, .65)
-            .bond(0, 1).bond(1, 2).bond(0, 3).bond(0, 4).bond(1, 5).bond(1, 6).attachment(&quot;head&quot;, 0)
-            .attachment(&quot;tail&quot;, 2).build();
-    var head = new StructureBuilder().atom(&quot;O&quot;, -1.4, -.2, 0).atom(&quot;H&quot;, -2.2, .2, 0).bond(0, 1).attachment(&quot;end&quot;, 0)
-            .build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 3.8, .2, 0).attachment(&quot;end&quot;, 0).build();
-    return PolymerDefinition.usingAttachments(unit, &quot;head&quot;, &quot;tail&quot;, new PolymerDefinition.Vector(4.3, 0, 0),
-            BondType.SINGLE, PolymerDefinition.Cap.usingAttachment(head, &quot;end&quot;, BondType.SINGLE),
-            PolymerDefinition.Cap.usingAttachment(tail, &quot;end&quot;, BondType.SINGLE), 4);
+    var unit = new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("C",
+            1.5,
+            0,
+            0)
+        .atom("O",
+            2.9,
+            .2,
+            0)
+        .atom("H",
+            -.3,
+            .8,
+            .65)
+        .atom("H",
+            -.3,
+            -.8,
+            -.65)
+        .atom("H",
+            1.7,
+            .8,
+            -.65)
+        .atom("H",
+            1.7,
+            -.8,
+            .65)
+        .bond(0,
+            1)
+        .bond(1,
+            2)
+        .bond(0,
+            3)
+        .bond(0,
+            4)
+        .bond(1,
+            5)
+        .bond(1,
+            6)
+        .attachment("head",
+            0)
+        .attachment("tail", 2)
+        .build();
+    var head = new StructureBuilder()
+        .atom("O",
+            -1.4,
+            -.2,
+            0)
+        .atom("H",
+            -2.2,
+            .2,
+            0)
+        .bond(0,
+            1)
+        .attachment("end",
+            0)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H", 3.8, .2, 0)
+        .attachment("end", 0)
+        .build();
+    return PolymerDefinition.usingAttachments(unit,
+        "head",
+        "tail",
+        new PolymerDefinition.Vector(4.3,
+            0,
+            0),
+        BondType.SINGLE,
+        PolymerDefinition.Cap.usingAttachment(head,
+            "end",
+            BondType.SINGLE),
+        PolymerDefinition.Cap.usingAttachment(tail, "end", BondType.SINGLE), 4);
 }
 
 public static StructureFragment rubberUnit() {
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;C&quot;, 1.5, 0, 0).atom(&quot;C&quot;, 2.8, .4, 0)
-            .atom(&quot;C&quot;, 4.2, .4, 0).atom(&quot;C&quot;, 1.5, -1.5, 0).atom(&quot;H&quot;, -.4, .7, .7).atom(&quot;H&quot;, -.4, .7, -.7)
-            .atom(&quot;H&quot;, 2.9, 1.4, 0).atom(&quot;H&quot;, 4.4, .4, 1).atom(&quot;H&quot;, .5, -1.9, 0).atom(&quot;H&quot;, 2, -1.9, .8)
-            .atom(&quot;H&quot;, 2, -1.9, -.8).bond(0, 1).bond(1, 2, BondType.DOUBLE).bond(2, 3).bond(1, 4).bond(0, 5)
-            .bond(0, 6).bond(2, 7).bond(3, 8).bond(4, 9).bond(4, 10).bond(4, 11).attachment(&quot;head&quot;, 0)
-            .attachment(&quot;tail&quot;, 3).attachment(&quot;cross&quot;, 3).build();
+    return new StructureBuilder()
+        .atom("C", 0, 0, 0)
+        .atom("C", 1.5, 0, 0)
+        .atom("C", 2.8, .4, 0)
+        .atom("C",
+            4.2,
+            .4,
+            0)
+        .atom("C",
+            1.5,
+            -1.5,
+            0)
+        .atom("H",
+            -.4,
+            .7,
+            .7)
+        .atom("H",
+            -.4,
+            .7,
+            -.7)
+        .atom("H",
+            2.9,
+            1.4,
+            0)
+        .atom("H",
+            4.4,
+            .4,
+            1)
+        .atom("H",
+            .5,
+            -1.9,
+            0)
+        .atom("H",
+            2,
+            -1.9,
+            .8)
+        .atom("H",
+            2,
+            -1.9,
+            -.8)
+        .bond(0,
+            1)
+        .bond(1,
+            2,
+            BondType.DOUBLE)
+        .bond(2,
+            3)
+        .bond(1,
+            4)
+        .bond(0,
+            5)
+        .bond(0,
+            6)
+        .bond(2,
+            7)
+        .bond(3,
+            8)
+        .bond(4,
+            9)
+        .bond(4,
+            10)
+        .bond(4,
+            11)
+        .attachment("head",
+            0)
+        .attachment("tail", 3)
+        .attachment("cross", 3)
+        .build();
 }
 
 public static PolymerNetworkDefinition rubber() {
-    var sulfur = new StructureBuilder().atom(&quot;S&quot;, 4.2, 2.2, 0).attachment(&quot;left&quot;, 0).attachment(&quot;right&quot;, 0).build();
-    var hydrogens = new StructureBuilder().atom(&quot;H&quot;, 4.2, 1.4, 0).atom(&quot;H&quot;, 4.2, 3.0, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
-    var pair = StructureAssembly.builder().part(&quot;left&quot;, rubberUnit())
-            .part(&quot;right&quot;, rubberUnit().translate(0, 3.6, 0))
-            .choice(&quot;bridge&quot;, &quot;sulfur_bridge&quot;, &quot;bridgeChance&quot;,
-                    StructureAssembly.builder().part(&quot;connector&quot;, sulfur).build(),
-                    StructureAssembly.builder().part(&quot;connector&quot;, hydrogens).build())
-            .link(&quot;left/cross&quot;, &quot;bridge/connector/left&quot;, BondType.SINGLE)
-            .link(&quot;right/cross&quot;, &quot;bridge/connector/right&quot;, BondType.SINGLE).build();
-    var head = new StructureBuilder().atom(&quot;H&quot;, -1, 0, 0).atom(&quot;H&quot;, -1, 3.6, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
-    var tail = new StructureBuilder().atom(&quot;H&quot;, 5.2, .4, 0).atom(&quot;H&quot;, 5.2, 4, 0).attachment(&quot;left&quot;, 0)
-            .attachment(&quot;right&quot;, 1).build();
+    var sulfur = new StructureBuilder()
+        .atom("S",
+            4.2,
+            2.2,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right",
+            0)
+        .build();
+    var hydrogens = new StructureBuilder()
+        .atom("H",
+            4.2,
+            1.4,
+            0)
+        .atom("H",
+            4.2,
+            3.0,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
+    var pair = StructureAssembly.builder()
+        .part("left", rubberUnit())
+        .part("right", rubberUnit()
+            .translate(0, 3.6, 0))
+        .choice("bridge", "sulfur_bridge", "bridgeChance",
+            StructureAssembly.builder()
+            .part("connector", sulfur)
+            .build(),
+            StructureAssembly.builder()
+            .part("connector", hydrogens)
+            .build())
+        .link("left/cross", "bridge/connector/left", BondType.SINGLE)
+        .link("right/cross", "bridge/connector/right", BondType.SINGLE)
+        .build();
+    var head = new StructureBuilder()
+        .atom("H",
+            -1,
+            0,
+            0)
+        .atom("H",
+            -1,
+            3.6,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
+    var tail = new StructureBuilder()
+        .atom("H",
+            5.2,
+            .4,
+            0)
+        .atom("H",
+            5.2,
+            4,
+            0)
+        .attachment("left",
+            0)
+        .attachment("right", 1)
+        .build();
     var assembly = StructureAssembly.builder()
-            .repeat(&quot;pairs&quot;, pair, &quot;length&quot;, StructureAssembly.translation(5.7, 0, 0))
-            .neighbor(&quot;left/tail&quot;, &quot;left/head&quot;, 1, BondType.SINGLE)
-            .neighbor(&quot;right/tail&quot;, &quot;right/head&quot;, 1, BondType.SINGLE)
-            .endGroups(StructureAssembly.builder().part(&quot;cap&quot;, head).build(),
-                    StructureAssembly.builder().part(&quot;cap&quot;, tail).build())
-            .link(&quot;pairs/head/cap/left&quot;, &quot;pairs[first]/left/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs/head/cap/right&quot;, &quot;pairs[first]/right/head&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/left/tail&quot;, &quot;pairs/tail/cap/left&quot;, BondType.SINGLE)
-            .link(&quot;pairs[last]/right/tail&quot;, &quot;pairs/tail/cap/right&quot;, BondType.SINGLE).build();
-    return new PolymerNetworkDefinition(List.of(PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 16, 4),
-            PolymerNetworkDefinition.Parameter.probability(&quot;bridgeChance&quot;, .5)), assembly, 42L);
+        .repeat("pairs", pair, "length", StructureAssembly.translation(5.7, 0, 0))
+        .neighbor("left/tail", "left/head", 1, BondType.SINGLE)
+        .neighbor("right/tail", "right/head", 1, BondType.SINGLE)
+        .endGroups(StructureAssembly.builder()
+            .part("cap", head)
+            .build(),
+            StructureAssembly.builder()
+            .part("cap", tail)
+            .build())
+        .link("pairs/head/cap/left", "pairs[first]/left/head", BondType.SINGLE)
+        .link("pairs/head/cap/right", "pairs[first]/right/head", BondType.SINGLE)
+        .link("pairs[last]/left/tail", "pairs/tail/cap/left", BondType.SINGLE)
+        .link("pairs[last]/right/tail", "pairs/tail/cap/right", BondType.SINGLE)
+        .build();
+    return new PolymerNetworkDefinition(List.of(PolymerNetworkDefinition.Parameter.count("length",
+        1,
+        16,
+        4),
+        PolymerNetworkDefinition.Parameter.probability("bridgeChance",
+            .5)),
+            assembly,
+            42L);
 }
 
 public static StructureFragment saltBasis() {
@@ -550,12 +1071,23 @@ public static StructureFragment saltBasis() {
     double[][] sodium = [[0, 0, 0], [0, .5, .5], [.5, 0, .5], [.5, .5, 0]] as double[][];
     double[][] chlorine = [[.5, .5, .5], [.5, 0, 0], [0, .5, 0], [0, 0, .5]] as double[][];
     for (double[] p : sodium) {
-        int atom = basis.addAtom(&quot;Na&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(11, 12, 1, List.of(2, 8)));
+        int atom = basis.addAtom("Na", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(11,
+            12,
+            1,
+            List.of(2,
+            8)));
     }
     for (double[] p : chlorine) {
-        int atom = basis.addAtom(&quot;Cl&quot;, p[0] * a, p[1] * a, p[2] * a);
-        basis.atomConfiguration(atom, new AtomicConfiguration(17, 18, -1, List.of(2, 8, 8)));
+        int atom = basis.addAtom("Cl", p[0] * a, p[1] * a, p[2] * a);
+        basis.atomConfiguration(atom,
+            new AtomicConfiguration(17,
+            18,
+            -1,
+            List.of(2,
+            8,
+            8)));
     }
     return basis.build();
 }</code></pre>
@@ -574,24 +1106,25 @@ public static StructureFragment saltBasis() {
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerCatalog() {
-    // Replaces this owner&#x27;s contribution only. Other owners are untouched.
-    return AvogadroApi.owner(&quot;guide&quot;).replace(catalog());
+    // Replaces this owner's contribution only. Other owners are untouched.
+    return AvogadroApi.owner("guide")
+        .replace(catalog());
 }</code></pre>
         </div>
         <div data-language="groovy">
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">mods.avogadro.molecules.register(&#x27;guide:water&#x27;, [
-    name: &#x27;Water&#x27;,
+          <pre><code class="language-groovy">mods.avogadro.molecules.register('guide:water', [
+    name: 'Water',
     atoms: [
-        [e: &#x27;O&#x27;, x: 0, y: 0, z: 0],
-        [e: &#x27;H&#x27;, x: 0.7586, y: 0.5043, z: 0],
-        [e: &#x27;H&#x27;, x: -0.7586, y: 0.5043, z: 0]
+        [e: 'O', x: 0, y: 0, z: 0],
+        [e: 'H', x: 0.7586, y: 0.5043, z: 0],
+        [e: 'H', x: -0.7586, y: 0.5043, z: 0]
     ],
     bonds: [[0, 1], [0, 2]],
-    items: [&#x27;minecraft:water_bucket&#x27;],
-    fluids: [&#x27;minecraft:water&#x27;],
+    items: ['minecraft:water_bucket'],
+    fluids: ['minecraft:water'],
     generate_item: true
 ])</code></pre>
         </div>
@@ -652,7 +1185,53 @@ public static StructureFragment saltBasis() {
         Only the <a href="fictional.html">two fictional appendix examples</a> use invented nuclei.
         Avogadro does not predict their stability or properties.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="examples-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#builder(java.lang.String)">builder</a>(id)</code>
+              </td>
+              <td>Namespaced molecule ID</td>
+              <td>Give each copied model an ID controlled by your addon.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>batch.<a href="../MoleculeBatch.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
+              </td>
+              <td>Molecule definition or builder</td>
+              <td>Add the model and its matching rules to the batch.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#replace(io.github.wurtzitane.avogadro.api.MoleculeBatch)">replace</a>(batch)</code>
+              </td>
+              <td>Owner name; complete batch</td>
+              <td>Publish the catalogue as one owned replacement set.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="start.html">Previous: Your first molecule</a><a href="structures.html">Next: Build, connect, and edit structures</a>
       </nav>
     </div></main>

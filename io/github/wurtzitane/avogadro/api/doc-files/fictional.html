@@ -65,6 +65,158 @@ loadScripts(document, 'script');</script>
         define Naquadah with electrons and with every electron removed; you supply the counts and
         positions rather than asking Avogadro to predict them.
       </p>
+      
+      <div class="av-language">
+        <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
+          one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
+      </div>
+      <details>
+        <summary>Java imports</summary>
+        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+import io.github.wurtzitane.avogadro.molecule.*;
+// Client code only:
+import io.github.wurtzitane.avogadro.api.client.*;
+import io.github.wurtzitane.avogadro.client.export.*;
+import java.util.List;
+import java.util.Map;</code></pre>
+      </details>
+      <h2 id="fictional-neutral">Naquadah: an invented neutral atom</h2>
+      <p>
+        This example defines an invented neutral naquadah atom with 174 protons. The supplied
+        neutron count and electron shells determine the inspection display. Register the returned
+        definition to make it available in game; these values are game data, not a prediction that
+        this nucleus is stable.
+      </p>
+      <div class="av-example" data-example="fictional" data-register-example="guide:naquadah">
+        <div data-language="java">
+          <p class="av-step">Java · add this method to your class.</p>
+          <pre><code class="language-java">public static MoleculeSpec fictionalNaquadah() {
+    // Fictional nucleus and chosen shell layout, not a prediction of a real element.
+    return AvogadroApi.builder("guide:naquadah")
+        .name("Naquadah (fictional)")
+        .atom("Nq", 0, 0, 0)
+        .noBonds()
+        .element("Nq", 174, 352, 2, 8, 18, 32, 50, 32, 18, 14)
+        .build();
+}</code></pre>
+        </div>
+        <div data-language="groovy">
+          <p class="av-step">
+            Groovy · same API; place methods in your script or client helper as described.
+          </p>
+          <pre><code class="language-groovy">static MoleculeSpec fictionalNaquadah() {
+    // Fictional nucleus and chosen shell layout, not a prediction of a real element.
+    return AvogadroApi.builder("guide:naquadah")
+        .name("Naquadah (fictional)")
+        .atom("Nq", 0, 0, 0)
+        .noBonds()
+        .element("Nq", 174, 352, 2, 8, 18, 32, 50, 32, 18, 14)
+        .build();
+}</code></pre>
+        </div>
+        <div data-language="json">
+          <p class="av-step">
+            JSON · one definition per file unless a different destination is shown.
+          </p>
+          <pre><code class="language-json">{
+  "name": "Naquadah (fictional)",
+  "atoms": [
+    {
+      "e": "Nq",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "bonds": [],
+  "elements": {
+    "Nq": {
+      "atomic_number": 174,
+      "neutrons": 352,
+      "electron_shells": [
+        2,
+        8,
+        18,
+        32,
+        50,
+        32,
+        18,
+        14
+      ]
+    }
+  }
+}</code></pre>
+        </div>
+      </div>
+      <p>
+        The chosen shell counts sum to 174 and satisfy the API’s count limits. That validates the
+        data format, not whether such an atom could exist. There is no standard atomic weight for
+        Nq; do not advertise a standard-weight molecular mass.
+      </p>
+      <h2 id="fictional-bare">The same fictional nucleus with every electron removed</h2>
+      <p>
+        This keeps the fictional nucleus but removes every electron by setting charge to +174 and
+        supplying no occupied shells. It tests how the atom viewer handles a bare nucleus; it does
+        not calculate the energy required to remove those electrons.
+      </p>
+      <div class="av-example" data-example="fictional-ion" data-register-example="guide:naquadah_nucleus">
+        <div data-language="java">
+          <p class="av-step">Java · add this method to your class.</p>
+          <pre><code class="language-java">public static MoleculeSpec fictionalStrippedIon() {
+    // Same fictional nucleus with no electrons: an illustration of explicit ion data.
+    return AvogadroApi.builder("guide:naquadah_nucleus")
+        .name("Bare naquadah nucleus (fictional)")
+        .atom("Nq", 0, 0, 0)
+        .noBonds()
+        .atomConfiguration(0, 174, 352, 174)
+        .build();
+}</code></pre>
+        </div>
+        <div data-language="groovy">
+          <p class="av-step">
+            Groovy · same API; place methods in your script or client helper as described.
+          </p>
+          <pre><code class="language-groovy">static MoleculeSpec fictionalStrippedIon() {
+    // Same fictional nucleus with no electrons: an illustration of explicit ion data.
+    return AvogadroApi.builder("guide:naquadah_nucleus")
+        .name("Bare naquadah nucleus (fictional)")
+        .atom("Nq", 0, 0, 0)
+        .noBonds()
+        .atomConfiguration(0, 174, 352, 174)
+        .build();
+}</code></pre>
+        </div>
+        <div data-language="json">
+          <p class="av-step">
+            JSON · one definition per file unless a different destination is shown.
+          </p>
+          <pre><code class="language-json">{
+  "name": "Bare naquadah nucleus (fictional)",
+  "atoms": [
+    {
+      "e": "Nq",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "bonds": [],
+  "atom_configurations": {
+    "0": {
+      "atomic_number": 174,
+      "neutrons": 352,
+      "charge": 174,
+      "electron_shells": []
+    }
+  }
+}</code></pre>
+        </div>
+      </div>
+      <p>
+        A charge of +174 and no shell entries explicitly gives zero electrons. This demonstrates a
+        nucleus-only inspection case. Stability, energy, radiation, and material properties are
+        outside this rendering API.
+      </p>
       <section class="av-call-guide">
         <h2 id="fictional-call-sequence">Calls used in the examples</h2>
         <table>
@@ -117,144 +269,8 @@ loadScripts(document, 'script');</script>
           loading rules instead. Keep drawing and exports in client code.
         </p>
       </section>
-      <div class="av-language">
-        <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
-          one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
-      </div>
-      <details>
-        <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
-import io.github.wurtzitane.avogadro.molecule.*;
-// Client code only:
-import io.github.wurtzitane.avogadro.api.client.*;
-import io.github.wurtzitane.avogadro.client.export.*;
-import java.util.List;
-import java.util.Map;</code></pre>
-      </details>
-      <h2 id="fictional-neutral">Naquadah: an invented neutral atom</h2>
-      <p>
-        This example defines an invented neutral naquadah atom with 174 protons. The supplied
-        neutron count and electron shells determine the inspection display. Register the returned
-        definition to make it available in game; these values are game data, not a prediction that
-        this nucleus is stable.
-      </p>
-      <div class="av-example" data-example="fictional" data-register-example="guide:naquadah">
-        <div data-language="java">
-          <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec fictionalNaquadah() {
-    // Fictional nucleus and chosen shell layout, not a prediction of a real element.
-    return AvogadroApi.builder(&quot;guide:naquadah&quot;).name(&quot;Naquadah (fictional)&quot;)
-            .atom(&quot;Nq&quot;, 0, 0, 0).noBonds()
-            .element(&quot;Nq&quot;, 174, 352, 2, 8, 18, 32, 50, 32, 18, 14).build();
-}</code></pre>
-        </div>
-        <div data-language="groovy">
-          <p class="av-step">
-            Groovy · same API; place methods in your script or client helper as described.
-          </p>
-          <pre><code class="language-groovy">static MoleculeSpec fictionalNaquadah() {
-    // Fictional nucleus and chosen shell layout, not a prediction of a real element.
-    return AvogadroApi.builder(&quot;guide:naquadah&quot;).name(&quot;Naquadah (fictional)&quot;)
-            .atom(&quot;Nq&quot;, 0, 0, 0).noBonds()
-            .element(&quot;Nq&quot;, 174, 352, 2, 8, 18, 32, 50, 32, 18, 14).build();
-}</code></pre>
-        </div>
-        <div data-language="json">
-          <p class="av-step">
-            JSON · one definition per file unless a different destination is shown.
-          </p>
-          <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Naquadah (fictional)&quot;,
-  &quot;atoms&quot;: [
-    {
-      &quot;e&quot;: &quot;Nq&quot;,
-      &quot;x&quot;: 0,
-      &quot;y&quot;: 0,
-      &quot;z&quot;: 0
-    }
-  ],
-  &quot;bonds&quot;: [],
-  &quot;elements&quot;: {
-    &quot;Nq&quot;: {
-      &quot;atomic_number&quot;: 174,
-      &quot;neutrons&quot;: 352,
-      &quot;electron_shells&quot;: [
-        2,
-        8,
-        18,
-        32,
-        50,
-        32,
-        18,
-        14
-      ]
-    }
-  }
-}</code></pre>
-        </div>
-      </div>
-      <p>
-        The chosen shell counts sum to 174 and satisfy the API’s count limits. That validates the
-        data format, not whether such an atom could exist. There is no standard atomic weight for
-        Nq; do not advertise a standard-weight molecular mass.
-      </p>
-      <h2 id="fictional-bare">The same fictional nucleus with every electron removed</h2>
-      <p>
-        This keeps the fictional nucleus but removes every electron by setting charge to +174 and
-        supplying no occupied shells. It tests how the atom viewer handles a bare nucleus; it does
-        not calculate the energy required to remove those electrons.
-      </p>
-      <div class="av-example" data-example="fictional-ion" data-register-example="guide:naquadah_nucleus">
-        <div data-language="java">
-          <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec fictionalStrippedIon() {
-    // Same fictional nucleus with no electrons: an illustration of explicit ion data.
-    return AvogadroApi.builder(&quot;guide:naquadah_nucleus&quot;).name(&quot;Bare naquadah nucleus (fictional)&quot;)
-            .atom(&quot;Nq&quot;, 0, 0, 0).noBonds().atomConfiguration(0, 174, 352, 174).build();
-}</code></pre>
-        </div>
-        <div data-language="groovy">
-          <p class="av-step">
-            Groovy · same API; place methods in your script or client helper as described.
-          </p>
-          <pre><code class="language-groovy">static MoleculeSpec fictionalStrippedIon() {
-    // Same fictional nucleus with no electrons: an illustration of explicit ion data.
-    return AvogadroApi.builder(&quot;guide:naquadah_nucleus&quot;).name(&quot;Bare naquadah nucleus (fictional)&quot;)
-            .atom(&quot;Nq&quot;, 0, 0, 0).noBonds().atomConfiguration(0, 174, 352, 174).build();
-}</code></pre>
-        </div>
-        <div data-language="json">
-          <p class="av-step">
-            JSON · one definition per file unless a different destination is shown.
-          </p>
-          <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Bare naquadah nucleus (fictional)&quot;,
-  &quot;atoms&quot;: [
-    {
-      &quot;e&quot;: &quot;Nq&quot;,
-      &quot;x&quot;: 0,
-      &quot;y&quot;: 0,
-      &quot;z&quot;: 0
-    }
-  ],
-  &quot;bonds&quot;: [],
-  &quot;atom_configurations&quot;: {
-    &quot;0&quot;: {
-      &quot;atomic_number&quot;: 174,
-      &quot;neutrons&quot;: 352,
-      &quot;charge&quot;: 174,
-      &quot;electron_shells&quot;: []
-    }
-  }
-}</code></pre>
-        </div>
-      </div>
-      <p>
-        A charge of +174 and no shell entries explicitly gives zero electrons. This demonstrates a
-        nucleus-only inspection case. Stability, energy, radiation, and material properties are
-        outside this rendering API.
-      </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="chirality.html">Previous: Show mirror-image molecules with SMILES</a><a href="matching.html">Next: Match items and fluids</a>
       </nav>
     </div></main>

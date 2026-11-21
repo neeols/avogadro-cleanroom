@@ -64,50 +64,7 @@ loadScripts(document, 'script');</script>
         contains <code>pack.mcmeta</code> and molecule JSON files; the examples bind water to an
         existing bucket and create an ethanol sample item.
       </p>
-      <section class="av-call-guide">
-        <h2 id="packs-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>pack.mcmeta</code></td>
-              <td>pack_format; description</td>
-              <td>
-                Use pack_format 3 and a string description. Put this file directly at a ZIP’s root.
-              </td>
-            </tr>
-            <tr>
-              <td><code>data/namespace/molecules/path.json</code></td>
-              <td>Namespace and file path</td>
-              <td>The example path data/example/molecules/water.json defines example:water.</td>
-            </tr>
-            <tr>
-              <td><code>Tag JSON values / replace</code></td>
-              <td>Selector list; replacement flag</td>
-              <td>Append tag entries by default or replace the earlier list explicitly.</td>
-            </tr>
-            <tr>
-              <td><code>/avogadro reload</code></td>
-              <td>Server command; permission level 2</td>
-              <td>Reload common server sources and synchronize connected clients.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> Pack loading owns its file access. To disable a pack,
-          rename its folder or ZIP with the .disabled suffix and reload. A rejected pack reload
-          keeps the previous complete result; fix the reported file before retrying.
-        </p>
-      </section>
+      
       <h2 id="packs-install">Install a pack</h2>
       <table>
         <caption>
@@ -162,9 +119,24 @@ loadScripts(document, 'script');</script>
       <pre data-register-example="example:water"><code class="language-json">{
   "name": "Water",
   "atoms": [
-    {"e": "O", "x": 0, "y": 0, "z": 0},
-    {"e": "H", "x": 0.7586, "y": 0.5043, "z": 0},
-    {"e": "H", "x": -0.7586, "y": 0.5043, "z": 0}
+    {
+        "e": "O",
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    {
+        "e": "H",
+        "x": 0.7586,
+        "y": 0.5043,
+        "z": 0
+    },
+    {
+        "e": "H",
+        "x": -0.7586,
+        "y": 0.5043,
+        "z": 0
+    }
   ],
   "bonds": [[0, 1], [0, 2]],
   "items": ["minecraft:water_bucket"],
@@ -298,14 +270,25 @@ loadScripts(document, 'script');</script>
   "rules": [
     {
       "name": "Show common chemistry",
-      "match": { "molecule_tags": ["example:common"] },
-      "exclude": { "ids": ["example:experimental_sample"] },
-      "set": { "hei_visible": true, "creative_visible": true }
+      "match": {
+          "molecule_tags": ["example:common"]
+      },
+      "exclude": {
+          "ids": ["example:experimental_sample"]
+      },
+      "set": {
+          "hei_visible": true,
+          "creative_visible": true
+      }
     },
     {
       "name": "Start polymer viewers with twelve units",
-      "match": { "classifications": ["polymer"] },
-      "set": { "polymer_preview_units": 12 }
+      "match": {
+          "classifications": ["polymer"]
+      },
+      "set": {
+          "polymer_preview_units": 12
+      }
     }
   ]
 }</code></pre>
@@ -427,7 +410,52 @@ loadScripts(document, 'script');</script>
         Resolved association lists allow 1024 entries each and an 8 MiB combined accounting budget,
         in addition to synchronization byte limits.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="packs-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>pack.mcmeta</code></td>
+              <td>pack_format; description</td>
+              <td>
+                Use pack_format 3 and a string description. Put this file directly at a ZIP’s root.
+              </td>
+            </tr>
+            <tr>
+              <td><code>data/namespace/molecules/path.json</code></td>
+              <td>Namespace and file path</td>
+              <td>The example path data/example/molecules/water.json defines example:water.</td>
+            </tr>
+            <tr>
+              <td><code>Tag JSON values / replace</code></td>
+              <td>Selector list; replacement flag</td>
+              <td>Append tag entries by default or replace the earlier list explicitly.</td>
+            </tr>
+            <tr>
+              <td><code>/avogadro reload</code></td>
+              <td>Server command; permission level 2</td>
+              <td>Reload common server sources and synchronize connected clients.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> Pack loading owns its file access. To disable a pack,
+          rename its folder or ZIP with the .disabled suffix and reload. A rejected pack reload
+          keeps the previous complete result; fix the reported file before retrying.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="matching.html">Previous: Match items and fluids</a><a href="atoms.html">Next: Add atom details</a>
       </nav>
     </div></main>

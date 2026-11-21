@@ -64,14 +64,7 @@ loadScripts(document, 'script');</script>
         Start with the symptom below. Check the call or file that produced the result, inspect its
         reported failure and apply the matching correction before retrying.
       </p>
-      <section class="av-call-guide">
-        <h2 id="troubleshooting-call-sequence">Calls used in the examples</h2>
-        <p>
-          <strong>When you finish:</strong> After editing JSON, reload the corresponding server or
-          client source. Keep the previous valid registrations until a replacement succeeds; release
-          your own jobs and stop requester-owned preparation when the tool closes.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -173,7 +166,20 @@ loadScripts(document, 'script');</script>
       </table>
       <h2 id="troubleshooting-bad-bond">Fix a bond that refers to a missing atom</h2>
       &gt;
-      <pre><code class="language-json">{&quot;atoms&quot;:[{&quot;e&quot;:&quot;H&quot;,&quot;x&quot;:0,&quot;y&quot;:0,&quot;z&quot;:0},{&quot;e&quot;:&quot;H&quot;,&quot;x&quot;:0.74,&quot;y&quot;:0,&quot;z&quot;:0}],&quot;bonds&quot;:[[0,1]]}</code></pre>
+      <pre><code class="language-json">{
+    "atoms":[{
+            "e":"H",
+            "x":0,
+            "y":0,
+            "z":0
+        },{
+            "e":"H",
+            "x":0.74,
+            "y":0,
+            "z":0
+        }],
+    "bonds":[[0,1]]
+}</code></pre>
       <p>
         Only indices 0 and 1 exist. A bond <code>[0,<wbr/>2]</code> would be rejected. Use an
         ordinary formula <code>H2</code> if supplying one; the labels draw subscripts for you.
@@ -205,8 +211,17 @@ loadScripts(document, 'script');</script>
           realization. Do not promise reproducibility after renaming paths.
         </li>
       </ul>
-      <nav class="av-pager" aria-label="Guide navigation">
-        <a href="reference.html">Previous: Definition and recipe reference</a><a href="languages.html">Next: Use Avogadro from Java, Kotlin, Scala, or scripts</a>
+      <section class="av-call-guide">
+        <h2 id="troubleshooting-call-sequence">Calls used in the examples</h2>
+        <p>
+          <strong>When you finish:</strong> After editing JSON, reload the corresponding server or
+          client source. Keep the previous valid registrations until a replacement succeeds; release
+          your own jobs and stop requester-owned preparation when the tool closes.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
+        <a href="reference.html">Previous: Definition and recipe reference</a><a href="languages.html">Next: Molecule API recipes</a>
       </nav>
     </div></main>
 </div>

@@ -64,61 +64,7 @@ loadScripts(document, 'script');</script>
         names. The first example groups definitions and tags into one checked update. Later examples
         read the current data and prepare a large model in the background for a screen.
       </p>
-      <section class="av-call-guide">
-        <h2 id="lifecycle-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#submit(boolean,java.util.function.Consumer)">submit</a>(replace, callback)</code>
-              </td>
-              <td>Owner name; replacement flag; batch callback</td>
-              <td>Publish related molecule and tag edits together.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBatch.html#itemTag(java.lang.String,boolean,java.lang.String...)">itemTag</a>(id, replace, values...) /
-                  <a href="../MoleculeBatch.html#fluidTag(java.lang.String,boolean,java.lang.String...)">fluidTag</a>(...)</code>
-              </td>
-              <td>Tag ID; replacement flag; selectors</td>
-              <td>Supply item or fluid tag entries in the same update.</td>
-            </tr>
-            <tr>
-              <td>
-                <code>job.<a href="../RegistrationJob.html#onComplete(java.util.function.Consumer)">onComplete</a>(callback)</code>
-              </td>
-              <td>Outcome callback</td>
-              <td>
-                Handle success or failure on the thread completing the operation; schedule GUI work
-                onto the client thread.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../NetworkPreviewRequest.html#%3Cinit%3E(java.util.Map,java.util.Map,long)">NetworkPreviewRequest</a>(counts, choices, seed)</code>
-              </td>
-              <td>Parameter values; choices; random seed</td>
-              <td>Request one finite result from a reusable network recipe.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> Retain and release your RegistrationJob when its
-          installed set should be removed. Cancel pending preparation and close the PreparationScope
-          when its requester goes away. Preparation alone does not register definitions or allocate
-          a viewer.
-        </p>
-      </section>
+      
       <p>
         A registered molecule cannot be edited in place: build a replacement and apply it when
         ready. The examples keep a <code>RegistrationJob</code> so your mod can check success, read
@@ -149,25 +95,32 @@ loadScripts(document, 'script');</script>
 final class MoleculeTransactionRecipe {
     // Common initialization or a server action. Prepare immutable data before submitting the commit.
     static RegistrationJob install() {
-        var water = AvogadroApi.builder(&quot;example:water&quot;).smiles(&quot;[H]O[H]&quot;)
-                .itemTags(&quot;example:water_items&quot;).fluidTags(&quot;example:water_fluids&quot;).build();
-        var job = AvogadroApi.owner(&quot;example_recipes&quot;).submit(true, batch -&gt; batch
-                .register(water).remove(&quot;example:old_water&quot;)
-                .itemTag(&quot;example:water_items&quot;, false, &quot;minecraft:water_bucket&quot;)
-                .fluidTag(&quot;example:water_fluids&quot;, false, &quot;water&quot;));
+        var water = AvogadroApi.builder("example:water")
+            .smiles("[H]O[H]")
+            .itemTags("example:water_items")
+            .fluidTags("example:water_fluids")
+            .build();
+        var job = AvogadroApi.owner("example_recipes")
+            .submit(true, batch -&gt; batch
+                .register(water)
+                .remove("example:old_water")
+                .itemTag("example:water_items", false, "minecraft:water_bucket")
+                .fluidTag("example:water_fluids", false, "water"));
         job.onComplete(outcome -&gt; {
             if (outcome.state() == RegistrationJob.State.SUCCEEDED)
-                System.out.println(&quot;Published revision &quot; + outcome.view().revision());
+            System.out.println("Published revision " + outcome.view()
+                .revision());
             else if (outcome.failure() != null)
-                System.err.println(&quot;Previous definitions retained: &quot; + outcome.failure());
+            System.err.println("Previous definitions retained: " + outcome.failure());
         });
         return job; // Retain the handle. Callbacks use the completing thread, not an implied UI thread.
     }
     // Common teardown. Cleanup is another conditional publication and can fail if other definitions depend on it.
     static void unload(RegistrationJob job) {
-        job.release().whenComplete((view, failure) -&gt; {
-            if (failure != null) System.err.println(&quot;Cleanup rejected; retry after resolving dependencies: &quot; + failure);
-        });
+        job.release()
+            .whenComplete((view, failure) -&gt; {
+                if (failure != null) System.err.println("Cleanup rejected; retry after resolving dependencies: " + failure);
+            });
     }
     // job.cancel() prevents pending work only. False means the atomic application already started or finished.
 }</code></pre>
@@ -177,25 +130,34 @@ import io.github.wurtzitane.avogadro.kotlin.Avogadro
 object MoleculeTransactionRecipeK {
     // Common initialization or server action. Definitions and both tag kinds publish as one owner layer.
     fun install(): RegistrationJob {
-        val water = Avogadro.molecule(&quot;example:water&quot;) {
-            smiles(&quot;[H]O[H]&quot;); itemTags(&quot;example:water_items&quot;); fluidTags(&quot;example:water_fluids&quot;)
+        val water = Avogadro.molecule("example:water") {
+            smiles("[H]O[H]");
+            itemTags("example:water_items");
+            fluidTags("example:water_fluids")
         }
-        val job = AvogadroApi.owner(&quot;example_recipes&quot;).submit(true) { batch -&gt;
-            batch.register(water).remove(&quot;example:old_water&quot;)
-                .itemTag(&quot;example:water_items&quot;, false, &quot;minecraft:water_bucket&quot;)
-                .fluidTag(&quot;example:water_fluids&quot;, false, &quot;water&quot;)
-        }
-        job.onComplete { outcome -&gt;
+        val job = AvogadroApi.owner("example_recipes")
+            .submit(true) {
+                batch -&gt;
+                batch.register(water)
+            .remove("example:old_water")
+            .itemTag("example:water_items", false, "minecraft:water_bucket")
+            .fluidTag("example:water_fluids", false, "water")
+            }
+        job.onComplete {
+            outcome -&gt;
             if (outcome.state() == RegistrationJob.State.SUCCEEDED)
-                println(&quot;Published revision ${outcome.view().revision()}&quot;)
-            else outcome.failure()?.let { System.err.println(&quot;Previous definitions retained: $it&quot;) }
+            println("Published revision ${outcome.view().revision()}")
+            else outcome.failure()?.let {
+                System.err.println("Previous definitions retained: $it")
+            }
         }
         return job
     }
     // Common teardown. An older receipt cannot remove a newer replacement.
     fun unload(job: RegistrationJob) {
-        job.release().whenComplete { _, failure -&gt;
-            if (failure != null) System.err.println(&quot;Cleanup rejected: $failure&quot;)
+        job.release().whenComplete {
+            _, failure -&gt;
+            if (failure != null) System.err.println("Cleanup rejected: $failure")
         }
     }
 }</code></pre>
@@ -205,24 +167,35 @@ import io.github.wurtzitane.avogadro.api.RegistrationJob
 // Common/server action. Use a dedicated owner when this contribution needs independent receipts.
 // For loader-owned declarations, the existing mods.avogadro registry remains available.
 def install = {
-    def water = AvogadroApi.builder(&#x27;example:water&#x27;).smiles(&#x27;[H]O[H]&#x27;)
-        .itemTags(&#x27;example:water_items&#x27;).fluidTags(&#x27;example:water_fluids&#x27;).build()
-    def job = AvogadroApi.owner(&#x27;example_recipes&#x27;).submit(true, { batch -&gt;
-        batch.register(water).remove(&#x27;example:old_water&#x27;)
-            .itemTag(&#x27;example:water_items&#x27;, false, &#x27;minecraft:water_bucket&#x27;)
-            .fluidTag(&#x27;example:water_fluids&#x27;, false, &#x27;water&#x27;)
-    })
-    job.onComplete({ outcome -&gt;
+    def water = AvogadroApi.builder('example:water')
+        .smiles('[H]O[H]')
+        .itemTags('example:water_items')
+        .fluidTags('example:water_fluids')
+        .build()
+    def job = AvogadroApi.owner('example_recipes')
+        .submit(true, {
+            batch -&gt;
+            batch.register(water)
+                .remove('example:old_water')
+                .itemTag('example:water_items', false, 'minecraft:water_bucket')
+                .fluidTag('example:water_fluids', false, 'water')
+        })
+    job.onComplete({
+        outcome -&gt;
         if (outcome.state() == RegistrationJob.State.SUCCEEDED)
-            println &quot;Published revision ${outcome.view().revision()}&quot;
+        println "Published revision ${outcome.view().revision()}"
         else if (outcome.failure() != null) System.err.println(outcome.failure())
     })
     job
 }
 // Retain the returned handle in the same controller that owns this explicit registration.
-def unload = { job -&gt; job.release().whenComplete({ view, failure -&gt;
-    if (failure != null) System.err.println(&quot;Cleanup rejected: $failure&quot;)
-}) }
+def unload = {
+    job -&gt; job.release()
+        .whenComplete({
+            view, failure -&gt;
+            if (failure != null) System.err.println("Cleanup rejected: $failure")
+        })
+}
 // This explicit Java owner is not automatically owned by a GroovyScript virtual registry.</code></pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.scala.Avogadro
@@ -230,43 +203,54 @@ import io.github.wurtzitane.avogadro.scala.Avogadro
 object MoleculeTransactionRecipeS:
   // Common initialization or server action. The callback edits a private draft on the authority thread.
   def install(): RegistrationJob =
-    val water = Avogadro.molecule(&quot;example:water&quot;) { builder =&gt;
-      builder.smiles(&quot;[H]O[H]&quot;).itemTags(&quot;example:water_items&quot;).fluidTags(&quot;example:water_fluids&quot;)
+    val water = Avogadro.molecule("example:water") { builder =&gt;
+      builder.smiles("[H]O[H]")
+          .itemTags("example:water_items")
+          .fluidTags("example:water_fluids")
     }
-    val job = AvogadroApi.owner(&quot;example_recipes&quot;).submit(true, batch =&gt;
-      batch.register(water).remove(&quot;example:old_water&quot;)
-        .itemTag(&quot;example:water_items&quot;, false, &quot;minecraft:water_bucket&quot;)
-        .fluidTag(&quot;example:water_fluids&quot;, false, &quot;water&quot;)
+    val job = AvogadroApi.owner("example_recipes")
+          .submit(true, batch =&gt;
+      batch.register(water)
+          .remove("example:old_water")
+          .itemTag("example:water_items", false, "minecraft:water_bucket")
+          .fluidTag("example:water_fluids", false, "water")
     )
     job.onComplete(outcome =&gt;
       if outcome.state() == RegistrationJob.State.SUCCEEDED then
-        println(s&quot;Published revision ${outcome.view().revision()}&quot;)
+        println(s"Published revision ${outcome.view().revision()}")
       else if outcome.failure() != null then System.err.println(outcome.failure())
     )
     job
   // Common teardown; cleanup completion and publication completion are separate outcomes.
   def unload(job: RegistrationJob): Unit =
-    job.release().whenComplete((view, failure) =&gt;
-      if failure != null then System.err.println(s&quot;Cleanup rejected: $failure&quot;)
+    job.release()
+          .whenComplete((view, failure) =&gt;
+      if failure != null then System.err.println(s"Cleanup rejected: $failure")
     )</code></pre>
         <pre data-language="zenscript" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 import mods.avogadro.RegistrationJob;
 
 // Common startup. The owner is a dedicated crafttweaker.example_recipes layer.
-val water = Molecules.molecule(&quot;example:water&quot;).smiles(&quot;[H]O[H]&quot;)
-    .itemTag(&quot;example:water_items&quot;).fluidTag(&quot;example:water_fluids&quot;);
-val draft = Molecules.transaction(&quot;example_recipes&quot;).replaceAll()
-    .register(water).remove(&quot;example:old_water&quot;)
-    .itemTag(&quot;example:water_items&quot;, false, [&quot;minecraft:water_bucket&quot;])
-    .fluidTag(&quot;example:water_fluids&quot;, false, [&quot;water&quot;]);
+val water = Molecules.molecule("example:water")
+    .smiles("[H]O[H]")
+    .itemTag("example:water_items")
+    .fluidTag("example:water_fluids");
+val draft = Molecules.transaction("example_recipes")
+    .replaceAll()
+    .register(water)
+    .remove("example:old_water")
+    .itemTag("example:water_items", false, ["minecraft:water_bucket"])
+    .fluidTag("example:water_fluids", false, ["water"]);
 val owned = draft.commit();
 owned.onComplete(function(outcome) {
-    if (outcome.state == &quot;succeeded&quot;) print(&quot;Published revision &quot; + outcome.revision);
-    else print(&quot;Previous definitions retained: &quot; + outcome.failure);
+    if (outcome.state == "succeeded") print("Published revision " + outcome.revision);
+    else print("Previous definitions retained: " + outcome.failure);
 });
 
 // A later server/controller action can prevent queued publication, but cannot cancel an applying commit.
-function cancelPending(job as RegistrationJob) as bool { return job.cancel(); }
+function cancelPending(job as RegistrationJob) as bool {
+    return job.cancel();
+}
 // Later teardown calls owned.close(); stale receipts preserve newer layers.
 // Keep separate owners for contributions with separate lifetimes. Consumed drafts cannot be reused.</code></pre>
         <p>
@@ -296,18 +280,27 @@ import io.github.wurtzitane.avogadro.molecule.BondType;
 final class TypedNetworkRecipe {
     // Common CPU authoring: this is an explicit coordinate/link example, not a geometry optimizer.
     static PolymerNetworkDefinition recipe() {
-        var fragment = new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0)
-                .attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 0).build();
-        var unit = StructureAssembly.builder().part(&quot;unit&quot;, fragment).build();
+        var fragment = new StructureBuilder()
+            .atom("C", 0, 0, 0)
+            .attachment("head", 0)
+            .attachment("tail", 0)
+            .build();
+        var unit = StructureAssembly.builder()
+            .part("unit", fragment)
+            .build();
         var assembly = StructureAssembly.builder()
-                .repeat(&quot;chain&quot;, unit, &quot;length&quot;, StructureAssembly.translation(1.5, 0, 0))
-                .neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, BondType.SINGLE).build();
+            .repeat("chain", unit, "length", StructureAssembly.translation(1.5, 0, 0))
+            .neighbor("unit/tail", "unit/head", 1, BondType.SINGLE)
+            .build();
         return new PolymerNetworkDefinition(List.of(
-                PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 8, 3)), assembly, 42);
+            PolymerNetworkDefinition.Parameter.count("length", 1, 8, 3)), assembly, 42);
     }
     // Common CPU realization: immutable request and preview. Nothing is registered or rendered here.
     static PolymerPreview preview(PolymerNetworkDefinition recipe) {
-        return recipe.preview(new NetworkPreviewRequest(Map.of(&quot;length&quot;, 4), Map.of(), 7));
+        return recipe.preview(new NetworkPreviewRequest(Map.of("length",
+            4),
+            Map.of(),
+            7));
     }
     // Retain preview.request()/reproduction() when you need to reproduce the exact realization.
 }</code></pre>
@@ -319,35 +312,57 @@ object TypedNetworkRecipeK {
     // Common CPU authoring. Coordinates and connectivity are authored explicitly.
     fun recipe(): PolymerNetworkDefinition {
         val fragment = Avogadro.fragment {
-            atom(&quot;C&quot;, 0.0, 0.0, 0.0); attachment(&quot;head&quot;, 0); attachment(&quot;tail&quot;, 0)
+            atom("C", 0.0, 0.0, 0.0);
+            attachment("head", 0);
+            attachment("tail", 0)
         }
-        val unit = Avogadro.assembly { part(&quot;unit&quot;, fragment) }
+        val unit = Avogadro.assembly {
+            part("unit", fragment)
+        }
         val assembly = Avogadro.assembly {
-            repeat(&quot;chain&quot;, unit, &quot;length&quot;, StructureAssembly.translation(1.5, 0.0, 0.0))
-            neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, BondType.SINGLE)
+            repeat("chain",
+                unit,
+                "length",
+                StructureAssembly.translation(1.5,
+                0.0,
+                0.0))
+            neighbor("unit/tail", "unit/head", 1, BondType.SINGLE)
         }
         return PolymerNetworkDefinition(listOf(
-            PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 8, 3)), assembly, 42)
+            PolymerNetworkDefinition.Parameter.count("length", 1, 8, 3)), assembly, 42)
     }
     // Common CPU realization. A different seed changes authored random choices, not the supplied coordinates.
     fun preview(recipe: PolymerNetworkDefinition): PolymerPreview =
-        recipe.preview(NetworkPreviewRequest(mapOf(&quot;length&quot; to 4), emptyMap(), 7))
+    recipe.preview(NetworkPreviewRequest(mapOf("length" to 4), emptyMap(), 7))
 }</code></pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 // Common CPU authoring. Named attachments keep links readable after parts are nested or repeated.
 def recipe = {
-    def fragment = new StructureBuilder().atom(&#x27;C&#x27;, 0, 0, 0)
-        .attachment(&#x27;head&#x27;, 0).attachment(&#x27;tail&#x27;, 0).build()
-    def unit = StructureAssembly.builder().part(&#x27;unit&#x27;, fragment).build()
+    def fragment = new StructureBuilder()
+        .atom('C', 0, 0, 0)
+        .attachment('head', 0)
+        .attachment('tail', 0)
+        .build()
+    def unit = StructureAssembly.builder()
+        .part('unit', fragment)
+        .build()
     def assembly = StructureAssembly.builder()
-        .repeat(&#x27;chain&#x27;, unit, &#x27;length&#x27;, StructureAssembly.translation(1.5, 0, 0))
-        .neighbor(&#x27;unit/tail&#x27;, &#x27;unit/head&#x27;, 1, BondType.SINGLE).build()
-    new PolymerNetworkDefinition([PolymerNetworkDefinition.Parameter.count(&#x27;length&#x27;, 1, 8, 3)], assembly, 42L)
+        .repeat('chain', unit, 'length', StructureAssembly.translation(1.5, 0, 0))
+        .neighbor('unit/tail', 'unit/head', 1, BondType.SINGLE)
+        .build()
+    new PolymerNetworkDefinition([PolymerNetworkDefinition.Parameter.count('length',
+        1,
+        8,
+        3)],
+        assembly,
+        42L)
 }
-// Common CPU realization. Keep the preview&#x27;s request/reproduction data for reproducibility.
-def preview = { network -&gt; network.preview(new NetworkPreviewRequest([&#x27;length&#x27;: 4], [:], 7L)) }
+// Common CPU realization. Keep the preview's request/reproduction data for reproducibility.
+def preview = {
+    network -&gt; network.preview(new NetworkPreviewRequest(['length': 4], [:], 7L))
+}
 // This example authors a coordinate/link pattern. It does not infer hydrogen atoms, valence or optimized geometry.</code></pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.scala.Avogadro
@@ -357,33 +372,53 @@ object TypedNetworkRecipeS:
   // Common CPU authoring; native Scala uses the same validated Java fragment and assembly models.
   def recipe(): PolymerNetworkDefinition =
     val fragment = Avogadro.fragment { builder =&gt;
-      builder.atom(&quot;C&quot;, 0, 0, 0).attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 0)
+      builder.atom("C", 0, 0, 0)
+          .attachment("head", 0)
+          .attachment("tail", 0)
     }
-    val unit = Avogadro.assembly(_.part(&quot;unit&quot;, fragment))
+    val unit = Avogadro.assembly(_.part("unit", fragment))
     val assembly = Avogadro.assembly { builder =&gt;
-      builder.repeat(&quot;chain&quot;, unit, &quot;length&quot;, StructureAssembly.translation(1.5, 0, 0))
-        .neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, BondType.SINGLE)
+      builder.repeat("chain", unit, "length", StructureAssembly.translation(1.5, 0, 0))
+          .neighbor("unit/tail", "unit/head", 1, BondType.SINGLE)
     }
     new PolymerNetworkDefinition(java.util.List.of(
-      PolymerNetworkDefinition.Parameter.count(&quot;length&quot;, 1, 8, 3)), assembly, 42)
+      PolymerNetworkDefinition.Parameter.count("length", 1, 8, 3)), assembly, 42)
   // Common CPU realization, without registry or GPU side effects.
   def preview(recipe: PolymerNetworkDefinition): PolymerPreview =
-    recipe.preview(new NetworkPreviewRequest(java.util.Map.of(&quot;length&quot;, Int.box(4)), java.util.Map.of(), 7))</code></pre>
+    recipe.preview(new NetworkPreviewRequest(java.util.Map.of("length",
+                Int.box(4)),
+            java.util.Map.of(),
+            7))</code></pre>
         <pre data-language="zenscript" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 
 // Common CPU authoring. The wrapper calls the same StructureAssembly and network validators as Java.
-val fragment = Molecules.fragment().atom(&quot;C&quot;, 0.0, 0.0, 0.0)
-    .attachment(&quot;head&quot;, 0).attachment(&quot;tail&quot;, 0).build();
-val unit = Molecules.assembly().part(&quot;unit&quot;, fragment).build();
+val fragment = Molecules.fragment()
+    .atom("C", 0.0, 0.0, 0.0)
+    .attachment("head", 0)
+    .attachment("tail", 0)
+    .build();
+val unit = Molecules.assembly()
+    .part("unit", fragment)
+    .build();
 val step = [[1.0, 0.0, 0.0, 1.5], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0]] as double[][];
-val assembly = Molecules.assembly().repeatParameter(&quot;chain&quot;, unit, &quot;length&quot;, step)
-    .neighbor(&quot;unit/tail&quot;, &quot;unit/head&quot;, 1, 1).build();
-val network = Molecules.network(assembly).count(&quot;length&quot;, 1, 8, 3).seed(42 as long).build();
+val assembly = Molecules.assembly()
+    .repeatParameter("chain", unit, "length", step)
+    .neighbor("unit/tail", "unit/head", 1, 1)
+    .build();
+val network = Molecules.network(assembly)
+    .count("length", 1, 8, 3)
+    .seed(42 as long)
+    .build();
 // Realization requests are single-use; each new request starts with the network defaults.
-val model = network.request().count(&quot;length&quot;, 4).seed(7 as long).realize();
+val model = network.request()
+    .count("length", 4)
+    .seed(7 as long)
+    .realize();
 // Build an unregistered molecule declaration, or retain the template for adjustable realizations.
-val finite = Molecules.molecule(&quot;example:finite_chain&quot;).geometry(model);
-val template = Molecules.molecule(&quot;example:chain_template&quot;).network(network);
+val finite = Molecules.molecule("example:finite_chain")
+    .geometry(model);
+val template = Molecules.molecule("example:chain_template")
+    .network(network);
 // Register deliberately through a transaction; authoring and realization do not publish automatically.</code></pre>
         <p>
           Name an atom such as <code>head</code> or <code>tail</code> to connect copies without
@@ -412,16 +447,20 @@ final class MoleculeQueryRecipe {
         var view = MoleculeSnapshot.registered();
         var molecule = view.find(stack); // Uses the whole stack, including metadata and NBT.
         if (molecule == null) return null;
-        if (!molecule.atoms().isEmpty()) {
-            var atom = molecule.atoms().get(0);
-            var configuration = atom.configuration(); // Per-atom override, then element override, or null.
-            if (configuration != null) System.out.println(configuration.electronShells());
-        }
-        System.out.println(&quot;Source &quot; + view.boundary() + &quot;, revision &quot; + view.revision());
+        if (!molecule.atoms()
+            .isEmpty()) {
+                var atom = molecule.atoms()
+                    .get(0);
+                var configuration = atom.configuration(); // Per-atom override, then element override, or null.
+                if (configuration != null) System.out.println(configuration.electronShells());
+            }
+        System.out.println("Source " + view.boundary() + ", revision " + view.revision());
         return molecule;
     }
     // Server action: this does not read client resource overrides and is empty outside an active server.
-    static MoleculeSnapshot authoritative() { return MoleculeSnapshot.server(); }
+    static MoleculeSnapshot authoritative() {
+        return MoleculeSnapshot.server();
+    }
     // Client initialization/render controller only: AvogadroClientApi.snapshot() captures local presentation.
     // Keep a snapshot as immutable data; request another after reload to see new definitions.
 }</code></pre>
@@ -433,8 +472,11 @@ object MoleculeQueryRecipeK {
     fun inspect(stack: ItemStack): MoleculeSnapshot.Molecule? {
         val view = MoleculeSnapshot.registered()
         val molecule = view.find(stack) ?: return null
-        molecule.atoms().firstOrNull()?.configuration()?.let { atom -&gt; println(atom.electronShells()) }
-        println(&quot;Source ${view.boundary()}, revision ${view.revision()}&quot;)
+        molecule.atoms()
+            .firstOrNull()?.configuration()?.let {
+                atom -&gt; println(atom.electronShells())
+            }
+        println("Source ${view.boundary()}, revision ${view.revision()}")
         return molecule
     }
     // Server action: authoritative data is separate from the registered and client-presentation views.
@@ -445,15 +487,18 @@ object MoleculeQueryRecipeK {
 import net.minecraft.item.ItemStack
 
 // Common query. This view retains its revision even if a later reload replaces the definitions.
-def inspect = { ItemStack stack -&gt;
+def inspect = {
+    ItemStack stack -&gt;
     def view = MoleculeSnapshot.registered()
     def molecule = view.find(stack)
     if (molecule == null) return null
-    if (!molecule.atoms().isEmpty()) {
-        def configuration = molecule.atoms()[0].configuration()
-        if (configuration != null) println configuration.electronShells()
-    }
-    println &quot;Source ${view.boundary()}, revision ${view.revision()}&quot;
+    if (!molecule.atoms()
+        .isEmpty()) {
+            def configuration = molecule.atoms()[0]
+                .configuration()
+            if (configuration != null) println configuration.electronShells()
+        }
+    println "Source ${view.boundary()}, revision ${view.revision()}"
     molecule
 }
 // Server actions choose MoleculeSnapshot.server() explicitly.
@@ -468,8 +513,11 @@ object MoleculeQueryRecipeS:
     val result = Option(view.find(stack))
     result.foreach { molecule =&gt;
       if !molecule.atoms().isEmpty then
-        Option(molecule.atoms().get(0).configuration()).foreach(atom =&gt; println(atom.electronShells()))
-      println(s&quot;Source ${view.boundary()}, revision ${view.revision()}&quot;)
+        Option(molecule.atoms()
+            .get(0)
+            .configuration())
+            .foreach(atom =&gt; println(atom.electronShells()))
+      println(s"Source ${view.boundary()}, revision ${view.revision()}")
     }
     result
   // Server action, after server startup; no client-presentation fallback.
@@ -483,7 +531,7 @@ function inspect(stack as IItemStack) as void {
     val view = Molecules.registered();
     val molecule = view.findItem(stack);
     if (!molecule.present) return;
-    print(view.boundary + &quot; revision &quot; + view.revision);
+    print(view.boundary + " revision " + view.revision);
     print(molecule.formula);
     if (molecule.atoms &gt; 0) {
         val atom = molecule.atom(0);
@@ -493,7 +541,7 @@ function inspect(stack as IItemStack) as void {
         if (configuration.present) print(configuration.electrons);
     }
     if (molecule.bonds &gt; 0) print(molecule.bond(0).type);
-    print(molecule.metadata(&quot;source&quot;));
+    print(molecule.metadata("source"));
 }
 // Server action: use Molecules.server(). Client-only display uses Client.snapshot() in a #side client script.
 // Query results are immutable; ask for another snapshot after a reload to see new registrations.</code></pre>
@@ -525,23 +573,32 @@ final class PreparationRecipe implements AutoCloseable {
 
     // Common CPU request. Supply a delivery executor for the actual owning client/server thread.
     void prepare(Executor delivery) {
-        pending = scope.molecule(&quot;editor&quot;, &quot;example:water&quot;, builder -&gt; builder.smiles(&quot;[H]O[H]&quot;));
+        pending = scope.molecule("editor",
+            "example:water",
+            builder -&gt; builder.smiles("[H]O[H]"));
         pending.deliver(delivery, (value, failure) -&gt; {
-            if (failure != null) System.err.println(&quot;Preparation failed: &quot; + failure);
-            else prepared = value; // Still unregistered. Deliberately publish it through your owner&#x27;s transaction.
+            if (failure != null) System.err.println("Preparation failed: " + failure);
+            else prepared = value; // Still unregistered. Deliberately publish it through your owner's transaction.
         });
     }
     // The same scope also owns cancellable network realizations, with separate replaceable result slots.
-    void realize(PolymerNetworkDefinition recipe, NetworkPreviewRequest request, Executor delivery) {
-        scope.network(&quot;network&quot;, recipe, request).deliver(delivery, (preview, failure) -&gt; {
-            if (failure != null) System.err.println(failure);
-            else System.out.println(preview.formula());
-        });
-    }
+    void realize(PolymerNetworkDefinition recipe,
+        NetworkPreviewRequest request,
+        Executor delivery) {
+            scope.network("network", recipe, request)
+                .deliver(delivery, (preview, failure) -&gt; {
+                    if (failure != null) System.err.println(failure);
+                    else System.out.println(preview.formula());
+                });
+        }
     // Owner action: cancellation prevents future delivery and interrupts pending CPU work.
-    boolean cancel() { return pending != null &amp;&amp; pending.cancel(); }
+    boolean cancel() {
+        return pending != null &amp;&amp; pending.cancel();
+    }
     // Teardown: suppresses results even if their delivery was already queued on another executor.
-    &#64;Override public void close() { scope.close(); }
+    @Override public void close() {
+        scope.close();
+    }
     // Client setup may supply task -&gt; Minecraft.getMinecraft().addScheduledTask(task).
     // Server setup supplies its server scheduler. The scope never selects either thread implicitly.
 }</code></pre>
@@ -556,20 +613,30 @@ class PreparationRecipeK : AutoCloseable {
 
     // Common CPU request. Native futures/scopes require no coroutine dependency.
     fun prepare(delivery: Executor) {
-        pending = scope.molecule(&quot;editor&quot;, &quot;example:water&quot;) { builder -&gt; builder.smiles(&quot;[H]O[H]&quot;) }
-            .deliver(delivery) { value, failure -&gt;
-                if (failure != null) System.err.println(&quot;Preparation failed: $failure&quot;)
+        pending = scope.molecule("editor",
+            "example:water") {
+                builder -&gt; builder.smiles("[H]O[H]")
+            }
+            .deliver(delivery) {
+                value, failure -&gt;
+                if (failure != null) System.err.println("Preparation failed: $failure")
                 else prepared = value // Unregistered; publication stays an explicit owner transaction.
             }
     }
-    fun realize(recipe: PolymerNetworkDefinition, request: NetworkPreviewRequest, delivery: Executor) {
-        scope.network(&quot;network&quot;, recipe, request).deliver(delivery) { preview, failure -&gt;
-            if (failure != null) System.err.println(failure) else println(preview.formula())
+    fun realize(recipe: PolymerNetworkDefinition,
+        request: NetworkPreviewRequest,
+        delivery: Executor) {
+            scope.network("network", recipe, request)
+            .deliver(delivery) {
+                    preview, failure -&gt;
+                    if (failure != null) System.err.println(failure) else println(preview.formula())
+                }
         }
-    }
     // Owner action and teardown. Use the actual client/server scheduler as delivery, not a blocking join.
     fun cancel(): Boolean = pending?.cancel() ?: false
-    override fun close() { scope.close() }
+    override fun close() {
+        scope.close()
+    }
 }</code></pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — groovy"><code class="language-groovy">import java.util.concurrent.Executor
 import io.github.wurtzitane.avogadro.api.PreparationScope
@@ -580,21 +647,34 @@ def pending = null
 def prepared = null
 
 // Common CPU request. Pass the real owning client/server scheduler as delivery.
-def prepare = { Executor delivery -&gt;
-    pending = scope.molecule(&#x27;editor&#x27;, &#x27;example:water&#x27;, { builder -&gt; builder.smiles(&#x27;[H]O[H]&#x27;) })
-    pending.deliver(delivery, { value, failure -&gt;
-        if (failure != null) System.err.println(&quot;Preparation failed: $failure&quot;)
+def prepare = {
+    Executor delivery -&gt;
+    pending = scope.molecule('editor',
+        'example:water',
+        {
+            builder -&gt; builder.smiles('[H]O[H]')
+        })
+    pending.deliver(delivery, {
+        value, failure -&gt;
+        if (failure != null) System.err.println("Preparation failed: $failure")
         else prepared = value // This assigns data; it does not register a molecule or allocate GPU resources.
     })
 }
-def realize = { recipe, request, Executor delivery -&gt;
-    scope.network(&#x27;network&#x27;, recipe, request).deliver(delivery, { preview, failure -&gt;
-        if (failure != null) System.err.println(failure) else println preview.formula()
-    })
+def realize = {
+    recipe, request, Executor delivery -&gt;
+    scope.network('network', recipe, request)
+        .deliver(delivery, {
+            preview, failure -&gt;
+            if (failure != null) System.err.println(failure) else println preview.formula()
+        })
 }
-// Owner action, then teardown. A second request in the same slot suppresses the first request&#x27;s late delivery.
-def cancel = { pending != null &amp;&amp; pending.cancel() }
-def unload = { scope.close() }
+// Owner action, then teardown. A second request in the same slot suppresses the first request's late delivery.
+def cancel = {
+    pending != null &amp;&amp; pending.cancel()
+}
+def unload = {
+    scope.close()
+}
 // Bind unload to your existing controller lifecycle; this direct Java scope is not a Groovy virtual registry.</code></pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — scala"><code class="language-scala">import java.util.concurrent.Executor
 import io.github.wurtzitane.avogadro.api.*
@@ -607,14 +687,19 @@ final class PreparationRecipeS extends AutoCloseable:
 
   // Common CPU request. Delivery uses the supplied owner-thread executor; no effect-library runtime is required.
   def prepare(delivery: Executor): Unit =
-    val job = scope.molecule(&quot;editor&quot;, &quot;example:water&quot;, builder =&gt; builder.smiles(&quot;[H]O[H]&quot;))
+    val job = scope.molecule("editor",
+        "example:water",
+        builder =&gt; builder.smiles("[H]O[H]"))
     cancelCurrent = () =&gt; job.cancel()
     job.deliver(delivery, (value, failure) =&gt;
-      if failure != null then System.err.println(s&quot;Preparation failed: $failure&quot;)
+      if failure != null then System.err.println(s"Preparation failed: $failure")
       else prepared = value // Remains unregistered until deliberately published.
     )
-  def realize(recipe: PolymerNetworkDefinition, request: NetworkPreviewRequest, delivery: Executor): Unit =
-    scope.network(&quot;network&quot;, recipe, request).deliver(delivery, (preview, failure) =&gt;
+  def realize(recipe: PolymerNetworkDefinition,
+      request: NetworkPreviewRequest,
+      delivery: Executor): Unit =
+    scope.network("network", recipe, request)
+        .deliver(delivery, (preview, failure) =&gt;
       if failure != null then System.err.println(failure) else println(preview.formula())
     )
   // Owner action and teardown; late queued deliveries check the current slot generation again.
@@ -624,14 +709,20 @@ final class PreparationRecipeS extends AutoCloseable:
 import mods.avogadro.RegistrationJob;
 
 // Common startup. ZenScript geometry preparation is synchronous; there is no worker-delivery facade here.
-val water = Molecules.molecule(&quot;example:water&quot;).smiles(&quot;[H]O[H]&quot;);
+val water = Molecules.molecule("example:water")
+    .smiles("[H]O[H]");
 // Publication has an observable, cancellable queue independently of how the geometry was prepared.
-val owned = Molecules.transaction(&quot;example_prepared&quot;).replaceAll().register(water).commit();
+val owned = Molecules.transaction("example_prepared")
+    .replaceAll()
+    .register(water)
+    .commit();
 owned.onComplete(function(outcome) {
-    if (outcome.state == &quot;failed&quot;) print(&quot;Registration rejected: &quot; + outcome.failure);
-    else print(&quot;Registration state: &quot; + outcome.state);
+    if (outcome.state == "failed") print("Registration rejected: " + outcome.failure);
+    else print("Registration state: " + outcome.state);
 });
-function cancelPending(job as RegistrationJob) as bool { return job.cancel(); }
+function cancelPending(job as RegistrationJob) as bool {
+    return job.cancel();
+}
 // Teardown calls owned.close(). Cancellation is accepted only before application starts;
 // it never claims to undo an already published transaction. Kotlin/Scala/Java CPU jobs use PreparationScope.</code></pre>
         <p>
@@ -703,7 +794,63 @@ function cancelPending(job as RegistrationJob) as bool { return job.cancel(); }
           </tr>
         </tbody>
       </table>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="lifecycle-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#submit(boolean,java.util.function.Consumer)">submit</a>(replace, callback)</code>
+              </td>
+              <td>Owner name; replacement flag; batch callback</td>
+              <td>Publish related molecule and tag edits together.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBatch.html#itemTag(java.lang.String,boolean,java.lang.String...)">itemTag</a>(id, replace, values...) /
+                  <a href="../MoleculeBatch.html#fluidTag(java.lang.String,boolean,java.lang.String...)">fluidTag</a>(...)</code>
+              </td>
+              <td>Tag ID; replacement flag; selectors</td>
+              <td>Supply item or fluid tag entries in the same update.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>job.<a href="../RegistrationJob.html#onComplete(java.util.function.Consumer)">onComplete</a>(callback)</code>
+              </td>
+              <td>Outcome callback</td>
+              <td>
+                Handle success or failure on the thread completing the operation; schedule GUI work
+                onto the client thread.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../NetworkPreviewRequest.html#%3Cinit%3E(java.util.Map,java.util.Map,long)">NetworkPreviewRequest</a>(counts, choices, seed)</code>
+              </td>
+              <td>Parameter values; choices; random seed</td>
+              <td>Request one finite result from a reusable network recipe.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> Retain and release your RegistrationJob when its
+          installed set should be removed. Cancel pending preparation and close the PreparationScope
+          when its requester goes away. Preparation alone does not register definitions or allocate
+          a viewer.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="themes.html">Previous: Change menu colors with themes</a><a href="reference.html">Next: Definition and recipe reference</a>
       </nav>
     </div></main>

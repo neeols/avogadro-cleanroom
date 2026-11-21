@@ -64,50 +64,7 @@ loadScripts(document, 'script');</script>
         group to fill in later. For a particular display shape, add bond-length and dihedral-angle
         constraints. These tools build a display model; they do not simulate a reaction.
       </p>
-      <section class="av-call-guide">
-        <h2 id="smiles-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#%3Cinit%3E(java.lang.String)">MoleculeBuilder</a>(id).<a href="../MoleculeBuilder.html#smiles(java.lang.String)">smiles</a>(text)</code>
-              </td>
-              <td>Namespaced molecule ID; SMILES string</td>
-              <td>Describe atoms and bonds using the supported notation below.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
-              </td>
-              <td>Owner name; molecule builder</td>
-              <td>Register the resulting definition through your addon’s owner.</td>
-            </tr>
-            <tr>
-              <td><code>/avogadro reload</code></td>
-              <td>No additional argument for the examples</td>
-              <td>Reload edited server JSON files; restart after ordinary startup-script edits.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code. SMILES authoring does not
-          simulate reactions or optimize a structure to its lowest-energy shape.
-        </p>
-      </section>
+      
       <p>
         Java examples run in your host mod’s common initialization with
         <code>import io.<wbr/>github.<wbr/>wurtzitane.<wbr/>avogadro.<wbr/>api.*;</code>. Groovy
@@ -219,73 +176,85 @@ loadScripts(document, 'script');</script>
       </figure>
       <div class="av-example" data-example="benzene" data-register-example="chemistry:benzene" data-coordinate-example='{"name":"Benzene","atoms":[{"e":"C","x":1.397,"y":0.0,"z":0},{"e":"C","x":0.6985,"y":1.2098,"z":0},{"e":"C","x":-0.6985,"y":1.2098,"z":0},{"e":"C","x":-1.397,"y":0.0,"z":0},{"e":"C","x":-0.6985,"y":-1.2098,"z":0},{"e":"C","x":0.6985,"y":-1.2098,"z":0},{"e":"H","x":2.48,"y":0.0,"z":0},{"e":"H","x":1.24,"y":2.1477,"z":0},{"e":"H","x":-1.24,"y":2.1477,"z":0},{"e":"H","x":-2.48,"y":0.0,"z":0},{"e":"H","x":-1.24,"y":-2.1477,"z":0},{"e":"H","x":1.24,"y":-2.1477,"z":0}],"bonds":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,0,1],[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]]}'>
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:benzene&quot;).smiles(&quot;c1ccccc1&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:benzene")
+        .smiles("c1ccccc1"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:benzene&quot;).smiles(&quot;c1ccccc1&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:benzene")
+    .smiles("c1ccccc1"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Benzene · aromatic ring&quot;,
-  &quot;smiles&quot;: &quot;c1ccccc1&quot;
+  "name": "Benzene · aromatic ring",
+  "smiles": "c1ccccc1"
 }</code></pre>
         </div>
       </div>
       <div class="av-example" data-example="nitrile" data-register-example="chemistry:nitrile" data-coordinate-example='{"name":"Acetonitrile","atoms":[{"e":"C","x":-1.46,"y":0,"z":0},{"e":"C","x":0,"y":0,"z":0},{"e":"N","x":1.16,"y":0,"z":0},{"e":"H","x":-1.83,"y":1.03,"z":0},{"e":"H","x":-1.83,"y":-0.515,"z":0.892},{"e":"H","x":-1.83,"y":-0.515,"z":-0.892}],"bonds":[[0,1],[1,2,3],[0,3],[0,4],[0,5]]}'>
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:nitrile&quot;).smiles(&quot;CC#N&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:nitrile")
+        .smiles("CC#N"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:nitrile&quot;).smiles(&quot;CC#N&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:nitrile")
+    .smiles("CC#N"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Acetonitrile · triple bond&quot;,
-  &quot;smiles&quot;: &quot;CC#N&quot;
+  "name": "Acetonitrile · triple bond",
+  "smiles": "CC#N"
 }</code></pre>
         </div>
       </div>
       <div class="av-example" data-example="carbon_dioxide" data-register-example="chemistry:carbon_dioxide" data-coordinate-example='{"name":"Carbon dioxide","atoms":[{"e":"O","x":-1.16,"y":0,"z":0},{"e":"C","x":0,"y":0,"z":0},{"e":"O","x":1.16,"y":0,"z":0}],"bonds":[[0,1,2],[1,2,2]]}'>
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:carbon_dioxide&quot;).smiles(&quot;O=C=O&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:carbon_dioxide")
+        .smiles("O=C=O"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:carbon_dioxide&quot;).smiles(&quot;O=C=O&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:carbon_dioxide")
+    .smiles("O=C=O"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Carbon dioxide · double bonds&quot;,
-  &quot;smiles&quot;: &quot;O=C=O&quot;
+  "name": "Carbon dioxide · double bonds",
+  "smiles": "O=C=O"
 }</code></pre>
         </div>
       </div>
       <div class="av-example" data-example="ions" data-register-example="chemistry:ions">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:ions&quot;).smiles(&quot;[Na+].[Cl-]&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:ions")
+        .smiles("[Na+].[Cl-]"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:ions&quot;).smiles(&quot;[Na+].[Cl-]&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:ions")
+    .smiles("[Na+].[Cl-]"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Sodium / chloride · separate components&quot;,
-  &quot;smiles&quot;: &quot;[Na+].[Cl-]&quot;
+  "name": "Sodium / chloride · separate components",
+  "smiles": "[Na+].[Cl-]"
 }</code></pre>
         </div>
       </div>
@@ -307,26 +276,30 @@ mods.avogadro.molecules.register(
       </figure>
       <div class="av-example" data-example="external_group" data-register-example="chemistry:external_group">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:external_group&quot;).smiles(&quot;[*:1]CCO&quot;));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:external_group")
+        .smiles("[*:1]CCO"));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:external_group&quot;).smiles(&quot;[*:1]CCO&quot;))</code></pre>
+    new MoleculeBuilder("chemistry:external_group")
+    .smiles("[*:1]CCO"))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Generic alcohol · unresolved R1&quot;,
-  &quot;smiles&quot;: &quot;[*:1]CCO&quot;
+  "name": "Generic alcohol · unresolved R1",
+  "smiles": "[*:1]CCO"
 }</code></pre>
         </div>
       </div>
       <pre data-operation="r-group"><code class="language-java">var part = new StructureBuilder();
-int group = part.addRGroup(&quot;R1&quot;, 0, 0, 0);
-int carbon = part.addAtom(&quot;C&quot;, 1.5, 0, 0);
-part.bond(group, carbon).attachment(&quot;side_chain&quot;, group);
+int group = part.addRGroup("R1", 0, 0, 0);
+int carbon = part.addAtom("C", 1.5, 0, 0);
+part.bond(group, carbon)
+    .attachment("side_chain", group);
 StructureFragment fragment = part.build();</code></pre>
       <p>
         Explicit atom JSON uses
@@ -340,22 +313,27 @@ StructureFragment fragment = part.build();</code></pre>
       <h2 id="mark-an-atom-with-unpaired-electrons-heading">Mark an atom with unpaired electrons</h2>
       <div class="av-example" data-example="radical" data-register-example="chemistry:radical">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:radical&quot;).smiles(&quot;[CH3]&quot;).radical(0, 1));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:radical")
+        .smiles("[CH3]")
+        .radical(0, 1));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:radical&quot;).smiles(&quot;[CH3]&quot;).radical(0, 1))</code></pre>
+    new MoleculeBuilder("chemistry:radical")
+    .smiles("[CH3]")
+    .radical(0, 1))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Methyl radical · one unpaired electron&quot;,
-  &quot;smiles&quot;: &quot;[CH3]&quot;,
-  &quot;atom_annotations&quot;: {
-    &quot;0&quot;: {
-      &quot;radical_electrons&quot;: 1
+  "name": "Methyl radical · one unpaired electron",
+  "smiles": "[CH3]",
+  "atom_annotations": {
+    "0": {
+      "radical_electrons": 1
     }
   }
 }</code></pre>
@@ -387,39 +365,48 @@ mods.avogadro.molecules.register(
       </figure>
       <div class="av-example" data-example="butane_gauche" data-register-example="chemistry:butane_gauche">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner(&quot;chemistry_guide&quot;).register(
-    new MoleculeBuilder(&quot;chemistry:butane_gauche&quot;).smiles(&quot;CCCC&quot;).constraints(StructureConstraints.builder()
-        .bondLength(1, 2, 1.54).dihedral(0, 1, 2, 3, 60).build()));</code></pre>
+          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+    .register(
+        new MoleculeBuilder("chemistry:butane_gauche")
+        .smiles("CCCC")
+        .constraints(StructureConstraints.builder()
+            .bondLength(1, 2, 1.54)
+            .dihedral(0, 1, 2, 3, 60)
+            .build()));</code></pre>
         </div>
         <div data-language="groovy">
           <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
-    new MoleculeBuilder(&quot;chemistry:butane_gauche&quot;).smiles(&quot;CCCC&quot;).constraints(StructureConstraints.builder()
-        .bondLength(1, 2, 1.54).dihedral(0, 1, 2, 3, 60).build()))</code></pre>
+    new MoleculeBuilder("chemistry:butane_gauche")
+    .smiles("CCCC")
+    .constraints(StructureConstraints.builder()
+        .bondLength(1, 2, 1.54)
+        .dihedral(0, 1, 2, 3, 60)
+        .build()))</code></pre>
         </div>
         <div data-language="json">
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Butane · 60 degree torsion&quot;,
-  &quot;smiles&quot;: &quot;CCCC&quot;,
-  &quot;constraints&quot;: [
+  "name": "Butane · 60 degree torsion",
+  "smiles": "CCCC",
+  "constraints": [
     {
-      &quot;type&quot;: &quot;bond_length&quot;,
-      &quot;atoms&quot;: [
+      "type": "bond_length",
+      "atoms": [
         1,
         2
       ],
-      &quot;length&quot;: 1.54
+      "length": 1.54
     },
     {
-      &quot;type&quot;: &quot;dihedral&quot;,
-      &quot;atoms&quot;: [
+      "type": "dihedral",
+      "atoms": [
         0,
         1,
         2,
         3
       ],
-      &quot;degrees&quot;: 60.0
+      "degrees": 60.0
     }
   ]
 }</code></pre>
@@ -483,7 +470,52 @@ mods.avogadro.molecules.register(
         <code>stereochemistry</code> field; ordinary topology edits do not guess replacement R/S
         labels.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="smiles-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#%3Cinit%3E(java.lang.String)">MoleculeBuilder</a>(id).<a href="../MoleculeBuilder.html#smiles(java.lang.String)">smiles</a>(text)</code>
+              </td>
+              <td>Namespaced molecule ID; SMILES string</td>
+              <td>Describe atoms and bonds using the supported notation below.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeBuilder)">register</a>(builder)</code>
+              </td>
+              <td>Owner name; molecule builder</td>
+              <td>Register the resulting definition through your addon’s owner.</td>
+            </tr>
+            <tr>
+              <td><code>/avogadro reload</code></td>
+              <td>No additional argument for the examples</td>
+              <td>Reload edited server JSON files; restart after ordinary startup-script edits.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code. SMILES authoring does not
+          simulate reactions or optimize a structure to its lowest-energy shape.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="structures.html">Previous: Build, connect, and edit structures</a><a href="chirality.html">Next: Show mirror-image molecules with SMILES</a>
       </nav>
     </div></main>

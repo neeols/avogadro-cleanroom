@@ -64,56 +64,7 @@ loadScripts(document, 'script');</script>
         carbon → dark gray and oxygen → red under a name belonging to your mod. You can later
         replace that map, change selected colors, or remove it.
       </p>
-      <section class="av-call-guide">
-        <h2 id="colors-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#replace(java.lang.String,int,java.util.Map)">replace</a>(owner, priority, colors)</code>
-              </td>
-              <td>Owner ID; priority; symbol-to-RGB map</td>
-              <td>Install the complete palette contribution controlled by this owner.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#patch(java.lang.String,java.util.Map)">patch</a>(owner, colors)</code>
-              </td>
-              <td>Existing owner ID; changed entries</td>
-              <td>Update only the supplied element colors.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#remove(java.lang.String)">remove</a>(owner)</code>
-              </td>
-              <td>Your palette owner ID</td>
-              <td>Remove your contribution.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../client/AvogadroClientApi.html#reloadElementColors()">reloadElementColors</a>()</code>
-              </td>
-              <td>No arguments</td>
-              <td>Reload client color resources and handle the returned completion result.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> Remove your own palette owner during teardown if the
-          override is temporary. Close readers opened by your resource loader. A failed resource
-          reload retains the valid palette; handle and report the completion error.
-        </p>
-      </section>
+      
       <figure>
         <img src="chemistry-colors.png" alt="The same lactic-acid geometry in its original palette and a blue-carbon, amber-oxygen palette" style="max-width:100%;height:auto"/>
         <figcaption>
@@ -179,7 +130,7 @@ import java.util.Map;
 // RGB values have six hex digits; do not supply alpha (0xFF...).
 // Replacing an owner publishes the whole layer atomically.
 ElementColors.replace("my_mod:atom_colors", 20,
-        Map.of("C", 0x365E9D, "O", 0xE99A24));
+    Map.of("C", 0x365E9D, "O", 0xE99A24));
 
 // A patch changes selected entries and retains that owner's priority.
 ElementColors.patch("my_mod:atom_colors", Map.of("H", 0xE8EAF0));
@@ -200,11 +151,11 @@ ElementColors.remove("my_mod:atom_colors");</code></pre>
 // Put this in a client-installed post-init script.
 // The same Java API is safe on the server, but is not sent to clients.
 ElementColors.replace('my_pack:atom_colors', 20,
-        [C: 0x365E9D, O: 0xE99A24, H: 0xE8EAF0])
+    [C: 0x365E9D, O: 0xE99A24, H: 0xE8EAF0])
 
 // From your own reload/configuration callback:
 ElementColors.replaceJson('my_pack:atom_colors', 20,
-        '{"C":"#365E9D","O":"#E99A24"}')
+    '{"C":"#365E9D","O":"#E99A24"}')
 // ElementColors.remove('my_pack:atom_colors')</code></pre>
       <p>
         Replacing the same owner removes obsolete entries. Programmatic mutations take effect on the
@@ -253,13 +204,14 @@ ElementColors.replaceJson('my_pack:atom_colors', 20,
       <pre data-operation="palette-reload"><code class="language-java">// CLIENT ONLY: keep this import and call in your mod's client code.
 import io.github.wurtzitane.avogadro.api.client.AvogadroClientApi;
 
-AvogadroClientApi.reloadElementColors().whenComplete((palette, failure) -&gt; {
-    if (failure != null) {
-        System.err.println("Element palette retained: " + failure.getMessage());
-    } else {
-        System.out.println("Palette revision: " + palette.revision());
-    }
-});</code></pre>
+AvogadroClientApi.reloadElementColors()
+    .whenComplete((palette, failure) -&gt; {
+        if (failure != null) {
+            System.err.println("Element palette retained: " + failure.getMessage());
+        } else {
+            System.out.println("Palette revision: " + palette.revision());
+        }
+    });</code></pre>
       <p>
         F3+T also reloads the palette. Invalid file reloads retain all previous valid file layers;
         the direct future reports the exception and the F3+T listener logs it. Neither operation
@@ -270,8 +222,8 @@ AvogadroClientApi.reloadElementColors().whenComplete((palette, failure) -&gt; {
       <pre data-operation="palette-preview"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MoleculeRenderOptions;
 
 var options = MoleculeRenderOptions.builder()
-        .palette(Map.of("C", 0x365E9D, "O", 0xE99A24))
-        .build();</code></pre>
+    .palette(Map.of("C", 0x365E9D, "O", 0xE99A24))
+    .build();</code></pre>
       <p>
         Build options once and reuse them. Options deliberately capture colors; rebuild them when a
         custom viewer should adopt a changed global palette. Ordinary tooltips, HEI previews, world
@@ -286,7 +238,58 @@ var options = MoleculeRenderOptions.builder()
         styles, rotation, and matching remain unchanged. Neutral bonds, element labels,
         electron/nucleon colors, and UI theme colors are separate styling concerns.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="colors-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#replace(java.lang.String,int,java.util.Map)">replace</a>(owner, priority, colors)</code>
+              </td>
+              <td>Owner ID; priority; symbol-to-RGB map</td>
+              <td>Install the complete palette contribution controlled by this owner.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#patch(java.lang.String,java.util.Map)">patch</a>(owner, colors)</code>
+              </td>
+              <td>Existing owner ID; changed entries</td>
+              <td>Update only the supplied element colors.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../ElementColors.html">ElementColors</a>.<a href="../ElementColors.html#remove(java.lang.String)">remove</a>(owner)</code>
+              </td>
+              <td>Your palette owner ID</td>
+              <td>Remove your contribution.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../client/AvogadroClientApi.html#reloadElementColors()">reloadElementColors</a>()</code>
+              </td>
+              <td>No arguments</td>
+              <td>Reload client color resources and handle the returned completion result.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> Remove your own palette owner during teardown if the
+          override is temporary. Close readers opened by your resource loader. A failed resource
+          reload retains the valid palette; handle and report the completion error.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="rendering.html">Previous: Draw a molecule in your own screen</a><a href="exports.html">Next: Export images and animations</a>
       </nav>
     </div></main>

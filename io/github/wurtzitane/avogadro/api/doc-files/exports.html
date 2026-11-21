@@ -65,67 +65,7 @@ loadScripts(document, 'script');</script>
         preview. Each example supplies the model and export settings, submits the request on the
         client thread, and keeps the returned job to check its result.
       </p>
-      <section class="av-call-guide">
-        <h2 id="exports-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../../client/export/ExportOptions.html">ExportOptions</a>.<a href="../../client/export/ExportOptions.html#builder(int)">builder</a>(moleculeCount)</code>
-              </td>
-              <td>Number of molecules in the export</td>
-              <td>Start the export configuration; use 1 for the single-molecule example.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../../client/export/ExportOptions.Builder.html#size(int,int)">size</a>(width, height)</code>
-              </td>
-              <td>Output pixel dimensions</td>
-              <td>Choose the dimensions of each frame.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../../client/export/ExportOptions.Builder.html#fps(int)">fps</a>(value)
-                  /
-                  <a href="../../client/export/ExportOptions.Builder.html#secondsPerRotation(double)">secondsPerRotation</a>(value)</code>
-              </td>
-              <td>Frame rate; rotation duration in seconds</td>
-              <td>Control animation timing and the number of frames produced.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../../client/export/ExportOptions.Builder.html#background(java.lang.Integer)">background</a>(rgb) /
-                  <a href="../../client/export/ExportOptions.Builder.html#filename(java.lang.String)">filename</a>(name)</code>
-              </td>
-              <td>RGB background; output filename</td>
-              <td>Choose the canvas color and output name.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../client/MediaExportApi.html#submit(io.github.wurtzitane.avogadro.api.client.MediaExportRequest)">submit</a>(request)</code>
-              </td>
-              <td>Completed media export request</td>
-              <td>Queue the export and handle its asynchronous outcome.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> Submit from the client context required by the example.
-          Keep the ExportJob until completion; use its cancellation control if the requester goes
-          away. Close any file streams your addon opens. A completed exported file is ordinary saved
-          output and remains after the job ends.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -157,9 +97,17 @@ import net.minecraft.item.ItemStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
-    var options = ExportOptions.builder(1).size(960, 720).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;aspirin.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecule(aspirin).options(options).build());
+    var options = ExportOptions.builder(1)
+        .size(960, 720)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("aspirin.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecule(aspirin)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -168,9 +116,17 @@ import net.minecraft.item.ItemStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
-    def options = ExportOptions.builder(1).size(960, 720).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;aspirin.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecule(aspirin).options(options).build());
+    def options = ExportOptions.builder(1)
+        .size(960, 720)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("aspirin.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecule(aspirin)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -202,9 +158,18 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
     // Size is the whole canvas, not each cell. Keep the count equal to the list size.
-    var options = ExportOptions.builder(molecules.size()).size(1920, 1280).columns(3)
-            .fps(20).secondsPerRotation(3).background(0xf8f7f2).filename(&quot;gallery.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecules(molecules).options(options).build());
+    var options = ExportOptions.builder(molecules.size())
+        .size(1920, 1280)
+        .columns(3)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("gallery.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecules(molecules)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -214,9 +179,18 @@ import net.minecraft.item.ItemStack;</code>
           </p>
           <pre><code class="language-groovy">static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
     // Size is the whole canvas, not each cell. Keep the count equal to the list size.
-    def options = ExportOptions.builder(molecules.size()).size(1920, 1280).columns(3)
-            .fps(20).secondsPerRotation(3).background(0xf8f7f2).filename(&quot;gallery.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecules(molecules).options(options).build());
+    def options = ExportOptions.builder(molecules.size())
+        .size(1920, 1280)
+        .columns(3)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("gallery.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecules(molecules)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -246,11 +220,21 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="mp4">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportMp4(MoleculeDef caffeine, Path ffmpeg) throws IOException {
-    var options = ExportOptions.builder(1).format(ExportOptions.Format.MP4).size(1920, 1080)
-            .fps(24).secondsPerRotation(3).background(0xf8f7f2)
-            .encoder(ffmpeg.toString()).filename(&quot;caffeine.mp4&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecule(caffeine).options(options).build());
+          <pre><code class="language-java">public static ExportJob exportMp4(MoleculeDef caffeine,
+    Path ffmpeg) throws IOException {
+    var options = ExportOptions.builder(1)
+        .format(ExportOptions.Format.MP4)
+        .size(1920, 1080)
+        .fps(24)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .encoder(ffmpeg.toString())
+        .filename("caffeine.mp4")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecule(caffeine)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -259,10 +243,19 @@ import net.minecraft.item.ItemStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static ExportJob exportMp4(MoleculeDef caffeine, Path ffmpeg) throws IOException {
-    def options = ExportOptions.builder(1).format(ExportOptions.Format.MP4).size(1920, 1080)
-            .fps(24).secondsPerRotation(3).background(0xf8f7f2)
-            .encoder(ffmpeg.toString()).filename(&quot;caffeine.mp4&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest.molecule(caffeine).options(options).build());
+    def options = ExportOptions.builder(1)
+        .format(ExportOptions.Format.MP4)
+        .size(1920, 1080)
+        .fps(24)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .encoder(ffmpeg.toString())
+        .filename("caffeine.mp4")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest.molecule(caffeine)
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -297,12 +290,21 @@ import net.minecraft.item.ItemStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportItemCard(ItemStack held) throws IOException {
-    var selection = ItemExportSelection.select(&quot;held&quot;, null, held);
-    var media = ExportOptions.builder(1).size(1200, 800).fps(20).secondsPerRotation(3)
-            .showName(true).showFormula(true).textScale(2)
-            .background(0xf8f7f2).filename(&quot;water-card.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(
-            MediaExportRequest.item(ItemExportOptions.of(selection, media, 2)).build());
+    var selection = ItemExportSelection.select("held", null, held);
+    var media = ExportOptions.builder(1)
+        .size(1200, 800)
+        .fps(20)
+        .secondsPerRotation(3)
+        .showName(true)
+        .showFormula(true)
+        .textScale(2)
+        .background(0xf8f7f2)
+        .filename("water-card.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(
+            MediaExportRequest.item(ItemExportOptions.of(selection, media, 2))
+            .build());
 }</code>
 </pre>
         </div>
@@ -311,12 +313,21 @@ import net.minecraft.item.ItemStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static ExportJob exportItemCard(ItemStack held) throws IOException {
-    def selection = ItemExportSelection.select(&quot;held&quot;, null, held);
-    def media = ExportOptions.builder(1).size(1200, 800).fps(20).secondsPerRotation(3)
-            .showName(true).showFormula(true).textScale(2)
-            .background(0xf8f7f2).filename(&quot;water-card.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(
-            MediaExportRequest.item(ItemExportOptions.of(selection, media, 2)).build());
+    def selection = ItemExportSelection.select("held", null, held);
+    def media = ExportOptions.builder(1)
+        .size(1200, 800)
+        .fps(20)
+        .secondsPerRotation(3)
+        .showName(true)
+        .showFormula(true)
+        .textScale(2)
+        .background(0xf8f7f2)
+        .filename("water-card.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(
+            MediaExportRequest.item(ItemExportOptions.of(selection, media, 2))
+            .build());
 }</code>
 </pre>
         </div>
@@ -351,10 +362,20 @@ import net.minecraft.item.ItemStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportAtom(MoleculeDef water) throws IOException {
-    var options = ExportOptions.builder(1).size(1280, 800).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;oxygen.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(
-            MediaExportRequest.atom(new AtomExportOptions(water, 0, true)).options(options).build());
+    var options = ExportOptions.builder(1)
+        .size(1280, 800)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("oxygen.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(
+            MediaExportRequest.atom(new AtomExportOptions(water,
+                0,
+                true))
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -363,10 +384,20 @@ import net.minecraft.item.ItemStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static ExportJob exportAtom(MoleculeDef water) throws IOException {
-    def options = ExportOptions.builder(1).size(1280, 800).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;oxygen.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(
-            MediaExportRequest.atom(new AtomExportOptions(water, 0, true)).options(options).build());
+    def options = ExportOptions.builder(1)
+        .size(1280, 800)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("oxygen.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(
+            MediaExportRequest.atom(new AtomExportOptions(water,
+                0,
+                true))
+            .options(options)
+            .build());
 }</code>
 </pre>
         </div>
@@ -397,10 +428,18 @@ import net.minecraft.item.ItemStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
-    var options = ExportOptions.builder(1).size(1280, 720).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;polyisoprene.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest
-            .polymer(successfulPreview, &quot;Sulfur-linked polyisoprene&quot;).options(options).build());
+    var options = ExportOptions.builder(1)
+        .size(1280, 720)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("polyisoprene.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest
+            .polymer(successfulPreview, "Sulfur-linked polyisoprene")
+            .options(options)
+            .build());
     // Success also writes polyisoprene.gif.json with the exact recipe, parameters, and seed.
 }</code>
 </pre>
@@ -410,10 +449,18 @@ import net.minecraft.item.ItemStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
-    def options = ExportOptions.builder(1).size(1280, 720).fps(20).secondsPerRotation(3)
-            .background(0xf8f7f2).filename(&quot;polyisoprene.gif&quot;).build();
-    return AvogadroClientApi.exports().submit(MediaExportRequest
-            .polymer(successfulPreview, &quot;Sulfur-linked polyisoprene&quot;).options(options).build());
+    def options = ExportOptions.builder(1)
+        .size(1280, 720)
+        .fps(20)
+        .secondsPerRotation(3)
+        .background(0xf8f7f2)
+        .filename("polyisoprene.gif")
+        .build();
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest
+            .polymer(successfulPreview, "Sulfur-linked polyisoprene")
+            .options(options)
+            .build());
     // Success also writes polyisoprene.gif.json with the exact recipe, parameters, and seed.
 }</code>
 </pre>
@@ -446,8 +493,10 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
     String formula = MoleculeLoader.formula(structure);
-    return AvogadroClientApi.exports().submit(MediaExportRequest
-            .structure(structure, &quot;Finite authored model&quot;, formula, null).build());
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest
+            .structure(structure, "Finite authored model", formula, null)
+            .build());
 }</code>
 </pre>
         </div>
@@ -457,8 +506,10 @@ import net.minecraft.item.ItemStack;</code>
           </p>
           <pre><code class="language-groovy">static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
     String formula = MoleculeLoader.formula(structure);
-    return AvogadroClientApi.exports().submit(MediaExportRequest
-            .structure(structure, &quot;Finite authored model&quot;, formula, null).build());
+    return AvogadroClientApi.exports()
+        .submit(MediaExportRequest
+            .structure(structure, "Finite authored model", formula, null)
+            .build());
 }</code>
 </pre>
         </div>
@@ -473,19 +524,25 @@ import net.minecraft.item.ItemStack;</code>
         </div>
       </div>
       <h2 id="exports-jobs">Progress, completion, and cancellation</h2>
+      <p>
+        Completion callbacks run on the client thread. Use <code>outputPath()</code> to show the
+        saved filename and directory as text.
+      </p>
       <div class="av-example" data-example="listeners">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static void watch(ExportJob job, java.util.function.Consumer&lt;String&gt; showStatus) {
-    job.onComplete(result -&gt; {
-        // This listener runs on the client thread after capture/encoder cleanup.
-        switch (result.state()) {
-            case SUCCEEDED -&gt; showStatus.accept(&quot;Saved &quot; + result.output());
-            case CANCELLED -&gt; showStatus.accept(&quot;Export cancelled&quot;);
-            case FAILED -&gt; showStatus.accept(&quot;Export failed: &quot; + result.failure());
-            default -&gt; throw new IllegalStateException(&quot;Expected a terminal result&quot;);
-        }
-    });
+          <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MediaExportJob;
+import java.util.function.Consumer;
+
+public class ExampleOperation {
+    public static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
+        job.onComplete(result -&gt; showStatus.accept(!result.outputPath()
+            .isEmpty()
+            ? "Saved " + result.outputPath()
+            : result.failure() == null
+            ? "Export cancelled"
+            : "Export failed: " + result.failure()));
+    }
 }</code>
 </pre>
         </div>
@@ -493,16 +550,18 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static void watch(ExportJob job, java.util.function.Consumer&lt;String&gt; showStatus) {
-    job.onComplete(result -&gt; {
-        // This listener runs on the client thread after capture/encoder cleanup.
-        switch (result.state()) {
-            case SUCCEEDED -&gt; showStatus.accept(&quot;Saved &quot; + result.output());
-            case CANCELLED -&gt; showStatus.accept(&quot;Export cancelled&quot;);
-            case FAILED -&gt; showStatus.accept(&quot;Export failed: &quot; + result.failure());
-            default -&gt; throw new IllegalStateException(&quot;Expected a terminal result&quot;);
-        }
-    });
+          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.MediaExportJob
+import java.util.function.Consumer
+
+static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
+    job.onComplete {
+        result -&gt; showStatus.accept(!result.outputPath()
+            .isEmpty()
+            ? "Saved " + result.outputPath()
+            : result.failure() == null
+            ? "Export cancelled"
+            : "Export failed: " + result.failure())
+    }
 }</code>
 </pre>
         </div>
@@ -521,7 +580,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static String progress(ExportJob job) {
     var progress = job.progress(); // immutable, safe to read from another thread
-    return progress.state() + &quot;: &quot; + progress.encodedFrames() + &quot;/&quot; + progress.totalFrames();
+    return progress.state() + ": " + progress.encodedFrames() + "/" + progress.totalFrames();
 }</code>
 </pre>
         </div>
@@ -531,7 +590,7 @@ import net.minecraft.item.ItemStack;</code>
           </p>
           <pre><code class="language-groovy">static String progress(ExportJob job) {
     def progress = job.progress(); // immutable, safe to read from another thread
-    return progress.state() + &quot;: &quot; + progress.encodedFrames() + &quot;/&quot; + progress.totalFrames();
+    return progress.state() + ": " + progress.encodedFrames() + "/" + progress.totalFrames();
 }</code>
 </pre>
         </div>
@@ -651,30 +710,34 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="client-thread">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static void exportFromWorker(MoleculeDef molecule, java.util.function.Consumer&lt;ExportJob&gt; ready) {
-    Minecraft.getMinecraft().addScheduledTask(() -&gt; {
-        try {
-            ready.accept(exportGif(molecule));
-        } catch (IOException failure) {
-            throw new IllegalStateException(&quot;Could not start export&quot;, failure);
-        }
-    });
-}</code>
+          <pre><code class="language-java">public static void exportFromWorker(MoleculeDef molecule,
+    java.util.function.Consumer&lt;ExportJob&gt; ready) {
+        Minecraft.getMinecraft()
+            .addScheduledTask(() -&gt; {
+                try {
+                    ready.accept(exportGif(molecule));
+                } catch (IOException failure) {
+                    throw new IllegalStateException("Could not start export", failure);
+                }
+            });
+    }</code>
 </pre>
         </div>
         <div data-language="groovy">
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static void exportFromWorker(MoleculeDef molecule, java.util.function.Consumer&lt;ExportJob&gt; ready) {
-    Minecraft.getMinecraft().addScheduledTask(() -&gt; {
-        try {
-            ready.accept(exportGif(molecule));
-        } catch (IOException failure) {
-            throw new IllegalStateException(&quot;Could not start export&quot;, failure);
-        }
-    });
-}</code>
+          <pre><code class="language-groovy">static void exportFromWorker(MoleculeDef molecule,
+    java.util.function.Consumer&lt;ExportJob&gt; ready) {
+        Minecraft.getMinecraft()
+            .addScheduledTask(() -&gt; {
+                try {
+                    ready.accept(exportGif(molecule));
+                } catch (IOException failure) {
+                    throw new IllegalStateException("Could not start export", failure);
+                }
+            });
+    }</code>
 </pre>
         </div>
         <div data-language="json">
@@ -853,11 +916,18 @@ import io.github.wurtzitane.avogadro.client.export.ExportOptions;
 
 public class WaterPresentation {
     public static void exportWater() throws java.io.IOException {
-        var definition = AvogadroClientApi.view().get(&quot;my_mod:water&quot;);
-        if (definition == null) throw new IllegalArgumentException(&quot;Water is not loaded&quot;);
+        var definition = AvogadroClientApi.view()
+            .get("my_mod:water");
+        if (definition == null) throw new IllegalArgumentException("Water is not loaded");
         var request = MediaExportRequest.molecule(definition)
-            .options(ExportOptions.builder(1).size(850, 600).filename(&quot;water.gif&quot;).build()).build();
-        var job = AvogadroClientApi.exports().submit(request);
+            .options(ExportOptions.builder(1)
+                .size(850,
+                    600)
+                .filename("water.gif")
+                .build())
+            .build();
+        var job = AvogadroClientApi.exports()
+            .submit(request);
         job.onComplete(result -&gt; System.out.println(result.state()));
     }
 }</code>
@@ -867,21 +937,35 @@ import io.github.wurtzitane.avogadro.client.export.ExportOptions
 import io.github.wurtzitane.avogadro.kotlin.AvogadroClient
 
 fun exportWater() {
-    val definition = requireNotNull(AvogadroClientApi.view().get(&quot;my_mod:water&quot;))
+    val definition = requireNotNull(AvogadroClientApi.view()
+        .get("my_mod:water"))
     val job = AvogadroClient.exportMedia(MediaExportRequest.molecule(definition)) {
-        options(ExportOptions.builder(1).size(850, 600).filename(&quot;water.gif&quot;).build())
+        options(ExportOptions.builder(1)
+        .size(850, 600)
+        .filename("water.gif")
+        .build())
     }
-    job.onComplete { result -&gt; println(result.state()) }
+    job.onComplete {
+        result -&gt; println(result.state())
+    }
 }</code>
 </pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.export.ExportOptions
-def definition = AvogadroClientApi.view().get(&#x27;my_pack:water&#x27;)
-if (definition == null) throw new IllegalArgumentException(&#x27;Water is not loaded&#x27;)
+def definition = AvogadroClientApi.view()
+    .get('my_pack:water')
+if (definition == null) throw new IllegalArgumentException('Water is not loaded')
 def request = MediaExportRequest.molecule(definition)
-    .options(ExportOptions.builder(1).size(850, 600).filename(&#x27;water.gif&#x27;).build()).build()
-def job = AvogadroClientApi.exports().submit(request)
-job.onComplete { result -&gt; println(result.state()) }</code>
+    .options(ExportOptions.builder(1)
+        .size(850, 600)
+        .filename('water.gif')
+        .build())
+    .build()
+def job = AvogadroClientApi.exports()
+    .submit(request)
+job.onComplete {
+    result -&gt; println(result.state())
+}</code>
 </pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.`export`.ExportOptions
@@ -889,18 +973,26 @@ import io.github.wurtzitane.avogadro.scala.AvogadroClient
 
 object WaterPresentation {
   def exportWater(): Unit = {
-    val definition = AvogadroClientApi.view().get(&quot;my_mod:water&quot;)
-    require(definition != null, &quot;Water is not loaded&quot;)
-    val job = AvogadroClient.exportMedia(MediaExportRequest.molecule(definition)) { b =&gt;
-      b.options(ExportOptions.builder(1).size(850, 600).filename(&quot;water.gif&quot;).build())
+    val definition = AvogadroClientApi.view()
+        .get("my_mod:water")
+    require(definition != null, "Water is not loaded")
+    val job = AvogadroClient.exportMedia(MediaExportRequest.molecule(definition)) { builder =&gt;
+        builder.options(
+          ExportOptions.builder(1)
+            .size(850, 600)
+            .filename("water.gif")
+            .build()
+        )
     }
     job.onComplete(result =&gt; println(result.state()))
   }
 }</code>
 </pre>
         <pre data-language="zenscript" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — zenscript"><code class="language-zenscript">import mods.avogadro.Client;
-val job = Client.exportSizedGif(&quot;my_pack:water&quot;, &quot;water.gif&quot;, 850, 600);
-job.onComplete(function(done) { print(done.state); });
+val job = Client.exportSizedGif("my_pack:water", "water.gif", 850, 600);
+job.onComplete(function(done) {
+    print(done.state);
+});
 // job.cancel() cancels only this job. Poll capturedFrames, encodedFrames and totalFrames as needed.</code>
 </pre>
         <p>
@@ -926,7 +1018,69 @@ job.onComplete(function(done) { print(done.state); });
         pixels reduce their default height; explicit oversized canvases are rejected. FPS 0 means
         Automatic. GIF completions offer at most 50 FPS; MP4 completions offer higher rates.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="exports-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../../client/export/ExportOptions.html">ExportOptions</a>.<a href="../../client/export/ExportOptions.html#builder(int)">builder</a>(moleculeCount)</code>
+              </td>
+              <td>Number of molecules in the export</td>
+              <td>Start the export configuration; use 1 for the single-molecule example.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../../client/export/ExportOptions.Builder.html#size(int,int)">size</a>(width, height)</code>
+              </td>
+              <td>Output pixel dimensions</td>
+              <td>Choose the dimensions of each frame.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../../client/export/ExportOptions.Builder.html#fps(int)">fps</a>(value)
+                  /
+                  <a href="../../client/export/ExportOptions.Builder.html#secondsPerRotation(double)">secondsPerRotation</a>(value)</code>
+              </td>
+              <td>Frame rate; rotation duration in seconds</td>
+              <td>Control animation timing and the number of frames produced.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../../client/export/ExportOptions.Builder.html#background(java.lang.Integer)">background</a>(rgb) /
+                  <a href="../../client/export/ExportOptions.Builder.html#filename(java.lang.String)">filename</a>(name)</code>
+              </td>
+              <td>RGB background; output filename</td>
+              <td>Choose the canvas color and output name.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../client/MediaExportApi.html#submit(io.github.wurtzitane.avogadro.api.client.MediaExportRequest)">submit</a>(request)</code>
+              </td>
+              <td>Completed media export request</td>
+              <td>Queue the export and handle its asynchronous outcome.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> Submit from the client context required by the example.
+          Keep the ExportJob until completion; use its cancellation control if the requester goes
+          away. Close any file streams your addon opens. A completed exported file is ordinary saved
+          output and remains after the job ends.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="colors.html">Previous: Change atom colors and reload them</a><a href="themes.html">Next: Change menu colors with themes</a>
       </nav>
     </div></main>

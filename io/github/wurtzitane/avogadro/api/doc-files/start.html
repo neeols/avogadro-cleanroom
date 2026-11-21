@@ -65,67 +65,7 @@ loadScripts(document, 'script');</script>
         starts with a JSON file you can write in any text editor. The same recipe is available in
         five programming and scripting languages.
       </p>
-      <section class="av-call-guide">
-        <h2 id="start-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#builder(java.lang.String)">builder</a>(id)</code>
-              </td>
-              <td>Namespaced molecule ID</td>
-              <td>Use a stable ID such as guide:water.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#atom(java.lang.String,double,double,double)">atom</a>(element, x, y, z) /
-                  <a href="../MoleculeBuilder.html#bond(int,int)">bond</a>(first, second)</code>
-              </td>
-              <td>Element and coordinates; two atom indices</td>
-              <td>Place each atom and connect oxygen to both hydrogens.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#items(java.lang.Object...)">items</a>(...) /
-                  <a href="../MoleculeBuilder.html#fluids(java.lang.Object...)">fluids</a>(...)</code>
-              </td>
-              <td>Existing item selectors and fluid names</td>
-              <td>Choose which stacks display the model.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#generateItem(boolean)">generateItem</a>(true)</code>
-              </td>
-              <td>Boolean flag</td>
-              <td>Request a molecule sample item in addition to matching existing stacks.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeSpec)">register</a>(definition)</code>
-              </td>
-              <td>Owner identifier; built definition</td>
-              <td>Publish the definition asynchronously and handle success or failure.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <h2 id="start-setup">1. Install the basics</h2>
       <p>
         Use Avogadro with <strong>Minecraft 1.12.2, Cleanroom, and ModularUI</strong>. Java
@@ -174,27 +114,42 @@ loadScripts(document, 'script');</script>
           index 0. Each bond connects it to one hydrogen.
         </p>
         <pre data-language="json" tabindex="0" role="region" aria-label="Add water using JSON"><code class="language-json">{
-  &quot;name&quot;: &quot;Water&quot;,
-  &quot;atoms&quot;: [
-    {&quot;e&quot;: &quot;O&quot;, &quot;x&quot;: 0, &quot;y&quot;: 0, &quot;z&quot;: 0},
-    {&quot;e&quot;: &quot;H&quot;, &quot;x&quot;: 0.7586, &quot;y&quot;: 0.5043, &quot;z&quot;: 0},
-    {&quot;e&quot;: &quot;H&quot;, &quot;x&quot;: -0.7586, &quot;y&quot;: 0.5043, &quot;z&quot;: 0}
+  "name": "Water",
+  "atoms": [
+    {
+        "e": "O",
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    {
+        "e": "H",
+        "x": 0.7586,
+        "y": 0.5043,
+        "z": 0
+    },
+    {
+        "e": "H",
+        "x": -0.7586,
+        "y": 0.5043,
+        "z": 0
+    }
   ],
-  &quot;bonds&quot;: [[0, 1], [0, 2]],
-  &quot;items&quot;: [&quot;minecraft:water_bucket&quot;],
-  &quot;fluids&quot;: [&quot;minecraft:water&quot;],
-  &quot;generate_item&quot;: true
+  "bonds": [[0, 1], [0, 2]],
+  "items": ["minecraft:water_bucket"],
+  "fluids": ["minecraft:water"],
+  "generate_item": true
 }</code></pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Add water using GroovyScript"><code class="language-groovy">mods.avogadro.molecules.register(&#x27;guide:water&#x27;, [
-    name: &#x27;Water&#x27;,
+        <pre data-language="groovy" tabindex="0" role="region" aria-label="Add water using GroovyScript"><code class="language-groovy">mods.avogadro.molecules.register('guide:water', [
+    name: 'Water',
     atoms: [
-        [e: &#x27;O&#x27;, x: 0, y: 0, z: 0],
-        [e: &#x27;H&#x27;, x: 0.7586, y: 0.5043, z: 0],
-        [e: &#x27;H&#x27;, x: -0.7586, y: 0.5043, z: 0]
+        [e: 'O', x: 0, y: 0, z: 0],
+        [e: 'H', x: 0.7586, y: 0.5043, z: 0],
+        [e: 'H', x: -0.7586, y: 0.5043, z: 0]
     ],
     bonds: [[0, 1], [0, 2]],
-    items: [&#x27;minecraft:water_bucket&#x27;],
-    fluids: [&#x27;minecraft:water&#x27;],
+    items: ['minecraft:water_bucket'],
+    fluids: ['minecraft:water'],
     generate_item: true
 ])</code></pre>
         <pre data-language="java" tabindex="0" role="region" aria-label="Add water using Java"><code class="language-java">import io.github.wurtzitane.avogadro.api.AvogadroApi;
@@ -203,62 +158,63 @@ import java.util.concurrent.CompletableFuture;
 
 public class WaterExample {
     public static CompletableFuture&lt;MoleculeView&gt; register() {
-        var water = AvogadroApi.builder(&quot;guide:water&quot;)
-                .name(&quot;Water&quot;)
-                .atom(&quot;O&quot;, 0, 0, 0)
-                .atom(&quot;H&quot;, 0.7586, 0.5043, 0)
-                .atom(&quot;H&quot;, -0.7586, 0.5043, 0)
-                .bond(0, 1)
-                .bond(0, 2)
-                .items(&quot;minecraft:water_bucket&quot;)
-                .fluids(&quot;minecraft:water&quot;)
-                .generateItem(true)
-                .build();
-        return AvogadroApi.owner(&quot;guide&quot;).register(water);
+        var water = AvogadroApi.builder("guide:water")
+            .name("Water")
+            .atom("O", 0, 0, 0)
+            .atom("H", 0.7586, 0.5043, 0)
+            .atom("H", -0.7586, 0.5043, 0)
+            .bond(0, 1)
+            .bond(0, 2)
+            .items("minecraft:water_bucket")
+            .fluids("minecraft:water")
+            .generateItem(true)
+            .build();
+        return AvogadroApi.owner("guide")
+            .register(water);
     }
 }</code></pre>
         <pre data-language="kotlin" tabindex="0" role="region" aria-label="Add water using Kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.Avogadro
 
-fun registerWater() = Avogadro.register(&quot;guide&quot;, Avogadro.molecule(&quot;guide:water&quot;) {
-    name(&quot;Water&quot;)
-    atom(&quot;O&quot;, 0.0, 0.0, 0.0)
-    atom(&quot;H&quot;, 0.7586, 0.5043, 0.0)
-    atom(&quot;H&quot;, -0.7586, 0.5043, 0.0)
+fun registerWater() = Avogadro.register("guide", Avogadro.molecule("guide:water") {
+    name("Water")
+    atom("O", 0.0, 0.0, 0.0)
+    atom("H", 0.7586, 0.5043, 0.0)
+    atom("H", -0.7586, 0.5043, 0.0)
     bond(0, 1)
     bond(0, 2)
-    items(&quot;minecraft:water_bucket&quot;)
-    fluids(&quot;minecraft:water&quot;)
+    items("minecraft:water_bucket")
+    fluids("minecraft:water")
     generateItem(true)
 })</code></pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Add water using Scala 3"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro
 
 object WaterRecipe {
-  def register() = Avogadro.register(&quot;guide&quot;, Avogadro.molecule(&quot;guide:water&quot;) { m =&gt;
-    m.name(&quot;Water&quot;)
-      .atom(&quot;O&quot;, 0.0, 0.0, 0.0)
-      .atom(&quot;H&quot;, 0.7586, 0.5043, 0.0)
-      .atom(&quot;H&quot;, -0.7586, 0.5043, 0.0)
+  def register() = Avogadro.register("guide", Avogadro.molecule("guide:water") { m =&gt;
+    m.name("Water")
+      .atom("O", 0.0, 0.0, 0.0)
+      .atom("H", 0.7586, 0.5043, 0.0)
+      .atom("H", -0.7586, 0.5043, 0.0)
       .bond(0, 1)
       .bond(0, 2)
-      .items(&quot;minecraft:water_bucket&quot;)
-      .fluids(&quot;minecraft:water&quot;)
+      .items("minecraft:water_bucket")
+      .fluids("minecraft:water")
       .generateItem(true)
   })
 }</code></pre>
         <pre data-language="zenscript" tabindex="0" role="region" aria-label="Add water using CraftTweaker"><code class="language-zenscript">import mods.avogadro.Molecules;
 
 val water = Molecules.fragment()
-    .atom(&quot;O&quot;, 0.0, 0.0, 0.0)
-    .atom(&quot;H&quot;, 0.7586, 0.5043, 0.0)
-    .atom(&quot;H&quot;, -0.7586, 0.5043, 0.0)
+    .atom("O", 0.0, 0.0, 0.0)
+    .atom("H", 0.7586, 0.5043, 0.0)
+    .atom("H", -0.7586, 0.5043, 0.0)
     .bond(0, 1, 1)
     .bond(0, 2, 1);
 
-Molecules.molecule(&quot;guide:water&quot;)
-    .name(&quot;Water&quot;)
+Molecules.molecule("guide:water")
+    .name("Water")
     .structure(water)
-    .itemSelector(&quot;minecraft:water_bucket&quot;)
-    .fluidSelector(&quot;minecraft:water&quot;)
+    .itemSelector("minecraft:water_bucket")
+    .fluidSelector("minecraft:water")
     .generateItem(true)
     .register();</code></pre>
         <details>
@@ -378,7 +334,69 @@ Molecules.molecule(&quot;guide:water&quot;)
         <a href="https://www.euphoriapatches.com/how-to-install/">Euphoria installation instructions</a>
         and keep the original shader ZIP unchanged.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="start-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#builder(java.lang.String)">builder</a>(id)</code>
+              </td>
+              <td>Namespaced molecule ID</td>
+              <td>Use a stable ID such as guide:water.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#atom(java.lang.String,double,double,double)">atom</a>(element, x, y, z) /
+                  <a href="../MoleculeBuilder.html#bond(int,int)">bond</a>(first, second)</code>
+              </td>
+              <td>Element and coordinates; two atom indices</td>
+              <td>Place each atom and connect oxygen to both hydrogens.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#items(java.lang.Object...)">items</a>(...) /
+                  <a href="../MoleculeBuilder.html#fluids(java.lang.Object...)">fluids</a>(...)</code>
+              </td>
+              <td>Existing item selectors and fluid names</td>
+              <td>Choose which stacks display the model.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#generateItem(boolean)">generateItem</a>(true)</code>
+              </td>
+              <td>Boolean flag</td>
+              <td>Request a molecule sample item in addition to matching existing stacks.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../AvogadroApi.html">AvogadroApi</a>.<a href="../AvogadroApi.html#owner(java.lang.String)">owner</a>(name).<a href="../MoleculeRegistration.html#register(io.github.wurtzitane.avogadro.api.MoleculeSpec)">register</a>(definition)</code>
+              </td>
+              <td>Owner identifier; built definition</td>
+              <td>Publish the definition asynchronously and handle success or failure.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="examples.html">Next: Choose an example</a>
       </nav>
     </div></main>

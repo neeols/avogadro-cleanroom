@@ -155,6 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!examples.some((pre) => pre.dataset.language === value))
         value = examples[0].dataset.language;
       selector.value = value;
+      group.querySelectorAll('[data-recipe-language]').forEach((note) => {
+        note.hidden = note.dataset.recipeLanguage !== value;
+      });
       examples.forEach((pre) => {
         pre.hidden = pre.dataset.language !== value;
       });
@@ -587,7 +590,7 @@ function nativeRegistration(id, definition, language, fragmentName = 'fragment')
       zen
         ? 'Molecules.fragment()'
         : groovy
-          ? 'molecules.structureBuilder()'
+          ? (id === null ? 'mods.avogadro.molecules' : 'molecules') + '.structureBuilder()'
           : construct('StructureBuilder'),
     );
     shape.atoms.forEach((atom, index) => {
@@ -687,10 +690,11 @@ function nativeRegistration(id, definition, language, fragmentName = 'fragment')
     return letValue(name, draft + '.build()');
   };
 
-  if (groovy) letValue('molecules', 'mods.avogadro.molecules');
+  if (groovy && id !== null) letValue('molecules', 'mods.avogadro.molecules');
   if (id === null) {
     const name = camelCase(fragmentName);
     fragment(definition, name, !zen && !groovy);
+    const className = capitalize(name) + 'Fragment';
     const method = 'build' + capitalize(name);
     if (zen) return 'import mods.avogadro.Molecules;\n\n' + lines.join('\n');
     const imports =
@@ -705,7 +709,9 @@ function nativeRegistration(id, definition, language, fragmentName = 'fragment')
     if (scala)
       return (
         imports +
-        '\n\nobject FragmentExample {\n  def ' +
+        '\n\nobject ' +
+        className +
+        ' {\n  def ' +
         method +
         '(): StructureFragment = {\n' +
         body +
@@ -713,7 +719,9 @@ function nativeRegistration(id, definition, language, fragmentName = 'fragment')
       );
     return (
       imports +
-      '\n\npublic class FragmentExample {\n    public static StructureFragment ' +
+      '\n\npublic class ' +
+      className +
+      ' {\n    public static StructureFragment ' +
       method +
       '() {\n' +
       lines.map((line) => '        ' + line).join('\n') +
@@ -972,16 +980,43 @@ function registrationExample(id, definition, method) {
   recipe.className = 'av-example-group';
   recipe.dataset.example = 'registration-' + id + (method ? '-' + method : '');
   recipe.dataset.defaultLanguage = 'json';
+  const name = definition.name || id.split(':')[1].split('/').at(-1).replaceAll(/[_-]+/g, ' ');
+  const topic = {
+    smiles: 'from SMILES',
+    coordinates: 'from atom coordinates',
+    assembly: 'from fragments',
+    crystal: 'unit cell',
+    polymer: 'repeat unit and caps',
+    network: 'network',
+    copy: 'from an existing molecule',
+  };
+  const form =
+    method ||
+    (definition.crystal
+      ? 'crystal'
+      : definition.polymer_network
+        ? 'network'
+        : definition.polymer
+          ? 'polymer'
+          : definition.structure?.assembly
+            ? 'assembly'
+            : definition.copy
+              ? 'copy'
+              : definition.smiles
+                ? 'smiles'
+                : definition.atoms || definition.structure?.atoms
+                  ? 'coordinates'
+                  : '');
   const heading = document.createElement('h3');
-  heading.textContent =
-    { smiles: 'Register from SMILES', coordinates: 'Register with explicit coordinates' }[method] ||
-    'Register ' + id;
+  heading.textContent = topic[form] ? name + ' ' + topic[form] : 'Register ' + name;
   recipe.append(heading);
   const note = document.createElement('p');
-  note.textContent =
-    'For a pack, save the JSON under data/' +
-    id.replace(':', '/molecules/') +
-    '.json. For an addon or script, pick your language.';
+  note.className = 'av-step';
+  note.dataset.recipeLanguage = 'json';
+  note.append('Pack file ');
+  const path = document.createElement('code');
+  path.textContent = 'data/' + id.replace(':', '/molecules/') + '.json';
+  note.append(path);
   recipe.append(note);
   for (const [language, snippet] of Object.entries(moleculeRegistrationSources(id, definition))) {
     const pre = document.createElement('pre');
@@ -1039,6 +1074,65 @@ function addOperationExamples(guide) {
     (0xfff8f7f2 | 0) +
     ').modelScale(1.15, 0.7).elementColor("O", 0xe45b55).rotationSpeed(30.0)';
   const operations = {
+    'join-methanol': {
+      title: 'Join the two fragments',
+      className: 'MethanolAssembly',
+      method: 'join',
+      type: 'StructureFragment',
+      args: [
+        ['methyl', 'StructureFragment'],
+        ['hydroxyl', 'StructureFragment'],
+      ],
+      imports: [
+        namespace + 'api.StructureAssembly',
+        namespace + 'api.StructureFragment',
+        namespace + 'molecule.BondType',
+      ],
+      lines: [
+        'VAR assembly = StructureAssembly.builder()',
+        'assembly.part("methyl", methyl)',
+        'assembly.part("hydroxyl", hydroxyl)',
+        'assembly.link("methyl/carbon", "hydroxyl/oxygen", BondType.SINGLE)',
+        'return assembly.build().build()',
+      ],
+      groovy: [
+        'import io.github.wurtzitane.avogadro.api.StructureAssembly',
+        'import io.github.wurtzitane.avogadro.api.StructureFragment',
+        'import io.github.wurtzitane.avogadro.molecule.BondType',
+        '',
+        'StructureFragment join(StructureFragment methyl, StructureFragment hydroxyl) {',
+        '    def assembly = StructureAssembly.builder()',
+        '    assembly.part("methyl", methyl)',
+        '    assembly.part("hydroxyl", hydroxyl)',
+        '    assembly.link("methyl/carbon", "hydroxyl/oxygen", BondType.SINGLE)',
+        '    return assembly.build().build()',
+        '}',
+        '',
+        '// In the fragment script, after both fragments are built:',
+        '// def methanol = join(methyl, hydroxyl)',
+      ],
+      zen: [
+        ...molecules,
+        'import mods.avogadro.Geometry;',
+        '',
+        'function joinMethanol(methyl as Geometry, hydroxyl as Geometry) as Geometry {',
+        '    val assembly = Molecules.assembly();',
+        '    assembly.part("methyl", methyl);',
+        '    assembly.part("hydroxyl", hydroxyl);',
+        '    assembly.link("methyl/carbon", "hydroxyl/oxygen", 1);',
+        '    return assembly.build().geometry();',
+        '}',
+        '',
+        '// After both fragments are built:',
+        '// val methanol = joinMethanol(methyl, hydroxyl);',
+      ],
+      usage: {
+        java: 'var methanol = MethanolAssembly.join(MethylFragment.buildMethyl(), HydroxylFragment.buildHydroxyl());',
+        kotlin: 'val methanol = join(buildMethyl(), buildHydroxyl())',
+        scala:
+          'val methanol = MethanolAssembly.join(MethylFragment.buildMethyl(), HydroxylFragment.buildHydroxyl())',
+      },
+    },
     'registration-completion': {
       title: 'Watch a registration job',
       method: 'watchRegistration',
@@ -1801,20 +1895,20 @@ function addOperationExamples(guide) {
       ],
       imports: [namespace + 'api.client.MediaExportJob', 'java.util.function.Consumer'],
       lines: [
-        'job.onComplete(result -> showStatus.accept(result.output() != null ? "Saved " + result.output() : result.failure() == null ? "Export cancelled" : "Export failed: " + result.failure()))',
+        'job.onComplete(result -> showStatus.accept(!result.outputPath().isEmpty() ? "Saved " + result.outputPath() : result.failure() == null ? "Export cancelled" : "Export failed: " + result.failure()))',
       ],
       kotlin: [
-        'job.onComplete { result -> showStatus.accept(result.output()?.let { "Saved " + it } ?: result.failure()?.let { "Export failed: " + it } ?: "Export cancelled") }',
+        'job.onComplete { result -> showStatus.accept(result.outputPath().takeIf { it.isNotEmpty() }?.let { "Saved " + it } ?: result.failure()?.let { "Export failed: " + it } ?: "Export cancelled") }',
       ],
       scala: [
-        'job.onComplete(result => showStatus.accept(Option(result.output()).map("Saved " + _).orElse(Option(result.failure()).map("Export failed: " + _)).getOrElse("Export cancelled")))',
+        'job.onComplete(result => showStatus.accept(Some(result.outputPath()).filter(_.nonEmpty).map("Saved " + _).orElse(Option(result.failure()).map("Export failed: " + _)).getOrElse("Export cancelled")))',
       ],
       groovy: [
         'import io.github.wurtzitane.avogadro.api.client.MediaExportJob',
         'import java.util.function.Consumer',
         '',
         'static void watch(MediaExportJob job, Consumer<String> showStatus) {',
-        '    job.onComplete { result -> showStatus.accept(result.output() != null ? "Saved " + result.output() : result.failure() == null ? "Export cancelled" : "Export failed: " + result.failure()) }',
+        '    job.onComplete { result -> showStatus.accept(!result.outputPath().isEmpty() ? "Saved " + result.outputPath() : result.failure() == null ? "Export cancelled" : "Export failed: " + result.failure()) }',
         '}',
       ],
       zen: [
@@ -2019,7 +2113,7 @@ function addOperationExamples(guide) {
     recipe.dataset.example = 'operation-' + key;
     recipe.dataset.defaultLanguage = 'java';
     const heading = document.createElement('h3');
-    heading.textContent = operation?.title || 'Build the reusable fragment';
+    heading.textContent = operation?.title || 'Build the ' + key.replaceAll('-', ' ') + ' fragment';
     recipe.append(heading);
     for (const language of ['java', 'kotlin', 'scala', 'groovy', 'zenscript']) {
       const pre = document.createElement('pre');
@@ -2052,6 +2146,11 @@ function operationSource(operation, language) {
   const kotlin = language === 'kotlin';
   const scala = language === 'scala';
   const groovy = language === 'groovy';
+  const className = operation.className || 'ExampleOperation';
+  const usage = operation.usage?.[language];
+  const usageLines = usage
+    ? ['', '// Call this after adding the two fragment examples:', '// ' + usage]
+    : [];
   if (groovy && operation.groovy) return operation.groovy.join('\n');
   const type = (name) => {
     if (java || groovy) return name;
@@ -2092,16 +2191,18 @@ function operationSource(operation, language) {
       'fun ' + operation.method + '(' + args + '): ' + result + ' {',
       ...indent(4),
       '}',
+      ...usageLines,
     ].join('\n');
   if (scala)
     return [
       ...imports,
       '',
-      'object ExampleOperation {',
+      'object ' + className + ' {',
       '  def ' + operation.method + '(' + args + '): ' + result + ' = {',
       ...indent(4),
       '  }',
       '}',
+      ...usageLines,
     ].join('\n');
   const signature =
     result +
@@ -2116,10 +2217,11 @@ function operationSource(operation, language) {
   return [
     ...imports,
     '',
-    'public class ExampleOperation {',
+    'public class ' + className + ' {',
     '    public static ' + signature,
     ...indent(8),
     '    }',
     '}',
+    ...usageLines,
   ].join('\n');
 }

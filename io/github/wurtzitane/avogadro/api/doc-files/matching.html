@@ -65,60 +65,7 @@ loadScripts(document, 'script');</script>
         molecule definition, such as a water bucket or a fluid with a particular NBT tag, then
         register the definition. The rules below explain which match wins when several apply.
       </p>
-      <section class="av-call-guide">
-        <h2 id="matching-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#items(java.lang.Object...)">items</a>(selectors...)</code>
-              </td>
-              <td>Item IDs, optionally with metadata and NBT</td>
-              <td>Match existing item stacks; the examples show exact selector syntax.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#fluids(java.lang.Object...)">fluids</a>(selectors...)</code>
-              </td>
-              <td>Fluid names, optionally with NBT</td>
-              <td>Match fluid stacks using the supplied constraints.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#matchContainers(boolean)">matchContainers</a>(true)</code>
-              </td>
-              <td>Boolean flag</td>
-              <td>Allow the container matching behavior described below.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../MoleculeBuilder.html#build()">build</a>()</code>
-              </td>
-              <td>No arguments</td>
-              <td>
-                Finish the definition with its matching rules; register it to activate those rules.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -197,10 +144,14 @@ import net.minecraftforge.fluids.FluidStack;</code>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeSpec pureWater() {
-    // Extra NBT keys in a stack are allowed. Grade must be the string &quot;pure&quot;.
-    return AvogadroApi.builder(&quot;guide:pure_water&quot;).name(&quot;Purified water&quot;).smiles(&quot;[H]O[H]&quot;)
-            .items(&quot;minecraft:potion&#64;0#{Potion:\&quot;minecraft:water\&quot;}&quot;)
-            .fluids(&quot;water#{Grade:\&quot;pure\&quot;}&quot;).matchContainers(true).build();
+    // Extra NBT keys in a stack are allowed. Grade must be the string "pure".
+    return AvogadroApi.builder("guide:pure_water")
+        .name("Purified water")
+        .smiles("[H]O[H]")
+        .items("minecraft:potion@0#{Potion:\"minecraft:water\"}")
+        .fluids("water#{Grade:\"pure\"}")
+        .matchContainers(true)
+        .build();
 }</code>
 </pre>
         </div>
@@ -209,10 +160,14 @@ import net.minecraftforge.fluids.FluidStack;</code>
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static MoleculeSpec pureWater() {
-    // Extra NBT keys in a stack are allowed. Grade must be the string &quot;pure&quot;.
-    return AvogadroApi.builder(&quot;guide:pure_water&quot;).name(&quot;Purified water&quot;).smiles(&quot;[H]O[H]&quot;)
-            .items(&quot;minecraft:potion&#64;0#{Potion:\&quot;minecraft:water\&quot;}&quot;)
-            .fluids(&quot;water#{Grade:\&quot;pure\&quot;}&quot;).matchContainers(true).build();
+    // Extra NBT keys in a stack are allowed. Grade must be the string "pure".
+    return AvogadroApi.builder("guide:pure_water")
+        .name("Purified water")
+        .smiles("[H]O[H]")
+        .items("minecraft:potion@0#{Potion:\"minecraft:water\"}")
+        .fluids("water#{Grade:\"pure\"}")
+        .matchContainers(true)
+        .build();
 }</code>
 </pre>
         </div>
@@ -221,15 +176,15 @@ import net.minecraftforge.fluids.FluidStack;</code>
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Purified water&quot;,
-  &quot;smiles&quot;: &quot;[H]O[H]&quot;,
-  &quot;items&quot;: [
-    &quot;minecraft:potion&#64;0#{Potion:\&quot;minecraft:water\&quot;}&quot;
+  "name": "Purified water",
+  "smiles": "[H]O[H]",
+  "items": [
+    "minecraft:potion@0#{Potion:\"minecraft:water\"}"
   ],
-  &quot;fluids&quot;: [
-    &quot;water#{Grade:\&quot;pure\&quot;}&quot;
+  "fluids": [
+    "water#{Grade:\"pure\"}"
   ],
-  &quot;match_containers&quot;: true
+  "match_containers": true
 }</code>
 </pre>
         </div>
@@ -247,9 +202,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <pre><code class="language-java">public static MoleculeSpec taggedFluid(Fluid water) {
     var stack = new FluidStack(water, 1000);
     stack.tag = new NBTTagCompound();
-    stack.tag.setString(&quot;Grade&quot;, &quot;pure&quot;);
+    stack.tag.setString("Grade", "pure");
     // The builder keeps the tag requirement. Amount is not a selector condition.
-    return AvogadroApi.builder(&quot;guide:pure_water&quot;).smiles(&quot;[H]O[H]&quot;).fluids(stack).build();
+    return AvogadroApi.builder("guide:pure_water")
+        .smiles("[H]O[H]")
+        .fluids(stack)
+        .build();
 }</code>
 </pre>
         </div>
@@ -260,9 +218,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <pre><code class="language-groovy">static MoleculeSpec taggedFluid(Fluid water) {
     def stack = new FluidStack(water, 1000);
     stack.tag = new NBTTagCompound();
-    stack.tag.setString(&quot;Grade&quot;, &quot;pure&quot;);
+    stack.tag.setString("Grade", "pure");
     // The builder keeps the tag requirement. Amount is not a selector condition.
-    return AvogadroApi.builder(&quot;guide:pure_water&quot;).smiles(&quot;[H]O[H]&quot;).fluids(stack).build();
+    return AvogadroApi.builder("guide:pure_water")
+        .smiles("[H]O[H]")
+        .fluids(stack)
+        .build();
 }</code>
 </pre>
         </div>
@@ -281,7 +242,8 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeDef lookupFluid(FluidStack contents) {
     // Keep the FluidStack; passing contents.getFluid() would discard its tag.
-    return AvogadroApi.serverView().find(contents);
+    return AvogadroApi.serverView()
+        .find(contents);
 }</code>
 </pre>
         </div>
@@ -291,7 +253,8 @@ import net.minecraftforge.fluids.FluidStack;</code>
           </p>
           <pre><code class="language-groovy">static MoleculeDef lookupFluid(FluidStack contents) {
     // Keep the FluidStack; passing contents.getFluid() would discard its tag.
-    return AvogadroApi.serverView().find(contents);
+    return AvogadroApi.serverView()
+        .find(contents);
 }</code>
 </pre>
         </div>
@@ -453,10 +416,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeBatch tags() {
     return new MoleculeBatch()
-            .itemTag(&quot;guide:water_containers&quot;, false, &quot;minecraft:water_bucket&quot;)
-            .fluidTag(&quot;guide:water&quot;, false, &quot;water&quot;)
-            .register(AvogadroApi.builder(&quot;guide:tagged_water&quot;).smiles(&quot;[H]O[H]&quot;)
-                    .itemTags(&quot;guide:water_containers&quot;).fluidTags(&quot;guide:water&quot;));
+        .itemTag("guide:water_containers", false, "minecraft:water_bucket")
+        .fluidTag("guide:water", false, "water")
+        .register(AvogadroApi.builder("guide:tagged_water")
+            .smiles("[H]O[H]")
+            .itemTags("guide:water_containers")
+            .fluidTags("guide:water"));
 }</code>
 </pre>
         </div>
@@ -464,8 +429,12 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">mods.avogadro.molecules.itemTag(&#x27;guide:water_containers&#x27;, false, [&#x27;minecraft:water_bucket&#x27;])
-mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[H]O[H]&#x27;, item_tags:[&#x27;guide:water_containers&#x27;]])</code>
+          <pre><code class="language-groovy">mods.avogadro.molecules.itemTag('guide:water_containers',
+    false,
+    ['minecraft:water_bucket'])
+mods.avogadro.molecules.register('guide:tagged_water',
+    [smiles:'[H]O[H]',
+        item_tags:['guide:water_containers']])</code>
 </pre>
         </div>
         <div data-language="json">
@@ -473,10 +442,10 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;replace&quot;: false,
-  &quot;values&quot;: [
-    &quot;minecraft:water_bucket&quot;,
-    &quot;#guide:other_water_containers&quot;
+  "replace": false,
+  "values": [
+    "minecraft:water_bucket",
+    "#guide:other_water_containers"
   ]
 }</code>
 </pre>
@@ -490,7 +459,10 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
         dictionaries, not modern Minecraft datapacks or Forge ore-dictionary names.
       </p>
       <h2 id="matching-materials">Show a molecule for a GregTech material</h2>
-      <pre><code class="language-json">{&quot;smiles&quot;:&quot;Cc1ccccc1&quot;,&quot;materials&quot;:[&quot;gregtech:toluene&quot;]}</code>
+      <pre><code class="language-json">{
+    "smiles":"Cc1ccccc1",
+    "materials":["gregtech:toluene"]
+}</code>
 </pre>
       <p>
         The legacy adapter targets GregTechCEu 1.12.2 2.8.10-beta. <code>gtceu:toluene</code> is an
@@ -536,19 +508,20 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerWater() {
-    // Replaces this owner&#x27;s contribution only. Other owners are untouched.
+    // Replaces this owner's contribution only. Other owners are untouched.
     var batch = new MoleculeBatch();
-    batch.register(AvogadroApi.builder(&quot;guide:water&quot;)
-            .name(&quot;Water&quot;)
-            .atom(&quot;O&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, 0.7586, 0.5043, 0)
-            .atom(&quot;H&quot;, -0.7586, 0.5043, 0)
-            .bond(0, 1)
-            .bond(0, 2)
-            .items(&quot;minecraft:water_bucket&quot;)
-            .fluids(&quot;minecraft:water&quot;)
-            .generateItem(true));
-    return AvogadroApi.owner(&quot;guide&quot;).replace(batch);
+    batch.register(AvogadroApi.builder("guide:water")
+        .name("Water")
+        .atom("O", 0, 0, 0)
+        .atom("H", 0.7586, 0.5043, 0)
+        .atom("H", -0.7586, 0.5043, 0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .items("minecraft:water_bucket")
+        .fluids("minecraft:water")
+        .generateItem(true));
+    return AvogadroApi.owner("guide")
+        .replace(batch);
 }</code>
 </pre>
         </div>
@@ -557,19 +530,20 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static CompletableFuture&lt;MoleculeView&gt; registerWater() {
-    // Replaces this owner&#x27;s contribution only. Other owners are untouched.
+    // Replaces this owner's contribution only. Other owners are untouched.
     var batch = new MoleculeBatch();
-    batch.register(AvogadroApi.builder(&quot;guide:water&quot;)
-            .name(&quot;Water&quot;)
-            .atom(&quot;O&quot;, 0, 0, 0)
-            .atom(&quot;H&quot;, 0.7586, 0.5043, 0)
-            .atom(&quot;H&quot;, -0.7586, 0.5043, 0)
-            .bond(0, 1)
-            .bond(0, 2)
-            .items(&quot;minecraft:water_bucket&quot;)
-            .fluids(&quot;minecraft:water&quot;)
-            .generateItem(true));
-    return AvogadroApi.owner(&quot;guide&quot;).replace(batch);
+    batch.register(AvogadroApi.builder("guide:water")
+        .name("Water")
+        .atom("O", 0, 0, 0)
+        .atom("H", 0.7586, 0.5043, 0)
+        .atom("H", -0.7586, 0.5043, 0)
+        .bond(0, 1)
+        .bond(0, 2)
+        .items("minecraft:water_bucket")
+        .fluids("minecraft:water")
+        .generateItem(true));
+    return AvogadroApi.owner("guide")
+        .replace(batch);
 }</code>
 </pre>
         </div>
@@ -588,7 +562,8 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeDef lookup(ItemStack stack) {
     // Use this view for decisions on the running server. A miss returns null.
-    return AvogadroApi.serverView().find(stack);
+    return AvogadroApi.serverView()
+        .find(stack);
 }</code>
 </pre>
         </div>
@@ -598,7 +573,8 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
           </p>
           <pre><code class="language-groovy">static MoleculeDef lookup(ItemStack stack) {
     // Use this view for decisions on the running server. A miss returns null.
-    return AvogadroApi.serverView().find(stack);
+    return AvogadroApi.serverView()
+        .find(stack);
 }</code>
 </pre>
         </div>
@@ -765,7 +741,7 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static void hideAutomaticPreview() {
     // Associations remain available for HEI and lookups.
-    AvogadroApi.excludeItemTooltip(new ResourceLocation(&quot;minecraft&quot;, &quot;water_bucket&quot;));
+    AvogadroApi.excludeItemTooltip(new ResourceLocation("minecraft", "water_bucket"));
 }</code>
 </pre>
         </div>
@@ -775,7 +751,7 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
           </p>
           <pre><code class="language-groovy">static void hideAutomaticPreview() {
     // Associations remain available for HEI and lookups.
-    AvogadroApi.excludeItemTooltip(new ResourceLocation(&quot;minecraft&quot;, &quot;water_bucket&quot;));
+    AvogadroApi.excludeItemTooltip(new ResourceLocation("minecraft", "water_bucket"));
 }</code>
 </pre>
         </div>
@@ -802,26 +778,29 @@ mods.avogadro.molecules.register(&#x27;guide:tagged_water&#x27;, [smiles:&#x27;[
           for previews, where the player may have selected a different local model.
         </p>
         <pre data-language="java" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — java"><code class="language-java">var view = AvogadroApi.registeredView();
-var definition = view.get(&quot;my_mod:water&quot;);
-var ids = view.definitions().keySet();
+var definition = view.get("my_mod:water");
+var ids = view.definitions()
+    .keySet();
 var match = view.find(itemStack); // Actual ItemStack, including metadata and NBT.
 var authoritative = AvogadroApi.serverView();</code>
 </pre>
         <pre data-language="kotlin" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — kotlin"><code class="language-kotlin">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
-val definition = view.get(&quot;my_mod:water&quot;)
+val definition = view.get("my_mod:water")
 val ids = view.definitions().keys
 val match = view.find(itemStack) // Actual ItemStack, including metadata and NBT.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
         <pre data-language="groovy" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — groovy"><code class="language-groovy">def view = molecules.view()
-def definition = view.get(&#x27;my_pack:water&#x27;)
-def ids = view.definitions().keySet()
+def definition = view.get('my_pack:water')
+def ids = view.definitions()
+    .keySet()
 def match = view.find(itemStack) // Actual Minecraft ItemStack.
 def authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
         <pre data-language="scala" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — scala"><code class="language-scala">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
-val definition = view.get(&quot;my_mod:water&quot;)
-val ids = view.definitions().keySet()
+val definition = view.get("my_mod:water")
+val ids = view.definitions()
+    .keySet()
 val matched = view.find(itemStack) // Actual Minecraft ItemStack.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
@@ -830,7 +809,7 @@ val matchId = Molecules.findItem(&lt;minecraft:water_bucket&gt;);
 val fluidId = Molecules.findFluid(&lt;liquid:water&gt;);
 val authoritativeIds = Molecules.serverIds();
 // Unknown geometry IDs throw; take this snapshot only after registration:
-val geometry = Molecules.geometry(&quot;my_pack:water&quot;);</code>
+val geometry = Molecules.geometry("my_pack:water");</code>
 </pre>
         <p>
           Java view.get/find return null when absent. ZenScript match methods return an empty
@@ -839,7 +818,62 @@ val geometry = Molecules.geometry(&quot;my_pack:water&quot;);</code>
           registered definition changes.
         </p>
       </div>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="matching-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#items(java.lang.Object...)">items</a>(selectors...)</code>
+              </td>
+              <td>Item IDs, optionally with metadata and NBT</td>
+              <td>Match existing item stacks; the examples show exact selector syntax.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#fluids(java.lang.Object...)">fluids</a>(selectors...)</code>
+              </td>
+              <td>Fluid names, optionally with NBT</td>
+              <td>Match fluid stacks using the supplied constraints.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#matchContainers(boolean)">matchContainers</a>(true)</code>
+              </td>
+              <td>Boolean flag</td>
+              <td>Allow the container matching behavior described below.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../MoleculeBuilder.html#build()">build</a>()</code>
+              </td>
+              <td>No arguments</td>
+              <td>
+                Finish the definition with its matching rules; register it to activate those rules.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="fictional.html">Previous: Two fictional atom examples</a><a href="packs.html">Next: Server molecule packs</a>
       </nav>
     </div></main>

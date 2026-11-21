@@ -65,51 +65,7 @@ loadScripts(document, 'script');</script>
         carbon-13 atom, or show sodium chloride as charged atoms. You supply the proton, neutron,
         and electron counts through <code>AtomicConfiguration</code>.
       </p>
-      <section class="av-call-guide">
-        <h2 id="atoms-call-sequence">Calls used in the examples</h2>
-        <table>
-          <caption>
-            Calls used in this guide
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Call or setting</th>
-              <th scope="col">Arguments</th>
-              <th scope="col">What it does</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code><a href="../AtomicConfiguration.html#%3Cinit%3E(int,int,int,java.util.List)">AtomicConfiguration</a>(protons, neutrons, charge, shells)</code>
-              </td>
-              <td>Nuclear counts; charge; electron-shell list</td>
-              <td>Supply the data the atom inspector should display.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureFragment.html#edit()">edit</a>().<a href="../StructureEditor.html#atomConfiguration(int,io.github.wurtzitane.avogadro.api.AtomicConfiguration)">atomConfiguration</a>(index, configuration)</code>
-              </td>
-              <td>Zero-based atom index; configuration</td>
-              <td>Apply the data to an edited copy of the structure.</td>
-            </tr>
-            <tr>
-              <td>
-                <code><a href="../StructureEditor.html#fragment()">fragment</a>()</code>
-              </td>
-              <td>No arguments</td>
-              <td>Return the edited fragment for use in a new definition.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          <strong>When you finish:</strong> A builder creates a model but does not add it to the
-          game. Java registrations use a name, called an owner, to group the definitions your mod
-          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
-          or remove its installed set later. JSON and Groovy registrations use their file or script
-          loading rules instead. Keep drawing and exports in client code.
-        </p>
-      </section>
+      
       <div class="av-language">
         <span class="av-language-controls">Example language</span><noscript>Java, Groovy, and JSON variants are all shown below. Enable JavaScript to choose
           one.</noscript><span class="av-step"> Your choice applies across the guides.</span>
@@ -228,25 +184,69 @@ import java.util.Map;</code></pre>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static StructureFragment carbon13Methanol() {
-    return methanol().edit()
-            .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4))).fragment();
+    return methanol()
+        .edit()
+        .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4)))
+        .fragment();
 }
 
 public static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
-    return StructureAssembly.builder().part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE).build().build(); // recipe first, then finite geometry
+    return StructureAssembly.builder()
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon",
+            "hydroxyl/oxygen",
+            BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }
 
 public static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892).bond(0, 1).bond(0, 2).bond(0, 3).attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("H",
+            -.36,
+            1.03,
+            0)
+        .atom("H",
+            -.36,
+            -.515,
+            .892)
+        .atom("H",
+            -.36,
+            -.515,
+            -.892)
+        .bond(0,
+            1)
+        .bond(0,
+            2)
+        .bond(0,
+            3)
+        .attachment("carbon",
+            0)
+        .build();
 }
 
 public static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0).bond(0, 1).attachment(&quot;oxygen&quot;, 0)
-            .build();
+    return new StructureBuilder()
+        .atom("O",
+            1.43,
+            0,
+            0)
+        .atom("H",
+            1.8,
+            .85,
+            0)
+        .bond(0,
+            1)
+        .attachment("oxygen",
+            0)
+        .build();
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -254,25 +254,69 @@ public static StructureFragment hydroxyl() {
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static StructureFragment carbon13Methanol() {
-    return methanol().edit()
-            .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4))).fragment();
+    return methanol()
+        .edit()
+        .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4)))
+        .fragment();
 }
 
 public static StructureFragment methanol() {
     // Fragment positions already line up. link() only adds the O–C bond.
-    return StructureAssembly.builder().part(&quot;methyl&quot;, methyl()).part(&quot;hydroxyl&quot;, hydroxyl())
-            .link(&quot;methyl/carbon&quot;, &quot;hydroxyl/oxygen&quot;, BondType.SINGLE).build().build(); // recipe first, then finite geometry
+    return StructureAssembly.builder()
+        .part("methyl", methyl())
+        .part("hydroxyl", hydroxyl())
+        .link("methyl/carbon",
+            "hydroxyl/oxygen",
+            BondType.SINGLE)
+        .build()
+        .build(); // recipe first, then finite geometry
 }
 
 public static StructureFragment methyl() {
-    return new StructureBuilder().atom(&quot;C&quot;, 0, 0, 0).atom(&quot;H&quot;, -.36, 1.03, 0).atom(&quot;H&quot;, -.36, -.515, .892)
-            .atom(&quot;H&quot;, -.36, -.515, -.892).bond(0, 1).bond(0, 2).bond(0, 3).attachment(&quot;carbon&quot;, 0).build();
+    return new StructureBuilder()
+        .atom("C",
+            0,
+            0,
+            0)
+        .atom("H",
+            -.36,
+            1.03,
+            0)
+        .atom("H",
+            -.36,
+            -.515,
+            .892)
+        .atom("H",
+            -.36,
+            -.515,
+            -.892)
+        .bond(0,
+            1)
+        .bond(0,
+            2)
+        .bond(0,
+            3)
+        .attachment("carbon",
+            0)
+        .build();
 }
 
 public static StructureFragment hydroxyl() {
     // An open O site for assembly; this piece alone is not an alcohol.
-    return new StructureBuilder().atom(&quot;O&quot;, 1.43, 0, 0).atom(&quot;H&quot;, 1.8, .85, 0).bond(0, 1).attachment(&quot;oxygen&quot;, 0)
-            .build();
+    return new StructureBuilder()
+        .atom("O",
+            1.43,
+            0,
+            0)
+        .atom("H",
+            1.8,
+            .85,
+            0)
+        .bond(0,
+            1)
+        .attachment("oxygen",
+            0)
+        .build();
 }</code></pre>
         </div>
         <div data-language="json">
@@ -280,13 +324,13 @@ public static StructureFragment hydroxyl() {
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;copy&quot;: &quot;guide:methanol&quot;,
-  &quot;atom_configurations&quot;: {
-    &quot;0&quot;: {
-      &quot;atomic_number&quot;: 6,
-      &quot;neutrons&quot;: 7,
-      &quot;charge&quot;: 0,
-      &quot;electron_shells&quot;: [
+  "copy": "guide:methanol",
+  "atom_configurations": {
+    "0": {
+      "atomic_number": 6,
+      "neutrons": 7,
+      "charge": 0,
+      "electron_shells": [
         2,
         4
       ]
@@ -309,8 +353,12 @@ public static StructureFragment hydroxyl() {
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeSpec sodiumIon() {
-    return AvogadroApi.builder(&quot;guide:sodium_ion&quot;).name(&quot;Sodium ion&quot;)
-            .atom(&quot;Na&quot;, 0, 0, 0).noBonds().atomConfiguration(0, 11, 12, 1, 2, 8).build();
+    return AvogadroApi.builder("guide:sodium_ion")
+        .name("Sodium ion")
+        .atom("Na", 0, 0, 0)
+        .noBonds()
+        .atomConfiguration(0, 11, 12, 1, 2, 8)
+        .build();
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -318,8 +366,12 @@ public static StructureFragment hydroxyl() {
             Groovy · same API; place methods in your script or client helper as described.
           </p>
           <pre><code class="language-groovy">static MoleculeSpec sodiumIon() {
-    return AvogadroApi.builder(&quot;guide:sodium_ion&quot;).name(&quot;Sodium ion&quot;)
-            .atom(&quot;Na&quot;, 0, 0, 0).noBonds().atomConfiguration(0, 11, 12, 1, 2, 8).build();
+    return AvogadroApi.builder("guide:sodium_ion")
+        .name("Sodium ion")
+        .atom("Na", 0, 0, 0)
+        .noBonds()
+        .atomConfiguration(0, 11, 12, 1, 2, 8)
+        .build();
 }</code></pre>
         </div>
         <div data-language="json">
@@ -327,22 +379,22 @@ public static StructureFragment hydroxyl() {
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Sodium ion&quot;,
-  &quot;atoms&quot;: [
+  "name": "Sodium ion",
+  "atoms": [
     {
-      &quot;e&quot;: &quot;Na&quot;,
-      &quot;x&quot;: 0,
-      &quot;y&quot;: 0,
-      &quot;z&quot;: 0
+      "e": "Na",
+      "x": 0,
+      "y": 0,
+      "z": 0
     }
   ],
-  &quot;bonds&quot;: [],
-  &quot;atom_configurations&quot;: {
-    &quot;0&quot;: {
-      &quot;atomic_number&quot;: 11,
-      &quot;neutrons&quot;: 12,
-      &quot;charge&quot;: 1,
-      &quot;electron_shells&quot;: [
+  "bonds": [],
+  "atom_configurations": {
+    "0": {
+      "atomic_number": 11,
+      "neutrons": 12,
+      "charge": 1,
+      "electron_shells": [
         2,
         8
       ]
@@ -409,11 +461,15 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeSpec waterAndEthanol() {
     // Component references add inspection links, not geometry.
-    return AvogadroApi.builder(&quot;guide:water_ethanol_pair&quot;).name(&quot;Water and ethanol&quot;)
-            .smiles(&quot;[H]O[H].CCO&quot;).component(&quot;guide:water&quot;).component(&quot;guide:ethanol&quot;)
-            .classification(MoleculeClassification.MIXTURE)
-            .inspectionMetadata(&quot;note&quot;, &quot;One molecule of each; an illustrative pair, not a bulk concentration.&quot;)
-            .build();
+    return AvogadroApi.builder("guide:water_ethanol_pair")
+        .name("Water and ethanol")
+        .smiles("[H]O[H].CCO")
+        .component("guide:water")
+        .component("guide:ethanol")
+        .classification(MoleculeClassification.MIXTURE)
+        .inspectionMetadata("note",
+            "One molecule of each; an illustrative pair, not a bulk concentration.")
+        .build();
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -422,11 +478,15 @@ public static StructureFragment hydroxyl() {
           </p>
           <pre><code class="language-groovy">static MoleculeSpec waterAndEthanol() {
     // Component references add inspection links, not geometry.
-    return AvogadroApi.builder(&quot;guide:water_ethanol_pair&quot;).name(&quot;Water and ethanol&quot;)
-            .smiles(&quot;[H]O[H].CCO&quot;).component(&quot;guide:water&quot;).component(&quot;guide:ethanol&quot;)
-            .classification(MoleculeClassification.MIXTURE)
-            .inspectionMetadata(&quot;note&quot;, &quot;One molecule of each; an illustrative pair, not a bulk concentration.&quot;)
-            .build();
+    return AvogadroApi.builder("guide:water_ethanol_pair")
+        .name("Water and ethanol")
+        .smiles("[H]O[H].CCO")
+        .component("guide:water")
+        .component("guide:ethanol")
+        .classification(MoleculeClassification.MIXTURE)
+        .inspectionMetadata("note",
+            "One molecule of each; an illustrative pair, not a bulk concentration.")
+        .build();
 }</code></pre>
         </div>
         <div data-language="json">
@@ -434,15 +494,15 @@ public static StructureFragment hydroxyl() {
             JSON · one definition per file unless a different destination is shown.
           </p>
           <pre><code class="language-json">{
-  &quot;name&quot;: &quot;Water and ethanol&quot;,
-  &quot;smiles&quot;: &quot;[H]O[H].CCO&quot;,
-  &quot;components&quot;: [
-    &quot;guide:water&quot;,
-    &quot;guide:ethanol&quot;
+  "name": "Water and ethanol",
+  "smiles": "[H]O[H].CCO",
+  "components": [
+    "guide:water",
+    "guide:ethanol"
   ],
-  &quot;inspection&quot;: {
-    &quot;classification&quot;: &quot;MIXTURE&quot;,
-    &quot;note&quot;: &quot;One molecule of each; illustrative, not a bulk concentration.&quot;
+  "inspection": {
+    "classification": "MIXTURE",
+    "note": "One molecule of each; illustrative, not a bulk concentration."
   }
 }</code></pre>
         </div>
@@ -458,7 +518,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">Java · add this method to your class.</p>
           <pre><code class="language-java">public static MoleculeWeight.Result mass() {
     // Uses standard element weights, not isotope-specific measured masses.
-    return AvogadroApi.weight(&quot;C9H8O4&quot;);
+    return AvogadroApi.weight("C9H8O4");
 }</code></pre>
         </div>
         <div data-language="groovy">
@@ -467,7 +527,7 @@ public static StructureFragment hydroxyl() {
           </p>
           <pre><code class="language-groovy">static MoleculeWeight.Result mass() {
     // Uses standard element weights, not isotope-specific measured masses.
-    return AvogadroApi.weight(&quot;C9H8O4&quot;);
+    return AvogadroApi.weight("C9H8O4");
 }</code></pre>
         </div>
         <div data-language="json">
@@ -561,7 +621,53 @@ public static StructureFragment hydroxyl() {
         With Offscreen installed, <strong>Pop out</strong> moves the viewer into a desktop window
         and closes the in-game menu once the window is ready.
       </p>
-      <nav class="av-pager" aria-label="Guide navigation">
+      <section class="av-call-guide">
+        <h2 id="atoms-call-sequence">Calls used in the examples</h2>
+        <table>
+          <caption>
+            Calls used in this guide
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Call or setting</th>
+              <th scope="col">Arguments</th>
+              <th scope="col">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code><a href="../AtomicConfiguration.html#%3Cinit%3E(int,int,int,java.util.List)">AtomicConfiguration</a>(protons, neutrons, charge, shells)</code>
+              </td>
+              <td>Nuclear counts; charge; electron-shell list</td>
+              <td>Supply the data the atom inspector should display.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureFragment.html#edit()">edit</a>().<a href="../StructureEditor.html#atomConfiguration(int,io.github.wurtzitane.avogadro.api.AtomicConfiguration)">atomConfiguration</a>(index, configuration)</code>
+              </td>
+              <td>Zero-based atom index; configuration</td>
+              <td>Apply the data to an edited copy of the structure.</td>
+            </tr>
+            <tr>
+              <td>
+                <code><a href="../StructureEditor.html#fragment()">fragment</a>()</code>
+              </td>
+              <td>No arguments</td>
+              <td>Return the edited fragment for use in a new definition.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>When you finish:</strong> A builder creates a model but does not add it to the
+          game. Java registrations use a name, called an owner, to group the definitions your mod
+          controls; choose your mod ID. A <code>RegistrationJob</code> lets you cancel pending work
+          or remove its installed set later. JSON and Groovy registrations use their file or script
+          loading rules instead. Keep drawing and exports in client code.
+        </p>
+      </section>
+
+<nav class="av-pager" aria-label="Guide navigation">
         <a href="packs.html">Previous: Server molecule packs</a><a href="polymers.html">Next: Chains, networks, and crystals</a>
       </nav>
     </div></main>
