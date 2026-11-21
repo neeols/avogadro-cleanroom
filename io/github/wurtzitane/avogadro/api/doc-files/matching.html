@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details>
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -143,7 +143,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
       <div class="av-example" data-example="matching" data-register-example="guide:pure_water">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec pureWater() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec pureWater() {
     // Extra NBT keys in a stack are allowed. Grade must be the string "pure".
     return AvogadroApi.builder("guide:pure_water")
         .name("Purified water")
@@ -159,7 +159,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec pureWater() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec pureWater() {
     // Extra NBT keys in a stack are allowed. Grade must be the string "pure".
     return AvogadroApi.builder("guide:pure_water")
         .name("Purified water")
@@ -175,7 +175,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Purified water",
   "smiles": "[H]O[H]",
   "items": [
@@ -199,7 +199,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
       <div class="av-example" data-example="stack-matching">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec taggedFluid(Fluid water) {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec taggedFluid(Fluid water) {
     var stack = new FluidStack(water, 1000);
     stack.tag = new NBTTagCompound();
     stack.tag.setString("Grade", "pure");
@@ -215,7 +215,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec taggedFluid(Fluid water) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec taggedFluid(Fluid water) {
     def stack = new FluidStack(water, 1000);
     stack.tag = new NBTTagCompound();
     stack.tag.setString("Grade", "pure");
@@ -240,7 +240,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
       <div class="av-example" data-example="fluid-lookup">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeDef lookupFluid(FluidStack contents) {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeDef lookupFluid(FluidStack contents) {
     // Keep the FluidStack; passing contents.getFluid() would discard its tag.
     return AvogadroApi.serverView()
         .find(contents);
@@ -251,7 +251,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeDef lookupFluid(FluidStack contents) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeDef lookupFluid(FluidStack contents) {
     // Keep the FluidStack; passing contents.getFluid() would discard its tag.
     return AvogadroApi.serverView()
         .find(contents);
@@ -414,7 +414,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
       <div class="av-example" data-example="tags">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeBatch tags() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeBatch tags() {
     return new MoleculeBatch()
         .itemTag("guide:water_containers", false, "minecraft:water_bucket")
         .fluidTag("guide:water", false, "water")
@@ -429,7 +429,7 @@ import net.minecraftforge.fluids.FluidStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">mods.avogadro.molecules.itemTag('guide:water_containers',
+          <pre data-wiki-readable="true"><code class="language-groovy">mods.avogadro.molecules.itemTag('guide:water_containers',
     false,
     ['minecraft:water_bucket'])
 mods.avogadro.molecules.register('guide:tagged_water',
@@ -441,7 +441,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "replace": false,
   "values": [
     "minecraft:water_bucket",
@@ -459,7 +459,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
         dictionaries, not modern Minecraft datapacks or Forge ore-dictionary names.
       </p>
       <h2 id="matching-materials">Show a molecule for a GregTech material</h2>
-      <pre><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-11"><code class="language-json">{
     "smiles":"Cc1ccccc1",
     "materials":["gregtech:toluene"]
 }</code>
@@ -507,7 +507,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
       <div class="av-example" data-example="batch" data-operation="matching-batch">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerWater() {
+          <pre data-wiki-readable="true"><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerWater() {
     // Replaces this owner's contribution only. Other owners are untouched.
     var batch = new MoleculeBatch();
     batch.register(AvogadroApi.builder("guide:water")
@@ -529,7 +529,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static CompletableFuture&lt;MoleculeView&gt; registerWater() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static CompletableFuture&lt;MoleculeView&gt; registerWater() {
     // Replaces this owner's contribution only. Other owners are untouched.
     var batch = new MoleculeBatch();
     batch.register(AvogadroApi.builder("guide:water")
@@ -560,7 +560,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
       <div class="av-example" data-example="lookup">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeDef lookup(ItemStack stack) {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeDef lookup(ItemStack stack) {
     // Use this view for decisions on the running server. A miss returns null.
     return AvogadroApi.serverView()
         .find(stack);
@@ -571,7 +571,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeDef lookup(ItemStack stack) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeDef lookup(ItemStack stack) {
     // Use this view for decisions on the running server. A miss returns null.
     return AvogadroApi.serverView()
         .find(stack);
@@ -591,7 +591,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
       <div class="av-example" data-example="item">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ItemStack sample(MoleculeDef water) {
+          <pre data-wiki-readable="true"><code class="language-java">public static ItemStack sample(MoleculeDef water) {
     // The definition must enable generateItem(true).
     return AvogadroApi.moleculeItem(water);
 }</code>
@@ -601,7 +601,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ItemStack sample(MoleculeDef water) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ItemStack sample(MoleculeDef water) {
     // The definition must enable generateItem(true).
     return AvogadroApi.moleculeItem(water);
 }</code>
@@ -739,7 +739,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
       <div class="av-example" data-example="exclusion">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static void hideAutomaticPreview() {
+          <pre data-wiki-readable="true"><code class="language-java">public static void hideAutomaticPreview() {
     // Associations remain available for HEI and lookups.
     AvogadroApi.excludeItemTooltip(new ResourceLocation("minecraft", "water_bucket"));
 }</code>
@@ -749,7 +749,7 @@ mods.avogadro.molecules.register('guide:tagged_water',
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static void hideAutomaticPreview() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static void hideAutomaticPreview() {
     // Associations remain available for HEI and lookups.
     AvogadroApi.excludeItemTooltip(new ResourceLocation("minecraft", "water_bucket"));
 }</code>
@@ -777,34 +777,34 @@ mods.avogadro.molecules.register('guide:tagged_water',
           item/fluid stack. Use the running server’s view for server decisions. Use the client view
           for previews, where the player may have selected a different local model.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — java"><code class="language-java">var view = AvogadroApi.registeredView();
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — java"><code class="language-java">var view = AvogadroApi.registeredView();
 var definition = view.get("my_mod:water");
 var ids = view.definitions()
     .keySet();
 var match = view.find(itemStack); // Actual ItemStack, including metadata and NBT.
 var authoritative = AvogadroApi.serverView();</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — kotlin"><code class="language-kotlin">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — kotlin"><code class="language-kotlin">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
 val definition = view.get("my_mod:water")
 val ids = view.definitions().keys
 val match = view.find(itemStack) // Actual ItemStack, including metadata and NBT.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — groovy"><code class="language-groovy">def view = molecules.view()
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — groovy"><code class="language-groovy">def view = molecules.view()
 def definition = view.get('my_pack:water')
 def ids = view.definitions()
     .keySet()
 def match = view.find(itemStack) // Actual Minecraft ItemStack.
 def authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — scala"><code class="language-scala">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — scala"><code class="language-scala">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
 val definition = view.get("my_mod:water")
 val ids = view.definitions()
     .keySet()
 val matched = view.find(itemStack) // Actual Minecraft ItemStack.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — zenscript"><code class="language-zenscript">val ids = Molecules.ids();
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — zenscript"><code class="language-zenscript">val ids = Molecules.ids();
 val matchId = Molecules.findItem(&lt;minecraft:water_bucket&gt;);
 val fluidId = Molecules.findFluid(&lt;liquid:water&gt;);
 val authoritativeIds = Molecules.serverIds();

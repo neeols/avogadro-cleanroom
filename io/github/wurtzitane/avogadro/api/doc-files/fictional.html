@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details>
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -90,7 +90,7 @@ import java.util.Map;</code></pre>
       <div class="av-example" data-example="fictional" data-register-example="guide:naquadah">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec fictionalNaquadah() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec fictionalNaquadah() {
     // Fictional nucleus and chosen shell layout, not a prediction of a real element.
     return AvogadroApi.builder("guide:naquadah")
         .name("Naquadah (fictional)")
@@ -104,7 +104,7 @@ import java.util.Map;</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec fictionalNaquadah() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec fictionalNaquadah() {
     // Fictional nucleus and chosen shell layout, not a prediction of a real element.
     return AvogadroApi.builder("guide:naquadah")
         .name("Naquadah (fictional)")
@@ -118,7 +118,7 @@ import java.util.Map;</code></pre>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Naquadah (fictional)",
   "atoms": [
     {
@@ -162,7 +162,7 @@ import java.util.Map;</code></pre>
       <div class="av-example" data-example="fictional-ion" data-register-example="guide:naquadah_nucleus">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec fictionalStrippedIon() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec fictionalStrippedIon() {
     // Same fictional nucleus with no electrons: an illustration of explicit ion data.
     return AvogadroApi.builder("guide:naquadah_nucleus")
         .name("Bare naquadah nucleus (fictional)")
@@ -176,7 +176,7 @@ import java.util.Map;</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec fictionalStrippedIon() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec fictionalStrippedIon() {
     // Same fictional nucleus with no electrons: an illustration of explicit ion data.
     return AvogadroApi.builder("guide:naquadah_nucleus")
         .name("Bare naquadah nucleus (fictional)")
@@ -190,7 +190,7 @@ import java.util.Map;</code></pre>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Bare naquadah nucleus (fictional)",
   "atoms": [
     {

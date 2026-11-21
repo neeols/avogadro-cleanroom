@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -85,7 +85,7 @@ loadScripts(document, 'script');</script>
         configuration. Neither token means R or S on its own. Avogadro delegates this ordering to
         OpenChemLib; it never treats the tokens as fixed R/S shortcuts.
       </p>
-      <pre><code class="language-text">N[C@@H](C)C(=O)O
+      <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-text">N[C@@H](C)C(=O)O
 N[C@H](C(=O)O)C
 [C@@H](N)(C(=O)O)C</code></pre>
       <p>
@@ -106,14 +106,14 @@ N[C@H](C(=O)O)C
       </figure>
       <div class="av-example" data-example="lactic_a" data-register-example="chemistry:lactic_a">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+          <pre data-wiki-readable="true"><code class="language-java">AvogadroApi.owner("chemistry_guide")
     .register(
         new MoleculeBuilder("chemistry:lactic_a")
         .name("Lactic acid · S")
         .smiles("C[C@H](O)C(=O)O"));</code></pre>
         </div>
         <div data-language="groovy">
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
     new MoleculeBuilder("chemistry:lactic_a")
@@ -121,7 +121,7 @@ mods.avogadro.molecules.register(
     .smiles("C[C@H](O)C(=O)O"))</code></pre>
         </div>
         <div data-language="json">
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Lactic acid · S",
   "smiles": "C[C@H](O)C(=O)O"
 }</code></pre>
@@ -129,14 +129,14 @@ mods.avogadro.molecules.register(
       </div>
       <div class="av-example" data-example="lactic_b" data-register-example="chemistry:lactic_b">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+          <pre data-wiki-readable="true"><code class="language-java">AvogadroApi.owner("chemistry_guide")
     .register(
         new MoleculeBuilder("chemistry:lactic_b")
         .name("Lactic acid · R")
         .smiles("C[C@@H](O)C(=O)O"));</code></pre>
         </div>
         <div data-language="groovy">
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
     new MoleculeBuilder("chemistry:lactic_b")
@@ -144,7 +144,7 @@ mods.avogadro.molecules.register(
     .smiles("C[C@@H](O)C(=O)O"))</code></pre>
         </div>
         <div data-language="json">
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Lactic acid · R",
   "smiles": "C[C@@H](O)C(=O)O"
 }</code></pre>
@@ -169,20 +169,20 @@ mods.avogadro.molecules.register(
       </figure>
       <div class="av-example" data-example="diastereomer_a" data-register-example="chemistry:diastereomer_a">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+          <pre data-wiki-readable="true"><code class="language-java">AvogadroApi.owner("chemistry_guide")
     .register(
         new MoleculeBuilder("chemistry:diastereomer_a")
         .smiles("C[C@H](O)[C@H](F)C"));</code></pre>
         </div>
         <div data-language="groovy">
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
     new MoleculeBuilder("chemistry:diastereomer_a")
     .smiles("C[C@H](O)[C@H](F)C"))</code></pre>
         </div>
         <div data-language="json">
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "3-Fluorobutan-2-ol · A",
   "smiles": "C[C@H](O)[C@H](F)C"
 }</code></pre>
@@ -190,20 +190,20 @@ mods.avogadro.molecules.register(
       </div>
       <div class="av-example" data-example="diastereomer_b" data-register-example="chemistry:diastereomer_b">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+          <pre data-wiki-readable="true"><code class="language-java">AvogadroApi.owner("chemistry_guide")
     .register(
         new MoleculeBuilder("chemistry:diastereomer_b")
         .smiles("C[C@H](O)[C@@H](F)C"));</code></pre>
         </div>
         <div data-language="groovy">
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
     new MoleculeBuilder("chemistry:diastereomer_b")
     .smiles("C[C@H](O)[C@@H](F)C"))</code></pre>
         </div>
         <div data-language="json">
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "3-Fluorobutan-2-ol · B",
   "smiles": "C[C@H](O)[C@@H](F)C"
 }</code></pre>
@@ -214,7 +214,7 @@ mods.avogadro.molecules.register(
         reflection. The two examples change only one authored center, so they are not enantiomers.
       </p>
       <h2 id="read-the-r-s-label-for-an-atom-heading">Read the R/S label for an atom</h2>
-      <pre data-operation="stereo-label"><code class="language-java">MoleculeDef definition = AvogadroApi.registeredView()
+      <pre data-wiki-readable="true" data-wiki-recipe="code-13" data-operation="stereo-label"><code class="language-java">MoleculeDef definition = AvogadroApi.registeredView()
     .get(
         new ResourceLocation("chemistry:lactic_a"));
 definition.structure()
@@ -246,20 +246,20 @@ definition.structure()
       </figure>
       <div class="av-example" data-example="isotope" data-register-example="chemistry:isotope">
         <div data-language="java">
-          <pre><code class="language-java">AvogadroApi.owner("chemistry_guide")
+          <pre data-wiki-readable="true"><code class="language-java">AvogadroApi.owner("chemistry_guide")
     .register(
         new MoleculeBuilder("chemistry:isotope")
         .smiles("CC[C@](CO)([H])[14CH2]C"));</code></pre>
         </div>
         <div data-language="groovy">
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 
 mods.avogadro.molecules.register(
     new MoleculeBuilder("chemistry:isotope")
     .smiles("CC[C@](CO)([H])[14CH2]C"))</code></pre>
         </div>
         <div data-language="json">
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Isotope-sensitive center · CIP only",
   "smiles": "CC[C@](CO)([H])[14CH2]C"
 }</code></pre>

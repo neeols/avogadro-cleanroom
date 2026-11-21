@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -183,7 +183,7 @@ loadScripts(document, 'script');</script>
         server. Local imports do not override a remote server's synchronized definitions.
       </p>
       <h2 id="cas-game">In-game commands</h2>
-      <pre><code class="language-command">/avogadro cas help
+      <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-command">/avogadro cas help
 /avogadro cas configure
 /avogadro cas search &lt;query&gt; [--page &lt;number&gt;]
 /avogadro cas names &lt;CAS RN&gt;
@@ -199,7 +199,7 @@ loadScripts(document, 'script');</script>
         Type these commands inside the interactive console. The <code>cas</code> prefix is optional
         for each command. Use <code>exit</code> to close the console.
       </p>
-      <pre><code class="language-command">help
+      <pre data-wiki-readable="true" data-wiki-recipe="code-1"><code class="language-command">help
 configure
 search &lt;query&gt; [--page &lt;number&gt;]
 names &lt;CAS RN&gt;
@@ -277,7 +277,7 @@ exit</code></pre>
         name; <code>--synonym 1</code> selects the next listed name. Use the exact printed index, or
         supply your own name with <code>--name</code>.
       </p>
-      <pre><code class="language-command">names 50-78-2
+      <pre data-wiki-readable="true" data-wiki-recipe="code-2"><code class="language-command">names 50-78-2
 import 50-78-2 --name Aspirin --dry-run
 import 50-78-2 --name Aspirin</code></pre>
       <p>
@@ -294,23 +294,23 @@ import 50-78-2 --name Aspirin</code></pre>
       <p>
         Text files contain one CAS number per line and allow comments starting with <code>#</code>:
       </p>
-      <pre><code class="language-text"># Substances to import
+      <pre data-wiki-readable="true" data-wiki-recipe="code-3"><code class="language-text"># Substances to import
 50-78-2
 71-43-2
 64-17-5</code></pre>
       <p>A JSON file contains an array of strings:</p>
-      <pre><code class="language-json">["50-78-2", "71-43-2", "64-17-5"]</code></pre>
+      <pre data-wiki-readable="true" data-wiki-recipe="code-4"><code class="language-json">["50-78-2", "71-43-2", "64-17-5"]</code></pre>
       <p>In Minecraft:</p>
-      <pre><code class="language-command">/avogadro cas import-list chemicals.txt
+      <pre data-wiki-readable="true" data-wiki-recipe="code-5"><code class="language-command">/avogadro cas import-list chemicals.txt
 /avogadro cas import-list chemicals.json
 /avogadro cas import-list ["50-78-2","71-43-2","64-17-5"]</code></pre>
       <p>In the console, quote the array to keep it together:</p>
-      <pre><code class="language-command">import-list '["50-78-2","71-43-2","64-17-5"]'</code></pre>
+      <pre data-wiki-readable="true" data-wiki-recipe="code-6"><code class="language-command">import-list '["50-78-2","71-43-2","64-17-5"]'</code></pre>
       <h2 id="cas-files">Find saved files</h2>
       <p>By default, definitions are saved using the selected substance name:</p>
-      <pre><code class="language-text">config/avogadro/server/data/imported/molecules/&lt;name&gt;.json</code></pre>
+      <pre data-wiki-readable="true" data-wiki-recipe="code-7"><code class="language-text">config/avogadro/server/data/imported/molecules/&lt;name&gt;.json</code></pre>
       <p>Original CAS detail responses are kept separately, with provenance metadata:</p>
-      <pre><code class="language-text">data/avogadro/cas/&lt;CAS RN&gt;.json</code></pre>
+      <pre data-wiki-readable="true" data-wiki-recipe="code-8"><code class="language-text">data/avogadro/cas/&lt;CAS RN&gt;.json</code></pre>
       <p>
         <code>cache open</code> prints the cache directory. <code>cache clear --yes</code> removes
         cached responses and their metadata while keeping imported molecule definitions. After

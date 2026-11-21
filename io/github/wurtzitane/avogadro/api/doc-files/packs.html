@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
         folder or archive so its name ends in <code>.disabled</code> to disable it. Other loose
         files are ignored.
       </p>
-      <pre><code class="language-text">chemistry.zip
+      <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-text">chemistry.zip
   pack.mcmeta
   data/example/molecules/water.json
   data/example/molecules/samples/ethanol.json
@@ -101,7 +101,7 @@ loadScripts(document, 'script');</script>
   data/example/tags/fluids/solvents.json
   assets/...                         (optional client resources)</code></pre>
       <h2 id="packs-metadata">Describe the pack in pack.mcmeta</h2>
-      <pre><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-1"><code class="language-json">{
   "pack": {
     "pack_format": 3,
     "description": "Chemistry models and sample items"
@@ -116,7 +116,7 @@ loadScripts(document, 'script');</script>
         Save this as <code>data/example/molecules/water.json</code>. The path supplies the ID
         <code>example:water</code>.
       </p>
-      <pre data-register-example="example:water"><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-2" data-register-example="example:water"><code class="language-json">{
   "name": "Water",
   "atoms": [
     {
@@ -191,7 +191,7 @@ loadScripts(document, 'script');</script>
       </p>
       <h2 id="packs-items">Create an ethanol sample item</h2>
       <p>Save this as <code>data/example/molecules/samples/ethanol.json</code>.</p>
-      <pre><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-3"><code class="language-json">{
   "name": "Ethanol",
   "smiles": "CCO",
   "generate_item": true
@@ -262,7 +262,7 @@ loadScripts(document, 'script');</script>
         <code>config/avogadro/pack-settings.json</code>; a world can override those choices in
         <code>&lt;world&gt;/avogadro/pack-settings.json</code>.
       </p>
-      <pre><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-4"><code class="language-json">{
   "defaults": {
     "hei_visible": false,
     "creative_visible": false

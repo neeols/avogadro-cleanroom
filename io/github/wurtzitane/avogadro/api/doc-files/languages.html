@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
           string <code>my_mod</code> identifies the mod’s registration set. Supplying an actual item
           or fluid stack also lets matching check its metadata and NBT tags.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Register water and show it for a bucket — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Register water and show it for a bucket — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 
 public class WaterRegistration {
     public static void registerWater() {
@@ -105,7 +105,7 @@ public class WaterRegistration {
 }
 </code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Register water and show it for a bucket — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.Avogadro
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Register water and show it for a bucket — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.Avogadro
 
 fun registerWater() {
     val water = Avogadro.molecule("my_mod:water") {
@@ -121,7 +121,7 @@ fun registerWater() {
 }
 </code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Register water and show it for a bucket — groovy"><code class="language-groovy">// groovy/postInit/molecules.groovy
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Register water and show it for a bucket — groovy"><code class="language-groovy">// groovy/postInit/molecules.groovy
 def molecules = mods.avogadro.molecules
 molecules.register('my_pack:water') {
     name('Water');
@@ -130,7 +130,7 @@ molecules.register('my_pack:water') {
     fluids('water')
 }</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Register water and show it for a bucket — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Register water and show it for a bucket — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro
 
 object WaterRegistration {
   def registerWater(): Unit = {
@@ -147,7 +147,7 @@ object WaterRegistration {
 }
 </code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Register water and show it for a bucket — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Register water and show it for a bucket — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 Molecules.molecule("my_pack:water")
     .name("Water")
     .smiles("[H]O[H]")
@@ -172,34 +172,34 @@ Molecules.molecule("my_pack:water")
           item/fluid stack. Use the running server’s view for server decisions. Use the client view
           for previews, where the player may have selected a different local model.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — java"><code class="language-java">var view = AvogadroApi.registeredView();
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — java"><code class="language-java">var view = AvogadroApi.registeredView();
 var definition = view.get("my_mod:water");
 var ids = view.definitions()
     .keySet();
 var match = view.find(itemStack); // Actual ItemStack, including metadata and NBT.
 var authoritative = AvogadroApi.serverView();</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — kotlin"><code class="language-kotlin">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — kotlin"><code class="language-kotlin">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
 val definition = view.get("my_mod:water")
 val ids = view.definitions().keys
 val match = view.find(itemStack) // Actual ItemStack, including metadata and NBT.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — groovy"><code class="language-groovy">def view = molecules.view()
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — groovy"><code class="language-groovy">def view = molecules.view()
 def definition = view.get('my_pack:water')
 def ids = view.definitions()
     .keySet()
 def match = view.find(itemStack) // Actual Minecraft ItemStack.
 def authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — scala"><code class="language-scala">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — scala"><code class="language-scala">val view = io.github.wurtzitane.avogadro.api.AvogadroApi.registeredView()
 val definition = view.get("my_mod:water")
 val ids = view.definitions()
     .keySet()
 val matched = view.find(itemStack) // Actual Minecraft ItemStack.
 val authoritative = io.github.wurtzitane.avogadro.api.AvogadroApi.serverView()</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — zenscript"><code class="language-zenscript">val ids = Molecules.ids();
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Find the molecule for an item or fluid — zenscript"><code class="language-zenscript">val ids = Molecules.ids();
 val matchId = Molecules.findItem(&lt;minecraft:water_bucket&gt;);
 val fluidId = Molecules.findFluid(&lt;liquid:water&gt;);
 val authoritativeIds = Molecules.serverIds();
@@ -223,7 +223,7 @@ val geometry = Molecules.geometry("my_pack:water");</code>
           can change which number refers to an atom. The returned map gives the final number for
           each original atom, or <code>-1</code> if it was removed.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — java"><code class="language-java">var hydroxyl = new StructureBuilder()
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — java"><code class="language-java">var hydroxyl = new StructureBuilder()
     .atom("O", 0, 0, 0)
     .atom("H", 0.96, 0, 0)
     .bond(0, 1)
@@ -237,7 +237,7 @@ int oxygenNow = result.remap(0);
 int removedHydrogen = result.remap(1);
 var edited = result.fragment();</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — kotlin"><code class="language-kotlin">val hydroxyl = Avogadro.fragment {
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — kotlin"><code class="language-kotlin">val hydroxyl = Avogadro.fragment {
     atom("O", 0.0, 0.0, 0.0);
     atom("H", 0.96, 0.0, 0.0)
     bond(0, 1);
@@ -251,7 +251,7 @@ val oxygenNow = result.remap(0)
 val removedHydrogen = result.remap(1)
 val edited = result.fragment()</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — groovy"><code class="language-groovy">def hydroxyl = molecules.structure {
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — groovy"><code class="language-groovy">def hydroxyl = molecules.structure {
     atom('O', 0d, 0d, 0d);
     atom('H', 0.96d, 0d, 0d)
     bond(0, 1);
@@ -265,7 +265,7 @@ def oxygenNow = result.remap(0)
 def removedHydrogen = result.remap(1)
 def edited = result.fragment()</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — scala"><code class="language-scala">val hydroxyl = Avogadro.fragment { b =&gt;
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — scala"><code class="language-scala">val hydroxyl = Avogadro.fragment { b =&gt;
   b.atom("O", 0, 0, 0)
       .atom("H", 0.96, 0, 0)
       .bond(0, 1)
@@ -279,7 +279,7 @@ val oxygenNow = result.remap(0)
 val removedHydrogen = result.remap(1)
 val edited = result.fragment()</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — zenscript"><code class="language-zenscript">val hydroxyl = Molecules.fragment()
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Edit a copy and keep the original structure — zenscript"><code class="language-zenscript">val hydroxyl = Molecules.fragment()
     .atom("O", 0.0, 0.0, 0.0)
     .atom("H", 0.96, 0.0, 0.0)
     .bond(0, 1, 1)
@@ -309,7 +309,7 @@ val edited = result.geometry;</code>
           sites; it is an intentionally incomplete chemistry example, with no added hydrogens or
           inferred reactions.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — java"><code class="language-java">var cell = new StructureBuilder()
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — java"><code class="language-java">var cell = new StructureBuilder()
     .atom("C", 0, 0, 0)
     .cell(new double[][] {
         {
@@ -328,7 +328,7 @@ var chain = cell.repeat(new int[] {
 var moved = chain.translate(2, 0, 0)
     .rotate(0, 0, 1, 90);</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — kotlin"><code class="language-kotlin">val cell = Avogadro.fragment {
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — kotlin"><code class="language-kotlin">val cell = Avogadro.fragment {
     atom("C", 0.0, 0.0, 0.0)
     cell(arrayOf(doubleArrayOf(1.42, 0.0, 0.0)))
     link(0, 0, intArrayOf(1))
@@ -337,7 +337,7 @@ val chain = cell.repeat(intArrayOf(3), booleanArrayOf(false))
 val moved = chain.translate(2.0, 0.0, 0.0)
     .rotate(0.0, 0.0, 1.0, 90.0)</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — groovy"><code class="language-groovy">def cell = molecules.structure {
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — groovy"><code class="language-groovy">def cell = molecules.structure {
     atom('C', 0d, 0d, 0d)
     cell([[1.42d, 0d, 0d]] as double[][])
     link(0, 0, [1] as int[])
@@ -346,7 +346,7 @@ def chain = cell.repeat([3] as int[], [false] as boolean[])
 def moved = chain.translate(2d, 0d, 0d)
     .rotate(0d, 0d, 1d, 90d)</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — scala"><code class="language-scala">val cell = Avogadro.fragment { b =&gt;
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — scala"><code class="language-scala">val cell = Avogadro.fragment { b =&gt;
   b.atom("C", 0, 0, 0)
       .cell(Array(Array(1.42, 0.0, 0.0)))
       .link(0, 0, Array(1))
@@ -355,7 +355,7 @@ val chain = cell.repeat(Array(3), Array(false))
 val moved = chain.translate(2, 0, 0)
       .rotate(0, 0, 1, 90)</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — zenscript"><code class="language-zenscript">val cell = Molecules.fragment()
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Repeat a connected row of carbon atoms — zenscript"><code class="language-zenscript">val cell = Molecules.fragment()
     .atom("C", 0.0, 0.0, 0.0)
     .cell([[1.42, 0.0, 0.0]])
     .link(0, 0, [1], "SINGLE")
@@ -385,7 +385,7 @@ Molecules.molecule("my_pack:chain")
           identifier. Other mods’ registrations are not removed. Build every definition that the new
           list refers to before applying it; an invalid replacement leaves the previous list active.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 
 public class WaterReplacement {
     public static void replaceWater() {
@@ -406,7 +406,7 @@ public class WaterReplacement {
     }
 }</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.Avogadro
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.Avogadro
 
 fun replaceWater() {
     val water = Avogadro.molecule("my_mod:water") {
@@ -423,7 +423,7 @@ fun replaceWater() {
     }
 }</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — groovy"><code class="language-groovy">mods.avogadro.molecules.batch {
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — groovy"><code class="language-groovy">mods.avogadro.molecules.batch {
     register('my_pack:water') {
         smiles('[H]O[H]');
         items('minecraft:water_bucket')
@@ -432,7 +432,7 @@ fun replaceWater() {
 }
 // This loader's completed contribution replaces its previous script layer.</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro
 
 object WaterReplacement {
   def replaceWater(): Unit = {
@@ -450,7 +450,7 @@ object WaterReplacement {
   }
 }</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Replace all molecules registered by your mod — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 
 val water = Molecules.molecule("my_pack:water")
     .smiles("[H]O[H]")
@@ -476,7 +476,7 @@ Molecules.transaction("my_pack")
           Supply elapsed animation time yourself; the library clips the model to that rectangle and
           restores the previous graphics state afterward.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
 
 public class WaterPresentation {
     public static void drawWater() {
@@ -493,7 +493,7 @@ public class WaterPresentation {
     }
 }</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.kotlin.AvogadroClient
 
 fun drawWater() {
@@ -509,7 +509,7 @@ fun drawWater() {
         .build(), 0.0)
 }</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
 def definition = AvogadroClientApi.view()
     .get('my_pack:water')
 if (definition != null) AvogadroClientApi.render(definition.structure(),
@@ -521,7 +521,7 @@ if (definition != null) AvogadroClientApi.render(definition.structure(),
     .zoom(1.2f)
     .build(), 0d)</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.scala.AvogadroClient
 
 object WaterPresentation {
@@ -539,7 +539,7 @@ object WaterPresentation {
   }
 }</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — zenscript"><code class="language-zenscript">// Inside an actual client render event; molecule must exist in the client view:
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Draw water inside a rectangle in your screen — zenscript"><code class="language-zenscript">// Inside an actual client render event; molecule must exist in the client view:
 import mods.avogadro.Client;
 Client.renderZoomed("my_pack:water", 12, 40, 240, 180, 1.2, 0.0);</code>
 </pre>
@@ -561,7 +561,7 @@ Client.renderZoomed("my_pack:water", 12, 40, 240, 180, 1.2, 0.0);</code>
           from a client action. Keep the returned job to show progress or request cancellation, and
           check its final result before opening the output file.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
 import io.github.wurtzitane.avogadro.client.export.ExportOptions;
 
 public class WaterPresentation {
@@ -582,7 +582,7 @@ public class WaterPresentation {
     }
 }</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.export.ExportOptions
 import io.github.wurtzitane.avogadro.kotlin.AvogadroClient
 
@@ -600,7 +600,7 @@ fun exportWater() {
     }
 }</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.export.ExportOptions
 def definition = AvogadroClientApi.view()
     .get('my_pack:water')
@@ -617,7 +617,7 @@ job.onComplete {
     result -&gt; println(result.state())
 }</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.`export`.ExportOptions
 import io.github.wurtzitane.avogadro.scala.AvogadroClient
 
@@ -638,7 +638,7 @@ object WaterPresentation {
   }
 }</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — zenscript"><code class="language-zenscript">import mods.avogadro.Client;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — zenscript"><code class="language-zenscript">import mods.avogadro.Client;
 val job = Client.exportSizedGif("my_pack:water", "water.gif", 850, 600);
 job.onComplete(function(done) {
     print(done.state);
@@ -673,7 +673,7 @@ job.onComplete(function(done) {
         definitions. Retaining it does not follow later reloads. Kotlin's
         <code>Avogadro.getOrNull</code> extension makes missing results explicitly nullable.
       </p>
-      <pre data-operation="registration-completion"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro.*
+      <pre data-wiki-readable="true" data-wiki-recipe="code-35" data-operation="registration-completion"><code class="language-scala">import io.github.wurtzitane.avogadro.scala.Avogadro.*
 // Before: Avogadro.register(owner, water).whenComplete(...)
 // After: a normal Scala Future, using your own ExecutionContext for callbacks.
 val published = registerFuture("my_mod", water)
@@ -694,7 +694,7 @@ val published = registerFuture("my_mod", water)
         <code>replaceAwait</code>, <code>moleculeAwait</code>, or import its
         <code>awaitCompletion</code> extension for an existing job's completion stage.
       </p>
-      <pre hidden><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.AvogadroCoroutines
+      <pre data-wiki-readable="true" data-wiki-recipe="code-36" hidden><code class="language-kotlin">import io.github.wurtzitane.avogadro.kotlin.AvogadroCoroutines
 // Inside your existing coroutine; do not use runBlocking in a game callback.
 val view = AvogadroCoroutines.registerAwait("my_mod", water)</code></pre>
       <p>

@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -90,7 +90,7 @@ loadScripts(document, 'script');</script>
           first, then submit the changes; if any definition or tag is invalid, the previous
           registrations remain available.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 
 final class MoleculeTransactionRecipe {
     // Common initialization or a server action. Prepare immutable data before submitting the commit.
@@ -124,7 +124,7 @@ final class MoleculeTransactionRecipe {
     }
     // job.cancel() prevents pending work only. False means the atomic application already started or finished.
 }</code></pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.*
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.kotlin.Avogadro
 
 object MoleculeTransactionRecipeK {
@@ -161,7 +161,7 @@ object MoleculeTransactionRecipeK {
         }
     }
 }</code></pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.AvogadroApi
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.AvogadroApi
 import io.github.wurtzitane.avogadro.api.RegistrationJob
 
 // Common/server action. Use a dedicated owner when this contribution needs independent receipts.
@@ -197,7 +197,7 @@ def unload = {
         })
 }
 // This explicit Java owner is not automatically owned by a GroovyScript virtual registry.</code></pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.scala.Avogadro
 
 object MoleculeTransactionRecipeS:
@@ -227,7 +227,7 @@ object MoleculeTransactionRecipeS:
           .whenComplete((view, failure) =&gt;
       if failure != null then System.err.println(s"Cleanup rejected: $failure")
     )</code></pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Apply your mod’s molecule and tag changes together — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 import mods.avogadro.RegistrationJob;
 
 // Common startup. The owner is a dedicated crafttweaker.example_recipes layer.
@@ -272,7 +272,7 @@ function cancelPending(job as RegistrationJob) as bool {
           example, not a complete capped chemical: supply hydrogen atoms and end groups when your
           model needs them. Building this result does not register it or open a viewer.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — java"><code class="language-java">import java.util.List;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — java"><code class="language-java">import java.util.List;
 import java.util.Map;
 import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.BondType;
@@ -304,7 +304,7 @@ final class TypedNetworkRecipe {
     }
     // Retain preview.request()/reproduction() when you need to reproduce the exact realization.
 }</code></pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.*
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.kotlin.Avogadro
 import io.github.wurtzitane.avogadro.molecule.BondType
 
@@ -335,7 +335,7 @@ object TypedNetworkRecipeK {
     fun preview(recipe: PolymerNetworkDefinition): PolymerPreview =
     recipe.preview(NetworkPreviewRequest(mapOf("length" to 4), emptyMap(), 7))
 }</code></pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 // Common CPU authoring. Named attachments keep links readable after parts are nested or repeated.
@@ -364,7 +364,7 @@ def preview = {
     network -&gt; network.preview(new NetworkPreviewRequest(['length': 4], [:], 7L))
 }
 // This example authors a coordinate/link pattern. It does not infer hydrogen atoms, valence or optimized geometry.</code></pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.scala.Avogadro
 import io.github.wurtzitane.avogadro.molecule.BondType
 
@@ -389,7 +389,7 @@ object TypedNetworkRecipeS:
                 Int.box(4)),
             java.util.Map.of(),
             7))</code></pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Build a carbon chain with an adjustable length — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 
 // Common CPU authoring. The wrapper calls the same StructureAssembly and network validators as Java.
 val fragment = Molecules.fragment()
@@ -438,7 +438,7 @@ val template = Molecules.molecule("example:chain_template")
           client’s displayed models. Server actions should use the server’s definitions because a
           player may override the displayed model locally.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Read molecule data from the server or client — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Read molecule data from the server or client — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot;
 import net.minecraft.item.ItemStack;
 
 final class MoleculeQueryRecipe {
@@ -464,7 +464,7 @@ final class MoleculeQueryRecipe {
     // Client initialization/render controller only: AvogadroClientApi.snapshot() captures local presentation.
     // Keep a snapshot as immutable data; request another after reload to see new definitions.
 }</code></pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Read molecule data from the server or client — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Read molecule data from the server or client — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
 import net.minecraft.item.ItemStack
 
 object MoleculeQueryRecipeK {
@@ -483,7 +483,7 @@ object MoleculeQueryRecipeK {
     fun authoritative(): MoleculeSnapshot = MoleculeSnapshot.server()
     // Client controller only: io.github.wurtzitane.avogadro.api.client.AvogadroClientApi.snapshot().
 }</code></pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Read molecule data from the server or client — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Read molecule data from the server or client — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
 import net.minecraft.item.ItemStack
 
 // Common query. This view retains its revision even if a later reload replaces the definitions.
@@ -503,7 +503,7 @@ def inspect = {
 }
 // Server actions choose MoleculeSnapshot.server() explicitly.
 // Client controllers choose AvogadroClientApi.snapshot(); keep that import/call in client-only code.</code></pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Read molecule data from the server or client — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Read molecule data from the server or client — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.MoleculeSnapshot
 import net.minecraft.item.ItemStack
 
 object MoleculeQueryRecipeS:
@@ -523,7 +523,7 @@ object MoleculeQueryRecipeS:
   // Server action, after server startup; no client-presentation fallback.
   def authoritative(): MoleculeSnapshot = MoleculeSnapshot.server()
   // Client controller only: io.github.wurtzitane.avogadro.api.client.AvogadroClientApi.snapshot().</code></pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Read molecule data from the server or client — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Read molecule data from the server or client — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 import crafttweaker.item.IItemStack;
 
 // Common query. Full-stack matching retains metadata, NBT and existing fluid-container rules.
@@ -563,7 +563,7 @@ function inspect(stack as IItemStack) as void {
           discards an older result, even if its delivery is already queued. Keep the scope in your
           screen or controller and close it when that controller is finished.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — java"><code class="language-java">import java.util.concurrent.Executor;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — java"><code class="language-java">import java.util.concurrent.Executor;
 import io.github.wurtzitane.avogadro.api.*;
 
 final class PreparationRecipe implements AutoCloseable {
@@ -602,7 +602,7 @@ final class PreparationRecipe implements AutoCloseable {
     // Client setup may supply task -&gt; Minecraft.getMinecraft().addScheduledTask(task).
     // Server setup supplies its server scheduler. The scope never selects either thread implicitly.
 }</code></pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — kotlin"><code class="language-kotlin">import java.util.concurrent.Executor
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — kotlin"><code class="language-kotlin">import java.util.concurrent.Executor
 import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.kotlin.Avogadro
 
@@ -638,7 +638,7 @@ class PreparationRecipeK : AutoCloseable {
         scope.close()
     }
 }</code></pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — groovy"><code class="language-groovy">import java.util.concurrent.Executor
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — groovy"><code class="language-groovy">import java.util.concurrent.Executor
 import io.github.wurtzitane.avogadro.api.PreparationScope
 
 // Owner initialization. This explicit CPU scope must be closed by its controller/reload teardown.
@@ -676,7 +676,7 @@ def unload = {
     scope.close()
 }
 // Bind unload to your existing controller lifecycle; this direct Java scope is not a Groovy virtual registry.</code></pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — scala"><code class="language-scala">import java.util.concurrent.Executor
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — scala"><code class="language-scala">import java.util.concurrent.Executor
 import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.scala.Avogadro
 
@@ -705,7 +705,7 @@ final class PreparationRecipeS extends AutoCloseable:
   // Owner action and teardown; late queued deliveries check the current slot generation again.
   def cancel(): Boolean = cancelCurrent()
   override def close(): Unit = scope.close()</code></pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Prepare previews in the background and discard old results — zenscript"><code class="language-zenscript">import mods.avogadro.Molecules;
 import mods.avogadro.RegistrationJob;
 
 // Common startup. ZenScript geometry preparation is synchronous; there is no worker-delivery facade here.

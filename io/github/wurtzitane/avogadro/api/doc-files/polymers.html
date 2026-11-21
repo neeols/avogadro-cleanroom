@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details>
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -179,7 +179,7 @@ import java.nio.file.Path;</code></pre>
       <div class="av-example" data-example="peg" data-register-example="guide:peg">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static PolymerDefinition peg() {
+          <pre data-wiki-readable="true"><code class="language-java">public static PolymerDefinition peg() {
     // HO–(CH2–CH2–O)n–H. Caps supply both terminal hydrogens and the extra oxygen.
     var unit = new StructureBuilder()
         .atom("C", 0, 0, 0)
@@ -218,7 +218,7 @@ import java.nio.file.Path;</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
@@ -272,7 +272,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Polyethylene glycol",
   "polymer": {
     "repeat_unit": {
@@ -450,7 +450,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="rubber-unit" data-fragment-example='{"atoms":[{"e":"C","x":0.0,"y":0.0,"z":0.0},{"e":"C","x":1.5,"y":0.0,"z":0.0},{"e":"C","x":2.8,"y":0.4,"z":0.0},{"e":"C","x":4.2,"y":0.4,"z":0.0},{"e":"C","x":1.5,"y":-1.5,"z":0.0},{"e":"H","x":-0.4,"y":0.7,"z":0.7},{"e":"H","x":-0.4,"y":0.7,"z":-0.7},{"e":"H","x":2.9,"y":1.4,"z":0.0},{"e":"H","x":4.4,"y":0.4,"z":1.0},{"e":"H","x":0.5,"y":-1.9,"z":0.0},{"e":"H","x":2.0,"y":-1.9,"z":0.8},{"e":"H","x":2.0,"y":-1.9,"z":-0.8}],"bonds":[[0,1,"SINGLE"],[1,2,"DOUBLE"],[2,3,"SINGLE"],[1,4,"SINGLE"],[0,5,"SINGLE"],[0,6,"SINGLE"],[2,7,"SINGLE"],[3,8,"SINGLE"],[4,9,"SINGLE"],[4,10,"SINGLE"],[4,11,"SINGLE"]],"attachments":{"head":0,"tail":3,"cross":3}}'>
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static StructureFragment rubberUnit() {
+          <pre data-wiki-readable="true"><code class="language-java">public static StructureFragment rubberUnit() {
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
     return new StructureBuilder()
@@ -487,7 +487,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static StructureFragment rubberUnit() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static StructureFragment rubberUnit() {
     // 1,4-polyisoprene repeat with one deliberately open site at C4.
     // A separate choice supplies either H or a shared sulfur bridge there.
     return new StructureBuilder()
@@ -533,7 +533,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="rubber" data-register-example="guide:rubber">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static PolymerNetworkDefinition rubber() {
+          <pre data-wiki-readable="true"><code class="language-java">public static PolymerNetworkDefinition rubber() {
     var sulfur = new StructureBuilder()
         .atom("S", 4.2, 2.2, 0)
         .attachment("left", 0)
@@ -598,7 +598,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
@@ -751,7 +751,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Sulfur-linked polyisoprene",
   "polymer_network": {
     "random_version": 1,
@@ -1439,7 +1439,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="realization">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static PolymerPreview realization(int length, double chance, long seed) {
+          <pre data-wiki-readable="true"><code class="language-java">public static PolymerPreview realization(int length, double chance, long seed) {
     // Seed controls the choices, not the authored atom positions.
     return rubber()
         .preview(new NetworkPreviewRequest(
@@ -1450,7 +1450,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static PolymerPreview realization(int length, double chance, long seed) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static PolymerPreview realization(int length, double chance, long seed) {
     // Seed controls the choices, not the authored atom positions.
     return rubber()
         .preview(new NetworkPreviewRequest(
@@ -1616,7 +1616,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="random-links">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static PolymerNetworkDefinition reactiveSites() {
+          <pre data-wiki-readable="true"><code class="language-java">public static PolymerNetworkDefinition reactiveSites() {
     // Two authored hydroxyl radicals. At p=1 they form H–O–O–H.
     // At p=0 they remain radicals, not two water molecules.
     var left = new StructureBuilder()
@@ -1656,7 +1656,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static PolymerNetworkDefinition reactiveSites() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static PolymerNetworkDefinition reactiveSites() {
     // Two authored hydroxyl radicals. At p=1 they form H–O–O–H.
     // At p=0 they remain radicals, not two water molecules.
     def left = new StructureBuilder()
@@ -1832,7 +1832,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="open-network">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static void openNetwork(MoleculeDef network) {
+          <pre data-wiki-readable="true"><code class="language-java">public static void openNetwork(MoleculeDef network) {
     // Client code only. The ordinary molecule entry point also routes networks here.
     io.github.wurtzitane.avogadro.client.PolymerNetworkExaminer.open(network);
 }</code></pre>
@@ -1841,7 +1841,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static void openNetwork(MoleculeDef network) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static void openNetwork(MoleculeDef network) {
     // Client code only. The ordinary molecule entry point also routes networks here.
     io.github.wurtzitane.avogadro.client.PolymerNetworkExaminer.open(network);
 }</code></pre>
@@ -1932,7 +1932,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="nacl" data-register-example="guide:salt">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static StructureFragment saltBasis() {
+          <pre data-wiki-readable="true"><code class="language-java">public static StructureFragment saltBasis() {
     // Conventional rock-salt cell, a = 5.64 Å. No covalent Na–Cl bonds.
     var basis = new StructureBuilder();
     double a = 5.64;
@@ -1979,7 +1979,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.*
 import io.github.wurtzitane.avogadro.molecule.BondType
 
 def molecules = mods.avogadro.molecules
@@ -2057,7 +2057,7 @@ molecules.register(molecule)</code></pre>
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Sodium chloride",
   "structure": {
     "atoms": [
@@ -2215,7 +2215,7 @@ molecules.register(molecule)</code></pre>
       <div class="av-example" data-example="crystal">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeStructure saltCube() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeStructure saltCube() {
     // 3 cells on each axis: 27 conventional cells, 216 ions.
     return CrystalGeometry.repeat(saltBasis()
         .toStructure("guide:salt_basis"),
@@ -2274,7 +2274,7 @@ public static StructureFragment saltBasis() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeStructure saltCube() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeStructure saltCube() {
     // 3 cells on each axis: 27 conventional cells, 216 ions.
     return CrystalGeometry.repeat(saltBasis()
         .toStructure("guide:salt_basis"),

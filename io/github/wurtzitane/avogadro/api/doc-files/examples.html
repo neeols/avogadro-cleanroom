@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details id="examples-companions">
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -260,7 +260,7 @@ import java.util.concurrent.CompletableFuture;</code></pre>
       <div class="av-example" data-example="catalog">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeBatch catalog() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeBatch catalog() {
     var batch = new MoleculeBatch();
     batch.register(AvogadroApi.builder("guide:water")
         .name("Water")
@@ -688,7 +688,7 @@ public static StructureFragment saltBasis() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeBatch catalog() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeBatch catalog() {
     def batch = new MoleculeBatch();
     batch.register(AvogadroApi.builder("guide:water")
         .name("Water")
@@ -1105,7 +1105,7 @@ public static StructureFragment saltBasis() {
       <div class="av-example" data-example="batch">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerCatalog() {
+          <pre data-wiki-readable="true"><code class="language-java">public static CompletableFuture&lt;MoleculeView&gt; registerCatalog() {
     // Replaces this owner's contribution only. Other owners are untouched.
     return AvogadroApi.owner("guide")
         .replace(catalog());
@@ -1115,7 +1115,7 @@ public static StructureFragment saltBasis() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">mods.avogadro.molecules.register('guide:water', [
+          <pre data-wiki-readable="true"><code class="language-groovy">mods.avogadro.molecules.register('guide:water', [
     name: 'Water',
     atoms: [
         [e: 'O', x: 0, y: 0, z: 0],

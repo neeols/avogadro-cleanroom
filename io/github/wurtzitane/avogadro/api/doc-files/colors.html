@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -124,7 +124,7 @@ loadScripts(document, 'script');</script>
         </tbody>
       </table>
       <h2 id="set-atom-colors-for-your-mod-heading">Set atom colors for your mod</h2>
-      <pre data-operation="palette-layer"><code class="language-java">import io.github.wurtzitane.avogadro.api.ElementColors;
+      <pre data-wiki-readable="true" data-wiki-recipe="code-0" data-operation="palette-layer"><code class="language-java">import io.github.wurtzitane.avogadro.api.ElementColors;
 import java.util.Map;
 
 // RGB values have six hex digits; do not supply alpha (0xFF...).
@@ -146,7 +146,7 @@ ElementColors.remove("my_mod:atom_colors");</code></pre>
         feature. Restarted processes must register again.
       </p>
       <h2 id="when-palette-changes-apply-heading">When palette changes apply</h2>
-      <pre hidden><code class="language-groovy">import io.github.wurtzitane.avogadro.api.ElementColors
+      <pre data-wiki-readable="true" data-wiki-recipe="code-1" hidden><code class="language-groovy">import io.github.wurtzitane.avogadro.api.ElementColors
 
 // Put this in a client-installed post-init script.
 // The same Java API is safe on the server, but is not sent to clients.
@@ -165,7 +165,7 @@ ElementColors.replaceJson('my_pack:atom_colors', 20,
         replace once.
       </p>
       <h2 id="choose-where-to-save-colors-and-which-values-win-heading">Choose where to save colors and which values win</h2>
-      <pre><code class="language-json">{
+      <pre data-wiki-readable="true" data-wiki-recipe="code-2"><code class="language-json">{
   "C": "#365E9D",
   "O": "#E99A24",
   "H": "#E8EAF0"
@@ -201,7 +201,7 @@ ElementColors.replaceJson('my_pack:atom_colors', 20,
         update.
       </p>
       <h2 id="reload-only-the-palette-heading">Reload only the palette</h2>
-      <pre data-operation="palette-reload"><code class="language-java">// CLIENT ONLY: keep this import and call in your mod's client code.
+      <pre data-wiki-readable="true" data-wiki-recipe="code-3" data-operation="palette-reload"><code class="language-java">// CLIENT ONLY: keep this import and call in your mod's client code.
 import io.github.wurtzitane.avogadro.api.client.AvogadroClientApi;
 
 AvogadroClientApi.reloadElementColors()
@@ -219,7 +219,7 @@ AvogadroClientApi.reloadElementColors()
         opaque: transparent atoms are not enabled by this API.
       </p>
       <h2 id="keep-a-preview-or-export-on-one-color-scheme-heading">Keep a preview or export on one color scheme</h2>
-      <pre data-operation="palette-preview"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MoleculeRenderOptions;
+      <pre data-wiki-readable="true" data-wiki-recipe="code-4" data-operation="palette-preview"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MoleculeRenderOptions;
 
 var options = MoleculeRenderOptions.builder()
     .palette(Map.of("C", 0x365E9D, "O", 0xE99A24))

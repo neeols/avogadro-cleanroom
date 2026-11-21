@@ -31,7 +31,7 @@
       (pre) => !pre.closest('[data-example^="registration-"], [data-example^="operation-"]'),
     );
     for (const recipe of recipes) {
-      if (recipe.preIndex != null && authoredPre[recipe.preIndex]) {
+      if (recipe.preIndex != null && authoredPre[recipe.preIndex] && !allPre.some(pre => pre.dataset.wikiRecipe === recipe.id)) {
         authoredPre[recipe.preIndex].dataset.wikiRecipe = recipe.id;
       }
     }

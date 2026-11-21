@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details>
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -96,7 +96,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="gif">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
     var options = ExportOptions.builder(1)
         .size(960, 720)
         .fps(20)
@@ -115,7 +115,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportGif(MoleculeDef aspirin) throws IOException {
     def options = ExportOptions.builder(1)
         .size(960, 720)
         .fps(20)
@@ -156,7 +156,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="gallery">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
     // Size is the whole canvas, not each cell. Keep the count equal to the list size.
     var options = ExportOptions.builder(molecules.size())
         .size(1920, 1280)
@@ -177,7 +177,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportGallery(List&lt;MoleculeDef&gt; molecules) throws IOException {
     // Size is the whole canvas, not each cell. Keep the count equal to the list size.
     def options = ExportOptions.builder(molecules.size())
         .size(1920, 1280)
@@ -220,7 +220,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="mp4">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportMp4(MoleculeDef caffeine,
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportMp4(MoleculeDef caffeine,
     Path ffmpeg) throws IOException {
     var options = ExportOptions.builder(1)
         .format(ExportOptions.Format.MP4)
@@ -242,7 +242,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportMp4(MoleculeDef caffeine, Path ffmpeg) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportMp4(MoleculeDef caffeine, Path ffmpeg) throws IOException {
     def options = ExportOptions.builder(1)
         .format(ExportOptions.Format.MP4)
         .size(1920, 1080)
@@ -289,7 +289,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="item-card">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportItemCard(ItemStack held) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportItemCard(ItemStack held) throws IOException {
     var selection = ItemExportSelection.select("held", null, held);
     var media = ExportOptions.builder(1)
         .size(1200, 800)
@@ -312,7 +312,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportItemCard(ItemStack held) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportItemCard(ItemStack held) throws IOException {
     def selection = ItemExportSelection.select("held", null, held);
     def media = ExportOptions.builder(1)
         .size(1200, 800)
@@ -361,7 +361,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="atom-export">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportAtom(MoleculeDef water) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportAtom(MoleculeDef water) throws IOException {
     var options = ExportOptions.builder(1)
         .size(1280, 800)
         .fps(20)
@@ -383,7 +383,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportAtom(MoleculeDef water) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportAtom(MoleculeDef water) throws IOException {
     def options = ExportOptions.builder(1)
         .size(1280, 800)
         .fps(20)
@@ -427,7 +427,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="network-export">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
     var options = ExportOptions.builder(1)
         .size(1280, 720)
         .fps(20)
@@ -448,7 +448,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportNetwork(PolymerPreview successfulPreview) throws IOException {
     def options = ExportOptions.builder(1)
         .size(1280, 720)
         .fps(20)
@@ -491,7 +491,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="finite-export">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-java">public static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
     String formula = MoleculeLoader.formula(structure);
     return AvogadroClientApi.exports()
         .submit(MediaExportRequest
@@ -504,7 +504,7 @@ import net.minecraft.item.ItemStack;</code>
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
+          <pre data-wiki-readable="true"><code class="language-groovy">static ExportJob exportUnregistered(MoleculeStructure structure) throws IOException {
     String formula = MoleculeLoader.formula(structure);
     return AvogadroClientApi.exports()
         .submit(MediaExportRequest
@@ -531,7 +531,7 @@ import net.minecraft.item.ItemStack;</code>
       <div class="av-example" data-example="listeners">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MediaExportJob;
+          <pre data-wiki-readable="true"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.MediaExportJob;
 import java.util.function.Consumer;
 
 public class ExampleOperation {
@@ -550,7 +550,7 @@ public class ExampleOperation {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.MediaExportJob
+          <pre data-wiki-readable="true"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.MediaExportJob
 import java.util.function.Consumer
 
 static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
@@ -578,7 +578,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
       <div class="av-example" data-example="progress">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static String progress(ExportJob job) {
+          <pre data-wiki-readable="true"><code class="language-java">public static String progress(ExportJob job) {
     var progress = job.progress(); // immutable, safe to read from another thread
     return progress.state() + ": " + progress.encodedFrames() + "/" + progress.totalFrames();
 }</code>
@@ -588,7 +588,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static String progress(ExportJob job) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static String progress(ExportJob job) {
     def progress = job.progress(); // immutable, safe to read from another thread
     return progress.state() + ": " + progress.encodedFrames() + "/" + progress.totalFrames();
 }</code>
@@ -607,7 +607,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
       <div class="av-example" data-example="cancel">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static boolean cancel(ExportJob job) {
+          <pre data-wiki-readable="true"><code class="language-java">public static boolean cancel(ExportJob job) {
     // Requests cancellation; result() remains null until cleanup finishes.
     return job.cancel();
 }</code>
@@ -617,7 +617,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static boolean cancel(ExportJob job) {
+          <pre data-wiki-readable="true"><code class="language-groovy">static boolean cancel(ExportJob job) {
     // Requests cancellation; result() remains null until cleanup finishes.
     return job.cancel();
 }</code>
@@ -710,7 +710,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
       <div class="av-example" data-example="client-thread">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static void exportFromWorker(MoleculeDef molecule,
+          <pre data-wiki-readable="true"><code class="language-java">public static void exportFromWorker(MoleculeDef molecule,
     java.util.function.Consumer&lt;ExportJob&gt; ready) {
         Minecraft.getMinecraft()
             .addScheduledTask(() -&gt; {
@@ -727,7 +727,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static void exportFromWorker(MoleculeDef molecule,
+          <pre data-wiki-readable="true"><code class="language-groovy">static void exportFromWorker(MoleculeDef molecule,
     java.util.function.Consumer&lt;ExportJob&gt; ready) {
         Minecraft.getMinecraft()
             .addScheduledTask(() -&gt; {
@@ -911,7 +911,7 @@ static void watch(MediaExportJob job, Consumer&lt;String&gt; showStatus) {
           from a client action. Keep the returned job to show progress or request cancellation, and
           check its final result before opening the output file.
         </p>
-        <pre data-language="java" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
+        <pre data-wiki-readable="true" data-language="java" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — java"><code class="language-java">import io.github.wurtzitane.avogadro.api.client.*;
 import io.github.wurtzitane.avogadro.client.export.ExportOptions;
 
 public class WaterPresentation {
@@ -932,7 +932,7 @@ public class WaterPresentation {
     }
 }</code>
 </pre>
-        <pre data-language="kotlin" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="kotlin" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — kotlin"><code class="language-kotlin">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.export.ExportOptions
 import io.github.wurtzitane.avogadro.kotlin.AvogadroClient
 
@@ -950,7 +950,7 @@ fun exportWater() {
     }
 }</code>
 </pre>
-        <pre data-language="groovy" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="groovy" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — groovy"><code class="language-groovy">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.export.ExportOptions
 def definition = AvogadroClientApi.view()
     .get('my_pack:water')
@@ -967,7 +967,7 @@ job.onComplete {
     result -&gt; println(result.state())
 }</code>
 </pre>
-        <pre data-language="scala" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
+        <pre data-wiki-readable="true" data-language="scala" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — scala"><code class="language-scala">import io.github.wurtzitane.avogadro.api.client.*
 import io.github.wurtzitane.avogadro.client.`export`.ExportOptions
 import io.github.wurtzitane.avogadro.scala.AvogadroClient
 
@@ -988,7 +988,7 @@ object WaterPresentation {
   }
 }</code>
 </pre>
-        <pre data-language="zenscript" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — zenscript"><code class="language-zenscript">import mods.avogadro.Client;
+        <pre data-wiki-readable="true" data-language="zenscript" tabindex="0" role="region" aria-label="Save a rotating molecule GIF and check the result — zenscript"><code class="language-zenscript">import mods.avogadro.Client;
 val job = Client.exportSizedGif("my_pack:water", "water.gif", 850, 600);
 job.onComplete(function(done) {
     print(done.state);

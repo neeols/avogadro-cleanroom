@@ -15,9 +15,9 @@
 <script type="text/javascript" src="../../../../../../script-files/avogadro.js"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-syntax.css">
 <script defer src="../../../../../../script-files/prism-1.30.0.js"></script>
-<script defer src="../../../../../../script-files/wiki-syntax.js"></script>
+<script defer src="../../../../../../script-files/wiki-syntax.js?v=690fd9b5e86f"></script>
 <link rel="stylesheet" href="../../../../../../resource-files/wiki-recipes.css?v=f6c2359c15ac">
-<script defer src="../../../../../../script-files/wiki-recipes.js?v=e4d971a242ca"></script>
+<script defer src="../../../../../../script-files/wiki-recipes.js?v=821ad95eaf1e"></script>
 </head>
 <body class="doc-file-page">
 <script type="text/javascript">const pathtoroot = "../../../../../../";
@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
       </div>
       <details>
         <summary>Java imports</summary>
-        <pre><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
+        <pre data-wiki-readable="true" data-wiki-recipe="code-0"><code class="language-java">import io.github.wurtzitane.avogadro.api.*;
 import io.github.wurtzitane.avogadro.molecule.*;
 // Client code only:
 import io.github.wurtzitane.avogadro.api.client.*;
@@ -183,7 +183,7 @@ import java.util.Map;</code></pre>
       <div class="av-example" data-example="isotope" data-register-example="guide:carbon13_methanol">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static StructureFragment carbon13Methanol() {
+          <pre data-wiki-readable="true"><code class="language-java">public static StructureFragment carbon13Methanol() {
     return methanol()
         .edit()
         .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4)))
@@ -253,7 +253,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static StructureFragment carbon13Methanol() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static StructureFragment carbon13Methanol() {
     return methanol()
         .edit()
         .atomConfiguration(0, new AtomicConfiguration(6, 7, 0, List.of(2, 4)))
@@ -323,7 +323,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "copy": "guide:methanol",
   "atom_configurations": {
     "0": {
@@ -352,7 +352,7 @@ public static StructureFragment hydroxyl() {
       <div class="av-example" data-example="ion" data-register-example="guide:sodium_ion">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec sodiumIon() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec sodiumIon() {
     return AvogadroApi.builder("guide:sodium_ion")
         .name("Sodium ion")
         .atom("Na", 0, 0, 0)
@@ -365,7 +365,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec sodiumIon() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec sodiumIon() {
     return AvogadroApi.builder("guide:sodium_ion")
         .name("Sodium ion")
         .atom("Na", 0, 0, 0)
@@ -378,7 +378,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Sodium ion",
   "atoms": [
     {
@@ -459,7 +459,7 @@ public static StructureFragment hydroxyl() {
       <div class="av-example" data-example="components" data-register-example="guide:water_ethanol_pair">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeSpec waterAndEthanol() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeSpec waterAndEthanol() {
     // Component references add inspection links, not geometry.
     return AvogadroApi.builder("guide:water_ethanol_pair")
         .name("Water and ethanol")
@@ -476,7 +476,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeSpec waterAndEthanol() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeSpec waterAndEthanol() {
     // Component references add inspection links, not geometry.
     return AvogadroApi.builder("guide:water_ethanol_pair")
         .name("Water and ethanol")
@@ -493,7 +493,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             JSON · one definition per file unless a different destination is shown.
           </p>
-          <pre><code class="language-json">{
+          <pre data-wiki-readable="true"><code class="language-json">{
   "name": "Water and ethanol",
   "smiles": "[H]O[H].CCO",
   "components": [
@@ -516,7 +516,7 @@ public static StructureFragment hydroxyl() {
       <div class="av-example" data-example="mass">
         <div data-language="java">
           <p class="av-step">Java · add this method to your class.</p>
-          <pre><code class="language-java">public static MoleculeWeight.Result mass() {
+          <pre data-wiki-readable="true"><code class="language-java">public static MoleculeWeight.Result mass() {
     // Uses standard element weights, not isotope-specific measured masses.
     return AvogadroApi.weight("C9H8O4");
 }</code></pre>
@@ -525,7 +525,7 @@ public static StructureFragment hydroxyl() {
           <p class="av-step">
             Groovy · same API; place methods in your script or client helper as described.
           </p>
-          <pre><code class="language-groovy">static MoleculeWeight.Result mass() {
+          <pre data-wiki-readable="true"><code class="language-groovy">static MoleculeWeight.Result mass() {
     // Uses standard element weights, not isotope-specific measured masses.
     return AvogadroApi.weight("C9H8O4");
 }</code></pre>
