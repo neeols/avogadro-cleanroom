@@ -1,3 +1,29 @@
+@import url('avogadro-navigation.css');
+
+/* Three native doclet views share one address and keyboard-accessible tabs. */
+.av-browse-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+  border-bottom: 1px solid #bdcdd5;
+}
+.av-browse-tabs button {
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  padding: 0.6rem 1rem;
+  color: #284a5b;
+  font: inherit;
+  cursor: pointer;
+}
+.av-browse-tabs button[aria-selected='true'] {
+  border-bottom-color: #075e78;
+  font-weight: 650;
+}
+.av-browse-tabs button:hover {
+  background: #e5edf3;
+}
+
 :root {
   --av-ink: #253342;
   --av-muted: #566577;
@@ -33,7 +59,7 @@ body {
   font-family:
     system-ui,
     -apple-system,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
   line-height: 1.6;
 }
@@ -50,7 +76,7 @@ button:focus-visible {
   font-family:
     system-ui,
     -apple-system,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
   max-width: 1100px;
   margin: 1.5rem auto 3rem;
@@ -131,7 +157,7 @@ button:focus-visible {
   box-sizing: border-box;
 }
 .av-guide pre code {
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: 'Cascadia Code', Consolas, monospace;
   white-space: pre;
 }
 .av-code-wrap {
@@ -305,4 +331,252 @@ button:focus-visible {
     scroll-behavior: auto !important;
     transition: none !important;
   }
+}
+
+/* Code actions share one compact row; language choices deliberately have no visible label. */
+.av-code-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: #f3f7fa;
+  border: 1px solid var(--av-line);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+.av-code-toolbar .av-copy {
+  position: static;
+  float: none;
+  margin: 0;
+}
+.av-code-language {
+  font: inherit;
+  font-size: 0.85rem;
+  border: 1px solid #bdcdd5;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  background: #fff;
+  color: #284a5b;
+}
+.av-code-toolbar + pre {
+  margin-top: 0;
+  border-radius: 0 0 6px 6px;
+}
+
+/* Keep recipe controls joined to the active language example. */
+.av-example-group .av-code-wrap > pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* API reference cards have a subtle blue tint; walkthrough cards keep the paper background. */
+.av-card.av-api-card {
+  background: #edf5ff;
+  background: color-mix(in srgb, var(--av-paper) 86%, #78b6f4);
+  border-color: color-mix(in srgb, var(--av-line) 70%, #78b6f4);
+}
+.av-card.av-api-card:hover {
+  border-color: var(--av-accent);
+}
+
+/* Reserve the upper-right corner for a small link marker. */
+.av-card {
+  position: relative;
+  padding-right: 2.7rem;
+}
+.av-card::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.55;
+  pointer-events: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0' transform='translate(1 0)'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0' transform='translate(1 0)'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.av-api-shortcuts {
+  padding-right: 1.2rem;
+}
+.av-api-shortcuts::after {
+  content: none;
+}
+.av-api-shortcuts ul {
+  list-style: none;
+  padding-left: 0;
+}
+.av-api-shortcuts li a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.av-api-shortcuts li a::before {
+  content: '';
+  display: inline-block;
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  align-self: flex-start;
+  margin-top: 0.2em;
+  background: currentColor;
+  opacity: 0.65;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0' transform='translate(1 0)'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0' transform='translate(1 0)'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.av-home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.av-home-title {
+  font:
+    700 88px/1.08 'Trebuchet MS',
+    'Segoe UI',
+    sans-serif;
+  letter-spacing: -0.035em;
+  color: #243444;
+  margin: 0 0 28px;
+}
+.av-home-title > .anchor-link {
+  display: none;
+}
+.av-home-wiki {
+  font-size: 0.5em;
+  color: #507b96;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.av-home-intro > p {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--av-muted);
+}
+.av-home-mark {
+  display: block;
+  width: 320px;
+  height: 320px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.package-index-page .av-header-logo {
+  display: none;
+}
+@media (max-width: 900px) {
+  .av-home-hero {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 24px;
+  }
+  .av-home-mark {
+    width: 220px;
+    height: 220px;
+  }
+  .av-home-title {
+    font-size: 64px;
+  }
+}
+@media (max-width: 600px) {
+  .av-home-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .av-home-mark {
+    grid-row: 1;
+    justify-self: center;
+    width: 180px;
+    height: 180px;
+  }
+  .av-home-title {
+    font-size: clamp(42px, 11vw, 64px);
+  }
+}
+
+:root {
+  --top-nav-height: 64px;
+}
+#navbar-top {
+  padding-inline-end: 96px;
+}
+#navbar-top .nav-content {
+  gap: 12px;
+}
+#navbar-top .av-header-search {
+  flex: 0 1 340px;
+  min-width: 130px;
+  margin: 0 12px 0 auto;
+  position: relative;
+  white-space: nowrap;
+}
+#navbar-top .av-header-search #search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 6px 30px;
+  border: 1px solid #ffffff75;
+  border-radius: 6px;
+  background-color: #f7fafc;
+  background-position: 9px center;
+  background-size: 14px;
+  color: #243444;
+  font:
+    14px/1.4 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+#navbar-top .av-header-search #search-input:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+#navbar-top .av-header-search #reset-search {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#navbar-top .av-header-logo {
+  width: 56px;
+  height: 56px;
+}
+.package-index-page #navbar-top .av-header-logo {
+  display: none;
+}
+.package-index-page #navbar-top {
+  padding-inline-end: 16px;
+}
+.sub-nav[hidden] {
+  display: none;
+}
+@media (max-width: 600px) {
+  #navbar-top .av-header-search {
+    flex: 1 1 170px;
+    min-width: 100px;
+    margin-right: 0;
+  }
+  #navbar-top .nav-content {
+    gap: 8px;
+  }
+  #navbar-top .av-header-search #search-input {
+    font-size: 13px;
+  }
+}
+
+#navbar-top .av-header-search #search-input {
+  text-align: left;
+}
+#navbar-top .av-header-search #search-input:placeholder-shown {
+  text-align: center;
 }

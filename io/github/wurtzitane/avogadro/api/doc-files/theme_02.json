@@ -70,9 +70,7 @@
   "rules": [
     {
       "screen": "recipe_card",
-      "elements": [
-        "*"
-      ],
+      "elements": ["*"],
       "colors": {
         "info.icon": "#F3F3F3",
         "info.hover.icon": "#F3F3F3",

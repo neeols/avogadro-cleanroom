@@ -416,7 +416,7 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
             }
             li.attr("class", "result-item");
         });
-        ul.append("<li class='ui-static-link'><div><a href='" + pathtoroot + "search.html?q="
+        ul.append("<li class='ui-static-link'><div><a href='" + pathtoroot + "browse.html?q="
             + encodeURI(widget.term) + "'>" + linkLabel + "</a></div></li>");
     },
     _renderItem: function(ul, item) {

@@ -47,36 +47,12 @@
         }
       ],
       "bonds": [
-        [
-          0,
-          1,
-          "SINGLE"
-        ],
-        [
-          1,
-          2,
-          "SINGLE"
-        ],
-        [
-          0,
-          3,
-          "SINGLE"
-        ],
-        [
-          0,
-          4,
-          "SINGLE"
-        ],
-        [
-          1,
-          5,
-          "SINGLE"
-        ],
-        [
-          1,
-          6,
-          "SINGLE"
-        ]
+        [0, 1, "SINGLE"],
+        [1, 2, "SINGLE"],
+        [0, 3, "SINGLE"],
+        [0, 4, "SINGLE"],
+        [1, 5, "SINGLE"],
+        [1, 6, "SINGLE"]
       ],
       "attachments": {
         "head": 0,
@@ -85,11 +61,7 @@
     },
     "head": 0,
     "tail": 2,
-    "translation": [
-      4.3,
-      0.0,
-      0.0
-    ],
+    "translation": [4.3, 0.0, 0.0],
     "link_type": "SINGLE",
     "head_cap": {
       "structure": {
@@ -107,13 +79,7 @@
             "z": 0.0
           }
         ],
-        "bonds": [
-          [
-            0,
-            1,
-            "SINGLE"
-          ]
-        ],
+        "bonds": [[0, 1, "SINGLE"]],
         "attachments": {
           "end": 0
         }

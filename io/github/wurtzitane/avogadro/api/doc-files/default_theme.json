@@ -247,9 +247,7 @@
   "rules": [
     {
       "screen": "recipe_card",
-      "elements": [
-        "*"
-      ],
+      "elements": ["*"],
       "colors": {
         "info.icon": "#36322D",
         "info.hover.icon": "#36322D",

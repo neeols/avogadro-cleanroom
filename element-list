@@ -1,10 +1,12 @@
 io.github.wurtzitane.avogadro
 io.github.wurtzitane.avogadro.api
 io.github.wurtzitane.avogadro.api.client
+io.github.wurtzitane.avogadro.cas
 io.github.wurtzitane.avogadro.client
 io.github.wurtzitane.avogadro.client.compat
 io.github.wurtzitane.avogadro.client.export
 io.github.wurtzitane.avogadro.compat
+io.github.wurtzitane.avogadro.compat.crafttweaker
 io.github.wurtzitane.avogadro.compat.groovy
 io.github.wurtzitane.avogadro.compat.gt
 io.github.wurtzitane.avogadro.compat.jei
